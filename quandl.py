@@ -2,6 +2,9 @@ import quandl
 import pandas as pd
 import sys
 import os
+import getpass
+
+username = getpass.getuser()
 
 # write every print statement to txt file
 sys.stdout = open("file.txt", "w")
