@@ -23,9 +23,9 @@ import sqlalchemy as db
 from sqlalchemy import update
 
 # loading database
-engine = db.create_engine('sqlite:////home/advnum/wsj.db') # sqlite:////Users/PeterlaCour/Documents/Research/News/news.db
+engine = db.create_engine('sqlite:////home/advnum/news.db') # sqlite:////Users/PeterlaCour/Documents/Research/News/news.db
 connection = engine.connect()
-connection.close()
+
 
 # Load Database
 today = datetime.datetime.today().strftime('%Y-%m-%d')
@@ -71,8 +71,8 @@ for k in range(len(content)):
     topic               = content[k].find_element_by_class_name('o-teaser__meta').text
     news_df             = news_df.append({"Date Extracted": today, "Headline": headline, "Description": description,"Number": k+1, "Link": link, "Newspaper": "FT" }, ignore_index = True)
 
+news_df.to_sql(name = "Top_Stories", con = engine, if_exists='append')
 driver.quit()
-
-
+connection.close()
 
 print("Success!")
