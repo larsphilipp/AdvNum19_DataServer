@@ -21,17 +21,21 @@ from selenium.webdriver.firefox.options import Options
 import datetime
 import sqlalchemy as db
 from sqlalchemy import update
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
 
 # loading database
 engine = db.create_engine('sqlite:////home/advnum/news.db') # sqlite:////Users/PeterlaCour/Documents/Research/News/news.db
 connection = engine.connect()
 
-
+firefox_capabilities = DesiredCapabilities.FIREFOX
+firefox_capabilities['marionette'] = True
+firefox_capabilities['binary'] = '/usr/bin/firefox'
 # Load Database
 today = datetime.datetime.today().strftime('%Y-%m-%d')
 options = Options()
 options.headless = True
-driver = webdriver.Firefox(executable_path=r'/home/advnum/geckodriver.log', options = options)
+driver = webdriver.Firefox(capabilities=firefox_capabilities, executable_path=r'geckodriver', options = options)
 
 columns = [ "Date Extracted", "Headline", "Description", "Link", "Number"]
 news_df = pd.DataFrame(columns = columns)
