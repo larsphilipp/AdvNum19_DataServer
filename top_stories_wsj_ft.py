@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 ## Title:        WSJ and FT Top Stories Scrape
 ## Author:       Elisa FLeissner, Lars Stauffenegger, Peter la Cour
@@ -23,13 +24,14 @@ from sqlalchemy import update
 
 # loading database
 engine = db.create_engine('sqlite:////home/advnum/wsj.db') # sqlite:////Users/PeterlaCour/Documents/Research/News/news.db
-
+connection = engine.connect()
+connection.close()
 
 # Load Database
 today = datetime.datetime.today().strftime('%Y-%m-%d')
 options = Options()
 options.headless = True
-driver = webdriver.Firefox(executable_path=r'/Users/PeterlaCour/Documents/Research/Webdrivers/geckodriver', options = options)
+driver = webdriver.Firefox(executable_path=r'/home/advnum/geckodriver.log', options = options)
 
 columns = [ "Date Extracted", "Headline", "Description", "Link", "Number"]
 news_df = pd.DataFrame(columns = columns)
@@ -71,6 +73,6 @@ for k in range(len(content)):
 
 driver.quit()
 
-connection.close()
 
-news_df
+
+print("Success!")

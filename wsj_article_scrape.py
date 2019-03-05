@@ -35,7 +35,7 @@ from selenium.webdriver.firefox.options import Options
 
 # loading database
 engine = db.create_engine('sqlite:////home/advnum/wsj.db') # sqlite:////Users/PeterlaCour/Documents/Research/News/news.db
-
+connection = engine.connect()
 # loading webdriver
 options = Options()
 options.headless = True
