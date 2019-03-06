@@ -31,7 +31,54 @@ First Project
 * Installing Firefox
 * etc.
 
+## <div id="B2"> <a href="#B1">Create Database in MySQL</a> </div>
 
+The type of data that we will request is stored in the following table:
+
+```
+CREATE TABLE RequestData (
+DataType VARCHAR(20),
+Description CHAR(30),
+Source VARCHAR(20),
+PRIMARY KEY (DataType, Source)
+);
+
+INSERT INTO RequestData VALUES ("EOD", "EOD Prices", "Quandl");
+```
+
+The underlyings we aim to get data for are defined here:
+```
+CREATE TABLE Underlyings (
+Ticker VARCHAR(10),
+Name VARCHAR(20),
+PRIMARY KEY (Ticker)
+);
+
+INSERT INTO Underlyings VALUES ("AAPL", "APPLE"), ("MSFT", "Microsoft");
+```
+
+The below command creates the table that stores all EOD price data we are fetching from quandl.
+
+```
+CREATE TABLE Prices (
+Date DATE NOT NULL,
+Ticker VARCHAR(10),
+Open DECIMAL(14,4),
+High DECIMAL(14,4),
+Low DECIMAL(14,4),
+Close DECIMAL(14,4),
+Volume INT,
+Dividend DECIMAL(14,4),
+Split DECIMAL(14,4),
+Adj_Open DECIMAL(14,4),
+Adj_High DECIMAL(14,4),
+Adj_Low DECIMAL(14,4),
+Adj_Close DECIMAL(14,4),
+Adj_Volume INT,
+PRIMARY KEY (Date, Ticker),
+FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
+);
+```
 
 
 
