@@ -34,12 +34,12 @@ from selenium.webdriver.firefox.options import Options
 #-----------------------------------------------------------------------------#
 
 # loading database
-engine = db.create_engine('sqlite:////home/advnum/news.db') # sqlite:////Users/PeterlaCour/Documents/Research/News/news.db
+engine = db.create_engine('sqlite:////home/advnum/news.sql') # sqlite:////Users/PeterlaCour/Documents/Research/News/news.db
 connection = engine.connect()
 # loading webdriver
 options = Options()
 options.headless = True
-driver = webdriver.Firefox(executable_path=r'/home/advnum/webdriver/geckodriver', options = options)
+driver = webdriver.Firefox('geckodriver.log', options = options)
 
 
 # create empty dataframe with given columns
