@@ -26,7 +26,9 @@ First Project
 * Initial Setup
 * Setting up users 
 * Granting Permissions
+* Installing Python
 * Installing MySql
+* Installing Firefox
 * etc.
 
 
