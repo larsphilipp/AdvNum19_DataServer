@@ -59,7 +59,7 @@ However, to use the Firefox webdriver for the Python script we need to add its w
 To add geckodriver to the server use  
 
 ```
-scp /Users/PeterlaCour/Documents/MIQEF/ANMandDA/AdvNum19_DataServer/geckodriver plc@51.75.72.97:/home/advnum
+scp [/local/filepath/geckodriver] [user.name]@[serverIP]:/home/advnum
 ```
 
 to secure copy the file from a local machine to the desired directory on the server.
