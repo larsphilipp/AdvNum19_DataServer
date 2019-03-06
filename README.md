@@ -7,8 +7,8 @@ First Project
 
 # Dataserver Project Description
 
-**Elisa FLeissner** &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; elisa.fleissner@student.unisg.ch, <br>
-**Lars Stauffenegger** &nbsp; &nbsp; &nbsp;lars.stauffenegger@student.unisg.ch,  <br>
+**Elisa FLeissner** &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;elisa.fleissner@student.unisg.ch <br>
+**Lars Stauffenegger** &nbsp; &nbsp; &nbsp;lars.stauffenegger@student.unisg.ch  <br>
 **Peter la Cour** &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; peter.lacour@student.unisg.ch
 
 ## Overview
