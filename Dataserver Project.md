@@ -3,11 +3,12 @@
 	
 </style>
 
+
 # Dataserver Project Description
 
-**Elisa FLeissner**, elisa.fleissner@student.unisg.ch, <br>
-**Lars Stauffenegger**, lars.stauffenegger@student.unisg.ch,  <br>
-**Peter la Cour**, peter.lacour@student.unisg.ch
+**Elisa FLeissner** &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;elisa.fleissner@student.unisg.ch <br>
+**Lars Stauffenegger** &nbsp; &nbsp; &nbsp;lars.stauffenegger@student.unisg.ch  <br>
+**Peter la Cour** &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; peter.lacour@student.unisg.ch
 
 ## Overview
 
@@ -24,7 +25,9 @@
 * Initial Setup
 * Setting up users 
 * Granting Permissions
+* Installing Python
 * Installing MySql
+* Installing Firefox
 * etc.
 
 
@@ -55,7 +58,7 @@ However, to use the Firefox webdriver for the Python script we need to add its w
 To add geckodriver to the server use  
 
 ```
-scp /Users/PeterlaCour/Documents/MIQEF/ANMandDA/AdvNum19_DataServer/geckodriver plc@51.75.72.97:/home/advnum
+scp [/local/filepath/geckodriver] [user.name]@[serverIP]:/home/advnum
 ```
 
 to secure copy the file from a local machine to the desired directory on the server.
@@ -80,7 +83,6 @@ to secure copy the file from a local machine to the desired directory on the ser
 * Script writes to news.db on server.. etc.
 * 
 * Description of Cron Job Setup ( how it was set up when does it execute )
-
 
 
 
