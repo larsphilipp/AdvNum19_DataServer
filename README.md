@@ -84,3 +84,20 @@ to secure copy the file from a local machine to the desired directory on the ser
 * Script writes to news.db on server.. etc.
 * 
 * Description of Cron Job Setup ( how it was set up when does it execute )
+
+To automatically run the script each day we set up a cronjob on the server using the commandline code:
+
+```
+[user.name]@[server]:/home/advnum$ crontab -e
+```
+
+Which opens a crontab editor where we specify the time of the day when we want to execute the script:
+
+```
+GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab                       
+
+XX XX * * * /home/advnum/top_stories_wsj_ft.py
+# Edit this file to introduce tasks to be run by cron.
+```
+
+This ...
