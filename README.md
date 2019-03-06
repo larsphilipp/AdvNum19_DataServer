@@ -3,10 +3,7 @@ First Project
 
 -------------
 
-<style>
-	a { text-decoration: none; }
-	
-</style>
+
 
 # Dataserver Project Description
 
