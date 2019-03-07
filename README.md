@@ -189,7 +189,7 @@ connectionObject.close()
 
 * Description of scraped data ?
 
-![alt text](https://github.com/larsphilipp/AdvNum19_DataServer/tree/master/Screenshots icon48.png "Logo Title Text 1")
+![alt text](https://github.com/larsphilipp/AdvNum19_DataServer/tree/master/YahooFinanceNews.png "Logo Title Text 1")
 
 
 
