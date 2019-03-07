@@ -107,9 +107,12 @@ FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
 ## <div id="C2"> <a href="#C1">Getting Price Data from Quandl</a> </div>
 
 
+<br>
 
-
-
+<img src="Screenshots/QuandlPrices.png"
+     alt="Screenshot of Prices database"
+     style="float: left; margin-right: 10px; padding-bottom: 30px;" />
+<br>
 
 ## <div id="D2"> <a href="#D1">Yahoo Finance News Scrape</a> </div>
 
@@ -189,11 +192,14 @@ connectionObject.close()
 
 * Description of scraped data ?
 
-![alt text](https://github.com/larsphilipp/AdvNum19_DataServer/tree/master/Screenshots/YahooFinanceNews.png "Logo Title Text 1")
+
+<img src="Screenshots/YahooFinanceNews.png"
+     alt="Screenshot of TickerNews database"
+     style="float: left; margin-right: 10px;padding-bottom: 30px;" />
 
 
 
-## <div id="E2"> <a href="#E1">Loading the script and Setting up the Cron Job</a> </div>
+## <div id="E2"><a href="#E1">Loading the script and Setting up the Cron Job</a> </div>
 
 
 To automatically run the script each day we set up a cronjob on the server using the commandline code:
