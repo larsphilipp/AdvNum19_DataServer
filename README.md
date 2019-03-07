@@ -116,7 +116,13 @@ FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
 
 ## <div id="D2"> <a href="#D1">Yahoo Finance News Scrape</a> </div>
 
-To get all the news headlines of the given companies we simply used the `Requests` and `Beautiful Soup` webscraping package along with the common `Pandas` and `Numpy` packages to get all the news using the companies ticker symbols saved in our `Underlyings` database. To write the data to the MySQL database we used `sqlalchemy` and `pymysql`.
+The `YahooFinanceNews.py` script was uploaded from our local machine using the command below.
+
+```
+scp [local.file.path]/YahooFinanceNews.py [user.name]@[server.IP]:/home/advnum
+```
+
+To get all the news headlines of the given companies the script uses the `Requests` and `Beautiful Soup` webscraping package along with the common `Pandas` and `Numpy` packages to download all the news articles using the companies ticker symbols saved in our `Underlyings` database. To write the data to the MySQL database we use `sqlalchemy` and `pymysql`.
 
 ```python
 import requests
@@ -127,7 +133,6 @@ from sqlalchemy import create_engine
 import pymysql
 import datetime
 ```
-
 
 The code that gets the headlines, descriptions, links and the name of the newspapers that published the articles of a given company from Yahoo Finance is written as the `get_news_of_company` function using the `ticker` symbol as the input:
 
