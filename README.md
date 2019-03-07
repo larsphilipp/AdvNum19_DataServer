@@ -16,9 +16,9 @@ First Project
 
 * <div id="A1"> <a href="#A2">Setting up the Server </a></div>
 * <div id="B1"> <a href="#B2">Create Database in MySQL</a></div>
-* <div id="C1"> <a href="#C2">Installing Firefox on Linux </a></div>
+* <div id="C1"> <a href="#C2">Getting Price Data from Quandl </a></div>
 * <div id="D1"> <a href="#D2">Yahoo Finance News Scrape </a></div>
-* <div id="E1"> <a href="#E2">Loading the script and Setting up the Cron Job </a></div>
+* <div id="E1"> <a href="#E2">Setting up the Cronjobs </a></div>
 * (Setting up GitHub?)
 
 ## <div id="A1"> <a href="#A2">Setting up the Server  </a> </div>
@@ -104,34 +104,11 @@ FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
 
 
 
-## <div id="C2"> <a href="#C1">Installing Firefox on Linux</a> </div>
+## <div id="C2"> <a href="#C1">Getting Price Data from Quandl</a> </div>
 
-To install Firefox on Linux we first add its repository with the command:
 
-```
-sudo add-apt-repository ppa:mozillateam/firefox-next
-```
 
-Before continuing we update the packages on our server to ensure that the new firefox is compatible:
 
-```
-sudo apt-get update
-```
-
-Finally, we run the following command to install Firefox:
-
-```
-sudo apt-get install firefox
-```
-
-However, to use the Firefox webdriver for the Python script we need to add its webdriver `geckodriver`. The webdriver can be downloaded here: https://github.com/mozilla/geckodriver/releases. 
-To add geckodriver to the server use  
-
-```
-scp [/local/filepath/geckodriver] [user.name]@[serverIP]:/home/advnum
-```
-
-to secure copy the file from a local machine to the desired directory on the server.
 
 
 ## <div id="D2"> <a href="#D1">Yahoo Finance News Scrape</a> </div>
@@ -212,6 +189,7 @@ connectionObject.close()
 
 * Description of scraped data ?
 
+![alt text](https://github.com/larsphilipp/AdvNum19_DataServer/tree/master/Screenshots icon48.png "Logo Title Text 1")
 
 
 
@@ -238,3 +216,36 @@ GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab
 ```
 
 This will automatically populate our database which in the future we could potentially use to analyse the impact of news on stock prices using a sentiment analysis.
+
+
+
+
+
+## <div id="Z2"> <a href="#Z1">Installing Firefox on Linux</a> </div>
+
+To install Firefox on Linux we first add its repository with the command:
+
+```
+sudo add-apt-repository ppa:mozillateam/firefox-next
+```
+
+Before continuing we update the packages on our server to ensure that the new firefox is compatible:
+
+```
+sudo apt-get update
+```
+
+Finally, we run the following command to install Firefox:
+
+```
+sudo apt-get install firefox
+```
+
+However, to use the Firefox webdriver for the Python script we need to add its webdriver `geckodriver`. The webdriver can be downloaded here: https://github.com/mozilla/geckodriver/releases. 
+To add geckodriver to the server use  
+
+```
+scp [/local/filepath/geckodriver] [user.name]@[serverIP]:/home/advnum
+```
+
+to secure copy the file from a local machine to the desired directory on the server.
