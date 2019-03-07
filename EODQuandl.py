@@ -5,7 +5,7 @@ import pymysql
 import quandl
 
 # Manual Inputs
-username = getpass.getuser()
+username = "root"
 source = "Quandl"
 dbServerName    = "localhost"
 dbUser          = "root"
@@ -16,9 +16,9 @@ cursorType      = pymysql.cursors.DictCursor
 
 # DB Connection
 connectionObject = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword, db=dbName, charset=charSet,cursorclass=cursorType)
-cursorObject = connectionObject.cursor() 
+cursorObject = connectionObject.cursor()
 
-# SQL Queries 
+# SQL Queries
 selectTickersQuery = "select Ticker from Underlyings"
 selectRequestDataTypeQuery = "select DataType from RequestData where Source = '{}' ".format(source)
 selectAPIKeyQuery = "select APIKey from Authentications where User = '{}' ".format(username)
@@ -35,7 +35,7 @@ requestDataType = requestDataTypeObject[0]["DataType"]
 # Get Authentication Key
 cursorObject.execute(selectAPIKeyQuery)
 quandlApiKeyObject = cursorObject.fetchall()
-quandl.ApiConfig.api_key = quandlApiKeyObject[0]["APIKey"] 
+quandl.ApiConfig.api_key = quandlApiKeyObject[0]["APIKey"]
 
 # Fetch Prices and Insert to DB
 for ticker in tickersObject:

@@ -15,9 +15,10 @@ First Project
 
 
 * <div id="A1"> <a href="#A2">Setting up the Server </a></div>
-* <div id="B1"> <a href="#B2">Installing Firefox on Linux </a></div>
-* <div id="C1"> <a href="#C2">The Newspaper Scrape </a></div>
-* <div id="D1"> <a href="#D2">Loading the script and Setting up the Cron Job </a></div>
+* <div id="B1"> <a href="#B2">Create Database in MySQL</a></div>
+* <div id="C1"> <a href="#C2">Installing Firefox on Linux </a></div>
+* <div id="D1"> <a href="#D2">Yahoo Finance News Scrape </a></div>
+* <div id="E1"> <a href="#E2">Loading the script and Setting up the Cron Job </a></div>
 * (Setting up GitHub?)
 
 ## <div id="A1"> <a href="#A2">Setting up the Server  </a> </div>
@@ -57,7 +58,7 @@ PRIMARY KEY (Ticker)
 INSERT INTO Underlyings VALUES ("AAPL", "APPLE"), ("MSFT", "Microsoft");
 ```
 
-The below command creates the table that stores all EOD price data we are fetching from quandl.
+The below command creates the table that stores all EOD price data we are fetching from Quandl.
 
 ```
 CREATE TABLE Prices (
@@ -80,9 +81,29 @@ FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
 );
 ```
 
+Furthermore, the command below creates the table that stores all news data that we download from Yahoo Finance.
+
+```
+CREATE TABLE TickerNews (
+Date DATE NOT NULL,
+Ticker VARCHAR(10),
+Headline CHAR(255),
+Description VARCHAR(4000),
+Newspaper CHAR(255),
+Link CHAR(255),
+Type CHAR(20),
+PRIMARY KEY (Date, Ticker, Headline, Newspaper),
+FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
+);
+```
 
 
-## <div id="B2"> <a href="#B1">Installing Firefox on Linux</a> </div>
+
+--> Description of Foreign Key, Primary Key, Underlyings Reference
+
+
+
+## <div id="C2"> <a href="#C1">Installing Firefox on Linux</a> </div>
 
 To install Firefox on Linux we first add its repository with the command:
 
@@ -112,7 +133,37 @@ scp [/local/filepath/geckodriver] [user.name]@[serverIP]:/home/advnum
 to secure copy the file from a local machine to the desired directory on the server.
 
 
-## <div id="C2"> <a href="#C1">The Newspaper Scrape</a> </div>
+## <div id="D2"> <a href="#D1">Yahoo Finance News Scrape</a> </div>
+
+To get all the news headlines of the given companies we simply used the Beautiful Soup package to get all the news using the companies ticker symbols saved in our "Underlyings" database. The code gets the headlines, descriptions, links and the name of the newspapers that published the articles using the following function:
+
+```python
+def get_news_of_company( ticker ):
+    '''
+    Description:
+    Inputs:
+    Outputs:
+    '''
+
+    url             = "https://finance.yahoo.com/quote/AAPL/news?p=" + ticker
+    response        = requests.get(url)
+    soup            = bs(response.content, "html.parser")
+    today           = datetime.datetime.today().strftime('%Y-%m-%d')
+    headers         = [ k.text for k in soup.find_all('h3') ]
+    descriptions    = [ k.find_next('p').text for k in soup.find_all('h3') ]
+    links           = [ 'www.finance.yahoo.com/' + k.find_next('a').get('href') for k in soup.find_all('h3') ]
+    newspaper       = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') ]
+    types           = []
+    for k in range(len(newspaper)):
+        if "Videos" in newspaper[k]:
+            types.append("Video")
+        else:
+            types.append("Article")
+    newspaper       = [ k.replace(" Videos","") for k in newspaper ]
+    data            = { "Ticker": ticker, "Date": today, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types }
+    return pd.DataFrame(data)
+```
+
 
 * ( What packages are used )
 * ( How does the scrape work )
@@ -123,7 +174,7 @@ to secure copy the file from a local machine to the desired directory on the ser
 
 
 
-## <div id="D2"> <a href="#D1">Loading the script and Setting up the Cron Job</a> </div>
+## <div id="E2"> <a href="#E1">Loading the script and Setting up the Cron Job</a> </div>
 
 
 * importing the script from local machine
@@ -138,13 +189,17 @@ To automatically run the script each day we set up a cronjob on the server using
 [user.name]@[server]:/home/advnum$ crontab -e
 ```
 
-Which opens a crontab editor where we specify the time of the day when we want to execute the script:
+Which opens a crontab editor where we specify the time of the day (2:00 AM every day) when we want to execute the two scripts to download the prices from Quandl and the news from Yahoo Finance:
 
 ```
 GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab                       
 
-XX XX * * * /home/advnum/top_stories_wsj_ft.py
+0 2 * * * /usr/bin/python3 /home/advnum/EODQuandl.py
+0 2 * * * /usr/bin/python3 /home/advnum/yahoo_finance_news.py
+
 # Edit this file to introduce tasks to be run by cron.
+...
+...
 ```
 
 This ...
