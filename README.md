@@ -139,74 +139,85 @@ The `YahooFinanceNews.py` script was uploaded from our local machine using the c
 scp [local.file.path]/YahooFinanceNews.py [user.name]@[server.IP]:/home/advnum
 ```
 
-To get all the news headlines of the given companies the script uses the `Requests` and `Beautiful Soup` webscraping package along with the common `Pandas` and `Numpy` packages to download all the news articles using the companies ticker symbols saved in our `Underlyings` database. To write the data to the MySQL database we use `sqlalchemy` and `pymysql`.
+To get all the news headlines of the given companies the script uses the `Requests` and `Beautiful Soup` webscraping package along with the common `Pandas` and `Numpy` packages to download all the news articles using the companies ticker symbols saved in our `Underlyings` table. To write the data to the MySQL database we use `sqlalchemy` and `pymysql`.
 
 ```python
-import requests
-from bs4 import BeautifulSoup as bs
-import pandas as pd
-import numpy  as np
-from sqlalchemy import create_engine
-import pymysql
-import datetime
+from    bs4         import BeautifulSoup    as bs
+from    sqlalchemy  import create_engine
+from    sqlalchemy  import update
+import  sqlalchemy  as db
+import  pandas      as pd
+import  numpy       as np
+import  requests
+import  pymysql
+import  datetime
+
 ```
 
 The code that gets the headlines, descriptions, links and the name of the newspapers that published the articles of a given company from Yahoo Finance is written as the `get_news_of_company` function using the `ticker` symbol as the input:
 
 ```python
-#-----------------------------------------------------------------------------#
-# Functions
-#-----------------------------------------------------------------------------#
+#-------------------------------------------------------------
 def get_news_of_company( ticker ):
     '''
-    Description:
-    Inputs:
-    Outputs:
+    Description:   Gets all the news from Yahoo Finance for the company with the specified ticker symbol
+    Inputs:        Ticker symbol of company 
+    Outputs:       DataFrame with all the news headlines, descriptions, links, dates, and types (Videos or Articles) 
+                   and newspapers of the given company from Yahoo Finance
     '''
-
+    # Get the url with the ticker
     url             = "https://finance.yahoo.com/quote/AAPL/news?p=" + ticker
     response        = requests.get(url)
     soup            = bs(response.content, "html.parser")
+    # Get today's date
     today           = datetime.datetime.today().strftime('%Y-%m-%d')
+    # Get all the newspaper headlines into a list
     headers         = [ k.text for k in soup.find_all('h3') ]
+    # Get all the newspaper descriptions into a list
     descriptions    = [ k.find_next('p').text for k in soup.find_all('h3') ]
+    # Get all the news links on yahoo finance into a list
     links           = [ 'www.finance.yahoo.com/' + k.find_next('a').get('href') for k in soup.find_all('h3') ]
+    # Get all the newspaper names that published the articles into a list
     newspaper       = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') ]
+    # Get the types of news into a list (Video or Article) based on the news tag on Yahoo Finance
     types           = []
     for k in range(len(newspaper)):
         if "Videos" in newspaper[k]:
             types.append("Video")
         else:
             types.append("Article")
+    # Generalise the newspaper names by removing "Videos"
     newspaper       = [ k.replace(" Videos","") for k in newspaper ]
+    # Create dictionary with the scraped data to write to DataFrame
     data            = { "Ticker": ticker, "Date": today, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types }
     return pd.DataFrame(data)
+
 ```
 
 
-After loading the database, selecting the tickers from the `Underlyings` database and creating the dataframe that is to be written to the `TickerNews` database we loop through the ticker list, append the data to the dataframe and finally update the dataframe to the TickerNews database using `.tosql`.
+After loading the database, selecting the tickers from the `Underlyings` table and creating the dataframe that is to be written to the `TickerNews` table we loop through the ticker list, append the data to the dataframe and finally update the dataframe to the TickerNews table using `.tosql`.
 
 ```python
-# Loading database
-engine = db.create_engine('mysql+pymysql://root:advnum19@localhost/dataserver')
-connectionObject = engine.connect()
+# Load 'dataserver' database
+engine              = db.create_engine('mysql+pymysql://root:advnum19@localhost/dataserver')
+connectionObject    = engine.connect()
 
-# Getting Ticker's from Underlying
-selectTickersQuery      = "select Ticker from Underlyings"
-ticker_list =  connectionObject.execute(selectTickersQuery)
+# Get 'Tickers' from the 'Underlyings' table
+selectTickersQuery  = "select Ticker from Underlyings"
+ticker_list         =  connectionObject.execute(selectTickersQuery)
 
-# Creating DataFrame
-columns = [ "Ticker", "Date", "Headline", "Link", "Description", "Newspaper", "Type" ]
-news_df = pd.DataFrame( columns = columns)
+# Create 'news_df' DataFrame
+columns             = [ "Ticker", "Date", "Headline", "Link", "Description", "Newspaper", "Type" ]
+news_df             = pd.DataFrame( columns = columns)
 
-# Loop through the ticker list
+# Loop through ticker list to get news data from Yahoo Finance
 for ticker in ticker_list:
-    news_df = news_df.append(get_news_of_company(ticker['Ticker']), ignore_index = True, sort = False)
+    news_df         = news_df.append(get_news_of_company(ticker['Ticker']), ignore_index = True, sort = False)
 
-# Writing news_df DataFrame to database
+# Write 'news_df' DataFrame to the 'TickerNews' table in the dataserver database
 news_df.to_sql(name = "TickerNews", con = engine, if_exists='append', index = False)
 
-# CLosing database connection
+# Close the database connection
 connectionObject.close()
 
 ```
@@ -243,7 +254,7 @@ GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab
 ...
 ```
 
-This will automatically populate our database at 23:30 from Monday to Friday. In the future we could potentially use this data to analyse the impact of news on stock prices using a sentiment analysis of the news headlines.
+This will automatically populate the tables in our database at 23:30 from Monday to Friday. In the future we could potentially use this data to analyse the impact of news on stock prices using a sentiment analysis of the news headlines.
 
 
 
