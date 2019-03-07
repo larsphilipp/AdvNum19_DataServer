@@ -11,7 +11,7 @@ University of St. Gallen, 10.03.2019
 
 # Dataserver Project Description
 
-**Elisa Fleissner** &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;elisa.fleissner@student.unisg.ch <br>
+**Elisa Fleissner** &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;elisa.fleissner@student.unisg.ch <br>
 **Lars Stauffenegger** &nbsp; &nbsp; &nbsp;lars.stauffenegger@student.unisg.ch  <br>
 **Peter la Cour** &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; peter.lacour@student.unisg.ch
 
@@ -231,7 +231,7 @@ connectionObject.close()
 
 
 
-## <div id="E2"><a href="#E1">Loading the script and Setting up the Cron Job</a> </div>
+## <div id="E2"><a href="#E1">Setting up the Cronjobs </a> </div>
 
 
 To automatically run the script each day we set up a cronjob on the server using the commandline code:
