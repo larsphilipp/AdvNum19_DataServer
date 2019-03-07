@@ -5,7 +5,7 @@
 ##               lars.stauffenegger@student.unisg.ch,
 ##               peter.lacour@student.unisg.ch
 ## Place, Time:  St. Gallen, 5.03.19
-## Description:  
+## Description:
 ##
 ## Improvements: -
 ## Last changes: -
@@ -53,37 +53,30 @@ def get_news_of_company( ticker ):
     data            = { "Ticker": ticker, "Date": today, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types }
     return pd.DataFrame(data)
 
-
-
 #-----------------------------------------------------------------------------#
 # Body
 #-----------------------------------------------------------------------------#
 
 # Loading Database
 engine = db.create_engine('mysql+pymysql://root:advnum19@localhost/dataserver')
-connection = engine.connect()
-
+connectionObject = engine.connect()
 # Getting Tickers
 # ticker_list = [ 'AAPL', 'MSFT']
 
 selectTickersQuery      = "select Ticker from Underlyings"
-connection.execute(selectTickersQuery)
-ticker_list             = cursorObject.fetchall()
+ticker_list =  connectionObject.execute(selectTickersQuery)
 
 
 # Creating DataFrame
 columns = [ "Ticker", "Date", "Headline", "Link", "Description", "Newspaper", "Type" ]
 news_df = pd.DataFrame( columns = columns)
 for ticker in ticker_list:
-    news_df = news_df.append(get_news_of_company(ticker), ignore_index = True)
+    news_df = news_df.append(get_news_of_company(ticker['Ticker']), ignore_index = True, sort = False)
 
 # Writing DataFrame to database
-news_df.to_sql(name = "yahoo_finance_news", con = engine, if_exists='append')
-
-# Quitting webdriver
-driver.quit()
+news_df.to_sql(name = "TickerNews", con = engine, if_exists='append', index = False)
 
 # CLosing database connection
-connection.close()
+connectionObject.close()
 
 print("Database updated.")
