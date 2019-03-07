@@ -201,7 +201,7 @@ After loading the database, selecting the tickers from the `Underlyings` table a
 engine              = db.create_engine('mysql+pymysql://root:advnum19@localhost/dataserver')
 connectionObject    = engine.connect()
 
-# Get 'Tickers' from the 'Underlyings' table
+# Get 'Ticker's from the 'Underlyings' table
 selectTickersQuery  = "select Ticker from Underlyings"
 ticker_list         =  connectionObject.execute(selectTickersQuery)
 
