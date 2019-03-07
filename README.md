@@ -48,6 +48,7 @@ INSERT INTO RequestData VALUES ("EOD", "EOD Prices", "Quandl");
 ```
 
 The underlyings we aim to get data for are defined here:
+
 ```
 CREATE TABLE Underlyings (
 Ticker VARCHAR(10),
@@ -135,9 +136,25 @@ to secure copy the file from a local machine to the desired directory on the ser
 
 ## <div id="D2"> <a href="#D1">Yahoo Finance News Scrape</a> </div>
 
-To get all the news headlines of the given companies we simply used the Beautiful Soup package to get all the news using the companies ticker symbols saved in our "Underlyings" database. The code gets the headlines, descriptions, links and the name of the newspapers that published the articles using the following function:
+To get all the news headlines of the given companies we simply used the `Requests` and `Beautiful Soup` webscraping package along with the common `Pandas` and `Numpy` packages to get all the news using the companies ticker symbols saved in our `Underlyings` database. To write the data to the MySQL database we used `sqlalchemy` and `pymysql`.
 
 ```python
+import requests
+from bs4 import BeautifulSoup as bs
+import pandas as pd
+import numpy  as np
+from sqlalchemy import create_engine
+import pymysql
+import datetime
+```
+
+
+The code that gets the headlines, descriptions, links and the name of the newspapers that published the articles of a given company from Yahoo Finance is written as the `get_news_of_company` function using the `ticker` symbol as the input:
+
+```python
+#-----------------------------------------------------------------------------#
+# Functions
+#-----------------------------------------------------------------------------#
 def get_news_of_company( ticker ):
     '''
     Description:
@@ -165,23 +182,41 @@ def get_news_of_company( ticker ):
 ```
 
 
-* ( What packages are used )
-* ( How does the scrape work )
-* 
-* 
-* Description of scraped data
+After loading the database, selecting the tickers from the `Underlyings` database and creating the dataframe that is to be written to the `TickerNews` database we loop through the ticker list, append the data to the dataframe and finally update the dataframe to the TickerNews database using `.tosql`.
+
+```python
+# Loading database
+engine = db.create_engine('mysql+pymysql://root:advnum19@localhost/dataserver')
+connectionObject = engine.connect()
+
+# Getting Ticker's from Underlying
+selectTickersQuery      = "select Ticker from Underlyings"
+ticker_list =  connectionObject.execute(selectTickersQuery)
+
+# Creating DataFrame
+columns = [ "Ticker", "Date", "Headline", "Link", "Description", "Newspaper", "Type" ]
+news_df = pd.DataFrame( columns = columns)
+
+# Loop through the ticker list
+for ticker in ticker_list:
+    news_df = news_df.append(get_news_of_company(ticker['Ticker']), ignore_index = True, sort = False)
+
+# Writing news_df DataFrame to database
+news_df.to_sql(name = "TickerNews", con = engine, if_exists='append', index = False)
+
+# CLosing database connection
+connectionObject.close()
+
+```
+
+
+* Description of scraped data ?
 
 
 
 
 ## <div id="E2"> <a href="#E1">Loading the script and Setting up the Cron Job</a> </div>
 
-
-* importing the script from local machine
-* 
-* Script writes to news.db on server.. etc.
-* 
-* Description of Cron Job Setup ( how it was set up when does it execute )
 
 To automatically run the script each day we set up a cronjob on the server using the commandline code:
 
@@ -202,4 +237,4 @@ GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab
 ...
 ```
 
-This ...
+This will automatically populate our database which in the future we could potentially use to analyse the impact of news on stock prices using a sentiment analysis.

@@ -21,8 +21,6 @@ import numpy  as np
 from sqlalchemy import create_engine
 import pymysql
 import datetime
-import sqlalchemy as db
-from sqlalchemy import update
 
 #-----------------------------------------------------------------------------#
 # Functions
