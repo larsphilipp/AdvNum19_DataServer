@@ -1,5 +1,9 @@
-# AdvNum19_DataServer
-First Project
+<div align="right">
+Advanced Numerical Methods and Data Analysis - FS19-8,780
+<br>
+University of St. Gallen, 10.03.2019
+<br>
+</div>
 
 -------------
 
@@ -13,13 +17,15 @@ First Project
 
 ## Overview
 
+1. <div id="1"> <a href="#2">Introduction</a></div>
+2. <div id="A1"> <a href="#A2">Setting up the Server </a></div>
+3. <div id="B1"> <a href="#B2">Create Database in MySQL</a></div>
+4. <div id="C1"> <a href="#C2">Getting Price Data from Quandl </a></div>
+5. <div id="D1"> <a href="#D2">Yahoo Finance News Scrape </a></div>
+6. <div id="E1"> <a href="#E2">Setting up the Cronjobs </a></div>
+7. (Setting up GitHub?)
 
-* <div id="A1"> <a href="#A2">Setting up the Server </a></div>
-* <div id="B1"> <a href="#B2">Create Database in MySQL</a></div>
-* <div id="C1"> <a href="#C2">Getting Price Data from Quandl </a></div>
-* <div id="D1"> <a href="#D2">Yahoo Finance News Scrape </a></div>
-* <div id="E1"> <a href="#E2">Setting up the Cronjobs </a></div>
-* (Setting up GitHub?)
+## <div id="1"> <a href="#2">Introduction  </a> </div>
 
 ## <div id="A1"> <a href="#A2">Setting up the Server  </a> </div>
 
@@ -33,6 +39,17 @@ First Project
 * etc.
 
 ## <div id="B2"> <a href="#B1">Create Database in MySQL</a> </div>
+
+!!!
+<br>
+Quandl authentication database creation 
+<br>
+!!!!
+<br>
+!!!!
+<br>
+!!!!
+
 
 The type of data that we will request is stored in the following table:
 
