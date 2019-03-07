@@ -230,20 +230,20 @@ To automatically run the script each day we set up a cronjob on the server using
 [user.name]@[server]:/home/advnum$ crontab -e
 ```
 
-Which opens a crontab editor where we specify the time of the day (2:00 AM every day) when we want to execute the two scripts to download the prices from Quandl and the news from Yahoo Finance:
+Which opens a crontab editor where we specify the times when we want to execute the two scripts to download the prices from Quandl and the news from Yahoo Finance:
 
 ```
 GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab                       
 
-0 2 * * * /usr/bin/python3 /home/advnum/EODQuandl.py
-0 2 * * * /usr/bin/python3 /home/advnum/yahoo_finance_news.py
+30 23 * * 1-5 /usr/bin/python3 /home/advnum/EODQuandl.py
+30 23 * * 1-5 /usr/bin/python3 /home/advnum/yahoo_finance_news.py
 
 # Edit this file to introduce tasks to be run by cron.
 ...
 ...
 ```
 
-This will automatically populate our database which in the future we could potentially use to analyse the impact of news on stock prices using a sentiment analysis.
+This will automatically populate our database at 23:30 from Monday to Friday. In the future we could potentially use this data to analyse the impact of news on stock prices using a sentiment analysis of the news headlines.
 
 
 
