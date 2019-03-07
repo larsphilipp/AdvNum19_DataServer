@@ -157,7 +157,6 @@ import  datetime
 The code that gets the headlines, descriptions, links and the name of the newspapers that published the articles of a given company from Yahoo Finance is written as the `get_news_of_company` function using the `ticker` symbol as the input:
 
 ```python
-#-------------------------------------------------------------
 def get_news_of_company( ticker ):
     '''
     Description:   Gets all the news from Yahoo Finance for the company with the specified ticker symbol
