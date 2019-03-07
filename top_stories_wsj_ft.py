@@ -22,13 +22,13 @@
 import pandas as pd
 import numpy  as np
 from sqlalchemy import create_engine
+import pymysql
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 import datetime
 import sqlalchemy as db
 from sqlalchemy import update
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-
 #-----------------------------------------------------------------------------#
 # Functions
 #-----------------------------------------------------------------------------#
@@ -40,7 +40,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
 # Loading database
-engine = db.create_engine('sqlite:////home/advnum/news.sql') # sqlite:////Users/PeterlaCour/Documents/Research/News/news.db
+engine = db.create_engine('mysql+pymysql://root:advnum19@localhost/dataserver') # sqlite:////Users/PeterlaCour/Documents/Research/News/news.db
 connection = engine.connect()
 
 # Setting up webdriver
