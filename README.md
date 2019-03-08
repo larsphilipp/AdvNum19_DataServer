@@ -27,6 +27,15 @@ University of St. Gallen, 10.03.2019
 
 ## <div id="2"> <a href="#1">Introduction  </a> </div>
 
+This is the Documentation for the first Assignment of the class **Advanced Numerical Methods and Data Analysis** thaught by Prof. Peter Gruber at the University of St. Gallen in Spring 2019. We - Elisa Fleissner, Lars Stauffenegger and Peter La Cour - are in the 2nd Semester of our Master studies and worked as a group with the aim to setup up an automated financial data mining application. Our goal is to collect price and news data of 50 Large Cap US Equities on a daily basis and store them on a data server. For the price data we use Quandl's API whilst the headlines are scraped from www.yahoo.com.
+### Project Plan ###
+After a short brainstorming we decided to scrape financial data as we were already aware of available source. Give the time horizon of roughly 2.5 weeks we immediately assigned independent tasks. Elisa took over the Quandl mining, Peter wrote the 
+
+### Ressources ###
+We rented a VPS with Ubuntu 16.04 Server (64-bit version), 2 vCore, ~2GHz, 4 GB RAM, 50 GB at www.ovh.com. As the main tools we used MySQL 5.7.25 for Ubuntu and Python 3.5.2. All missing Python packages wer installed using `pip3 install`.
+
+
+
 ## <div id="A2"> <a href="#A1">Setting up the Server  </a> </div>
 
 
