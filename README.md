@@ -25,9 +25,9 @@ University of St. Gallen, 10.03.2019
 6. <div id="E1"> <a href="#E2">Setting up the Cronjobs </a></div>
 7. (Setting up GitHub?)
 
-## <div id="1"> <a href="#2">Introduction  </a> </div>
+## <div id="2"> <a href="#1">Introduction  </a> </div>
 
-## <div id="A1"> <a href="#A2">Setting up the Server  </a> </div>
+## <div id="A2"> <a href="#A1">Setting up the Server  </a> </div>
 
 
 * Initial Setup
@@ -38,20 +38,37 @@ University of St. Gallen, 10.03.2019
 * Installing Firefox
 * etc.
 
-## <div id="B2"> <a href="#B1">Create Database in MySQL</a> </div>
+## <div id="B2"> <a href="#B1">MySQL Database</a> </div>
 
-!!!
-<br>
-Quandl authentication database creation 
-<br>
-!!!!
-<br>
-!!!!
-<br>
-!!!!
+### MySQL Setup ###
+
+Once the server is ready and accessible for all users a MySQL database is installed and the root user starts the application in order to set a password.
+```
+sudo apt-get install mysql-server
+/usr/bin/mysql -u root -p
+```
+The root user now creates a database named after the project.
+```
+CREATE DATABASE dataserver
+```
+Then personal users are added. 
+```
+INSERT INTO mysql.user (User,Host,authentication_string,ssl_cipher,x509_issuer,x509_subject) VALUES
+('usr','localhost',PASSWORD('secret'),'','','');
+FLUSH PRIVILEGES;
+```
+Rights are granted for the relevant database.
+```
+GRANT SELECT,INSERT,UPDATE ON dataserver.* TO 'usr'@'localhost';
+FLUSH PRIVILEGES;
+```
 
 
-The type of data that we will request is stored in the following table:
+### Create Tables ###
+
+The database is used to store in- and output values of the python codes. It consists of three input tables (RequestData, Underlyings, Authentications) and two output tables (Prices, Headlines).
+<br>
+The type of data that we will request is stored in the following table together with a desciption and the name of the data source. A combination of Source and DataType can only occur once.
 
 ```
 CREATE TABLE RequestData (
@@ -60,23 +77,28 @@ Description CHAR(30),
 Source VARCHAR(20),
 PRIMARY KEY (DataType, Source)
 );
-
-INSERT INTO RequestData VALUES ("EOD", "EOD Prices", "Quandl");
 ```
 
-The underlyings we aim to get data for are defined here:
-
+The underlyings we aim to get data for are defined here. A ticker can only occur once and will be used in output talbes as foreign key.
 ```
 CREATE TABLE Underlyings (
 Ticker VARCHAR(10),
 Name VARCHAR(20),
 PRIMARY KEY (Ticker)
 );
-
-INSERT INTO Underlyings VALUES ("AAPL", "APPLE"), ("MSFT", "Microsoft");
 ```
 
-The below command creates the table that stores all EOD price data we are fetching from Quandl.
+The authentications table centrally stores APIKeys if needed for web requests. Per source and user only one key can exist in the table.
+```
+CREATE TABLE Authentications (
+User VARCHAR(25),
+APIKey VARCHAR(30),
+Source VARCHAR(20),
+PRIMARY KEY (User, Source)
+);
+```
+
+The below table is created to stores all End-of-Day price data we are fetching from Quandl. The columns represent all fields delivered from Quandl when requesting EOD Prices. 
 
 ```
 CREATE TABLE Prices (
@@ -123,7 +145,19 @@ FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
 
 ## <div id="C2"> <a href="#C1">Getting Price Data from Quandl</a> </div>
 
+## collapsible markdown?
 
+<details><summary>Click me</summary>
+<p>
+
+#### yes, even hidden code blocks!
+
+```python
+print("hello world!")
+```
+
+</p>
+</details>
 <br>
 
 <img src="Screenshots/QuandlPrices.png"
