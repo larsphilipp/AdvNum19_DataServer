@@ -36,21 +36,21 @@ def get_news_of_company( ticker, current_time ):
                    and newspapers of the given company from Yahoo Finance
     '''
     # Get the url with the ticker
-    url             = "https://finance.yahoo.com/quote/AAPL/news?p=" + ticker
-    response        = requests.get(url)
-    soup            = bs(response.content, "html.parser")
+    url                  = "https://finance.yahoo.com/quote/AAPL/news?p=" + ticker
+    response             = requests.get(url)
+    soup                 = bs(response.content, "html.parser")
     # Get today's date
-    today           = datetime.datetime.today().strftime('%Y-%m-%d')
+    today                = datetime.datetime.today().strftime('%Y-%m-%d')
     # Get all the newspaper headlines into a list
-    headers         = [ k.text for k in soup.find_all('h3') ]
+    headers              = [ k.text for k in soup.find_all('h3') ]
     # Get all the newspaper descriptions into a list
-    descriptions    = [ k.find_next('p').text for k in soup.find_all('h3') ]
+    descriptions         = [ k.find_next('p').text for k in soup.find_all('h3') ]
     # Get all the news links on yahoo finance into a list
-    links           = [ 'www.finance.yahoo.com/' + k.find_next('a').get('href') for k in soup.find_all('h3') ]
+    links                = [ 'www.finance.yahoo.com/' + k.find_next('a').get('href') for k in soup.find_all('h3') ]
     # Get all the newspaper names that published the articles into a list
-    newspaper       = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if "ago" in k.text ]
+    newspaper            = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if "ago" in k.text ]
     # Get time
-    timestamp       = [ k.find_next('span').find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if "ago" in k.text ]
+    timestamp            = [ k.find_next('span').find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if "ago" in k.text ]
     for k in range(len(timestamp)):
         if "minutes" in timestamp[k]:
             timestamp[k] = round( current_time - float(timestamp[k].replace(" minutes ago", "")) / 60,2)
@@ -61,16 +61,16 @@ def get_news_of_company( ticker, current_time ):
         else:
             timestamp[k] = np.nan
     # Get the types of news into a list (Video or Article) based on the news tag on Yahoo Finance
-    types           = []
+    types                = []
     for k in range(len(newspaper)):
         if "Videos" in newspaper[k]:
             types.append("Video")
         else:
             types.append("Article")
     # Generalise the newspaper names by removing "Videos"
-    newspaper       = [ k.replace(" Videos","") for k in newspaper ]
+    newspaper            = [ k.replace(" Videos","") for k in newspaper ]
     # Create dictionary with the scraped data to write to DataFrame
-    data            = { "Ticker": ticker, "Date": today, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp }
+    data                 = { "Ticker": ticker, "Date": today, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp }
     return pd.DataFrame(data)
 
 #-----------------------------------------------------------------------------#
@@ -78,25 +78,25 @@ def get_news_of_company( ticker, current_time ):
 #-----------------------------------------------------------------------------#
 
 # Load 'dataserver' database
-engine              = db.create_engine('mysql+pymysql://root:advnum19@localhost/dataserver')
-connectionObject    = engine.connect()
+engine                   = db.create_engine('mysql+pymysql://root:advnum19@localhost/dataserver')
+connectionObject         = engine.connect()
 
 ## DB Connection (includes loading of relevant data)
 db = DBConn()
 # Get 'Ticker's from the 'Underlyings' table
-ticker_list         = db._getTickers()
+ticker_list              = db._getTickers()
 
 # Create 'news_df' DataFrame
-columns             = [ "Ticker", "Date", "Headline", "Link", "Description", "Newspaper", "Type" ]
-news_df             = pd.DataFrame( columns = columns)
+columns                  = [ "Ticker", "Date", "Headline", "Link", "Description", "Newspaper", "Type" ]
+news_df                  = pd.DataFrame( columns = columns)
 
 # Get current time in decimal format
-time                = datetime.datetime.now()
-time                = round( time.hour + time.minute / 60, 2)
+time                     = datetime.datetime.now()
+time                     = round( time.hour + time.minute / 60, 2)
 
 # Loop through ticker list to get news data from Yahoo Finance
 for ticker in ticker_list:
-    news_df         = news_df.append(get_news_of_company( ticker['Ticker'], time ), ignore_index = True, sort = False) # ticker['Ticker']
+    news_df              = news_df.append(get_news_of_company( ticker['Ticker'], time ), ignore_index = True, sort = False) # ticker['Ticker']
 
 # Write 'news_df' DataFrame to the 'TickerNews' table in the dataserver database
 news_df.to_sql(name = "News", con = engine, if_exists='append', index = False)
