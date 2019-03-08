@@ -83,9 +83,9 @@ engine                   = db.create_engine('mysql+pymysql://root:advnum19@local
 connectionObject         = engine.connect()
 
 ## DB Connection (includes loading of relevant data)
-db = DBConn()
+database = DBConn()
 # Get 'Ticker's from the 'Underlyings' table
-ticker_list              = db._getTickers()
+ticker_list              = database._getTickers()
 
 # Create 'news_df' DataFrame
 columns                  = [ "Ticker", "Date", "Headline", "Link", "Description", "Newspaper", "Type" ]
