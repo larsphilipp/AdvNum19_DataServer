@@ -38,12 +38,18 @@ We rented a VPS with Ubuntu 16.04 Server (64-bit version), 2 vCore, ~2GHz, 4 GB 
 
 ## <div id="A2"> <a href="#A1">Linux Server  </a> </div>
 
-The server itself needs little setup work. Most importantly the root user adds users for others and grants them rights on the shared project folder.
+The server itself needs little setup work. Most importantly the root user creates individual users and add them to the group.
 ```
 adduser abc
-sudo chmod -R ugo+rw /home/advnum
+groupadd AdvNum1 
+usermod -a -G AdvNum1 abc
 ```
-
+The project is cloned from Github into individual workspaces and - for production - into the home directory, where rights are granted to the group.
+```
+git clone https://github.com/larsphilipp/AdvNum19_DataServer.git
+chgrp AdvNum1 ./AdvNum19_DataServer
+chmod g+rwx  ./AdvNum19_DataServer
+```
 
 ## <div id="B2"> <a href="#B1">MySQL Database</a> </div>
 
