@@ -32,20 +32,18 @@ This is the Documentation for the first Assignment of the class **Advanced Numer
 After a short brainstorming we decided to scrape financial data as we were already aware of available source. Give the time horizon of roughly 2.5 weeks we immediately assigned independent tasks. Elisa took over the Quandl mining, Peter wrote the 
 
 ### Ressources ###
-We rented a VPS with Ubuntu 16.04 Server (64-bit version), 2 vCore, ~2GHz, 4 GB RAM, 50 GB at www.ovh.com. As the main tools we used MySQL 5.7.25 for Ubuntu and Python 3.5.2. All missing Python packages wer installed using `pip3 install`.
+We rented a VPS with Ubuntu 16.04 Server (64-bit version), 2 vCore, ~2GHz, 4 GB RAM, 50 GB at www.ovh.com. The main tools we used are MySQL 5.7.25 for Ubuntu and Python 3.5.2. All missing Python packages wer installed using `pip3 install`.
 
 
 
-## <div id="A2"> <a href="#A1">Setting up the Server  </a> </div>
+## <div id="A2"> <a href="#A1">Linux Server  </a> </div>
 
+The server itself needs little setup work. Most importantly the root user adds users for others and grants them rights on the shared project folder.
+```
+adduser abc
+sudo chmod -R ugo+rw /home/advnum
+```
 
-* Initial Setup
-* Setting up users 
-* Granting Permissions
-* Installing Python
-* Installing MySql
-* Installing Firefox
-* etc.
 
 ## <div id="B2"> <a href="#B1">MySQL Database</a> </div>
 
@@ -63,12 +61,12 @@ CREATE DATABASE dataserver
 Then personal users are added. 
 ```
 INSERT INTO mysql.user (User,Host,authentication_string,ssl_cipher,x509_issuer,x509_subject) VALUES
-('usr','localhost',PASSWORD('secret'),'','','');
+('abc','localhost',PASSWORD('secret'),'','','');
 FLUSH PRIVILEGES;
 ```
 Rights are granted for the relevant database.
 ```
-GRANT SELECT,INSERT,UPDATE ON dataserver.* TO 'usr'@'localhost';
+GRANT SELECT,INSERT,UPDATE ON dataserver.* TO 'abc'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
