@@ -49,11 +49,12 @@ def get_news_of_company( ticker, current_time ):
     links                = [ 'www.finance.yahoo.com/' + k.find_next('a').get('href') for k in soup.find_all('h3') ]
     # Get all the newspaper names that published the articles into a list
     newspaper            = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if "ago" in k.text ]
-    # Get time
+    # Get relative time when articles were published
     timestamp            = [ k.find_next('span').find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if "ago" in k.text ]
+    # Estimate time of day in decimals when the article was published
     for k in range(len(timestamp)):
         if "minutes" in timestamp[k]:
-            timestamp[k] = round( current_time - float(timestamp[k].replace(" minutes ago", "")) / 60,2)
+            timestamp[k] = round( current_time - float(timestamp[k].replace(" minutes ago", "") ) / 60,2)
         elif "hours" in timestamp[k]:
             timestamp[k] = round( current_time - float(timestamp[k].replace(" hours ago", "")) )
         elif "hour" in timestamp[k]:
@@ -96,7 +97,7 @@ time                     = round( time.hour + time.minute / 60, 2)
 
 # Loop through ticker list to get news data from Yahoo Finance
 for ticker in ticker_list:
-    news_df              = news_df.append(get_news_of_company( ticker['Ticker'], time ), ignore_index = True, sort = False) # ticker['Ticker']
+    news_df              = news_df.append(get_news_of_company( ticker['Ticker'], time ), ignore_index = True, sort = False )
 
 # Write 'news_df' DataFrame to the 'TickerNews' table in the dataserver database
 news_df.to_sql(name = "News", con = engine, if_exists='append', index = False)
