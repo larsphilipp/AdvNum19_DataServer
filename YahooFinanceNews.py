@@ -15,9 +15,6 @@
 #-----------------------------------------------------------------------------#
 from    DatabaseConnection  import *
 from    bs4                 import BeautifulSoup    as bs
-from    sqlalchemy          import create_engine
-from    sqlalchemy          import update
-import  sqlalchemy          as db
 import  pandas              as pd
 import  numpy               as np
 import  requests
@@ -78,14 +75,9 @@ def get_news_of_company( ticker, current_time ):
 # Body
 #-----------------------------------------------------------------------------#
 
-# Load 'dataserver' database
-engine                   = db.create_engine('mysql+pymysql://root:advnum19@localhost/dataserver')
-connectionObject         = engine.connect()
 
 ## DB Connection (includes loading of relevant data)
-database = DBConn()
-# Get 'Ticker's from the 'Underlyings' table
-ticker_list              = database._getTickers()
+db = DBConn()
 
 # Create 'news_df' DataFrame
 columns                  = [ "Ticker", "Date", "Headline", "Link", "Description", "Newspaper", "Type" ]
@@ -96,11 +88,9 @@ time                     = datetime.datetime.now()
 time                     = round( time.hour + time.minute / 60, 2)
 
 # Loop through ticker list to get news data from Yahoo Finance
-for ticker in ticker_list:
+for ticker in db.tickerObject:
     news_df              = news_df.append(get_news_of_company( ticker['Ticker'], time ), ignore_index = True, sort = False )
 
-# Write 'news_df' DataFrame to the 'TickerNews' table in the dataserver database
-news_df.to_sql(name = "News", con = engine, if_exists='append', index = False)
+# Insert to DB
+db._insertNews(news_df)
 
-# Close the database connection
-connectionObject.close()
