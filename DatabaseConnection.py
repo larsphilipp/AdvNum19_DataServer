@@ -1,8 +1,17 @@
-## DB Connection
+## Title:        Database Connection
+## Author:       Elisa FLeissner, Lars Stauffenegger, Peter la Cour
+## Email:        elisa.fleissner@student.unisg.ch,
+##               lars.stauffenegger@student.unisg.ch,
+##               peter.lacour@student.unisg.ch
+## Place, Time:  Zürich, 08.03.19
+## Description:  Class that handles all data base communication.
+##               Different Methods under one instance.
+## Improvements: -
+## Last changes: -
 
-## Import Packages
+#-----------------------------------------------------------------------------#
+# Loading Packages
 import pymysql
-import os
 
 ## Class as Instance of a Requests Session
 class DBConn():
@@ -21,24 +30,25 @@ class DBConn():
         
         # Load Data
         self.tickerObject = self._getTickers()
-        self.quandlDataTypeObject = self._getQuandlDataType()
         self.apiKeyObject = self._getAPIKey()
         
     def _getTickers(self):
-        self.cursorObject.execute("select Ticker from Underlyings")
+        self.cursorObject.execute("SELECT Ticker FROM Underlyings")
         return self.cursorObject.fetchall()
     
-    def _getQuandlDataType(self):
-        self.cursorObject.execute("select DataType from RequestData where Source = '{}' ".format(os.environ.get('source', None)))
+    def _getDataType(self, source):
+        self.cursorObject.execute("SELECT DataType FROM RequestData WHERE Source = '{}' ".format(source))
         return self.cursorObject.fetchall()[0]["DataType"]
     
     def _getAPIKey(self):
-        self.cursorObject.execute("select APIKey from Authentications where User = '{}' ".format(self.dbUser))
+        self.cursorObject.execute("SELECT APIKey FROM Authentications WHERE User = '{}' ".format(self.dbUser))
         return self.cursorObject.fetchall()[0]["APIKey"]
+    
+    def _insertQuandlPrices(self, ticker, quandlData):
+        date = quandlData.index[0].date().strftime('%Y-%m-%d')
+        self.cursorObject.execute("INSERT IGNORE INTO Prices (Date, Ticker, Open, High, Low, Close, Volume, Dividend, Split, Adj_Open, Adj_High, Adj_Low, Adj_Close, Adj_Volume) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(date, ticker, float(quandlData.Open[0]), float(quandlData.High[0]), float(quandlData.Low[0]), float(quandlData.Close[0]), float(quandlData.Volume[0]), float(quandlData.Dividend[0]), float(quandlData.Split[0]), float(quandlData.Adj_Open[0]), float(quandlData.Adj_High[0]), float(quandlData.Adj_Low[0]), float(quandlData.Adj_Close[0]), float(quandlData.Adj_Volume[0])))
+        self.connectionObject.commit()
     
     def CloseConn(self):
         # Close the database connection
         self.connectionObject.close()
-
-db=DBConn()
-db.CloseConn()
