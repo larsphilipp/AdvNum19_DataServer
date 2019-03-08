@@ -11,7 +11,8 @@
 
 #-----------------------------------------------------------------------------#
 # Loading Packages
-import quandl
+from    DatabaseConnection import *
+import  quandl
 
 ## DB Connection (includes loading of relevant data)
 db = DBConn()
