@@ -39,6 +39,3 @@ class DBConn():
     def CloseConn(self):
         # Close the database connection
         self.connectionObject.close()
-
-db=DBConn()
-db.CloseConn()
