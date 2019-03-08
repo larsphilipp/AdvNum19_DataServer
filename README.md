@@ -56,7 +56,7 @@ sudo apt-get install mysql-server
 ```
 The root user now creates a database named after the project.
 ```
-CREATE DATABASE dataserver
+CREATE DATABASE dataserver;
 ```
 Then personal users are added. 
 ```
