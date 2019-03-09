@@ -27,9 +27,9 @@ University of St. Gallen, 10.03.2019
 
 ## <div id="2"> <a href="#1">Introduction  </a> </div>
 
-This is the Documentation for the first Assignment of the class **Advanced Numerical Methods and Data Analysis** thaught by Prof. Peter Gruber at the University of St. Gallen in Spring 2019. We - Elisa Fleissner, Lars Stauffenegger and Peter La Cour - are in the 2nd Semester of our Master studies and worked as a group with the aim to setup up an automated financial data mining application. Our goal is to collect price and news data of 50 Large Cap US Equities on a daily basis and store them on a data server. For the price data we use Quandl's API whilst the headlines are scraped from www.yahoo.com.
+This is the documentation for the first assignment of the class **Advanced Numerical Methods and Data Analysis** taught by Prof. Peter Gruber at the University of St. Gallen in Spring 2019. We - Elisa Fleissner, Lars Stauffenegger and Peter La Cour - are in the 2nd Semester of our Master studies and worked as a group with the aim to setup up an automated financial data mining application. Our goal is to collect price and news data of 50 Large Cap US Equities on a daily basis and store them on a data server. For the price data we use Quandl's API whilst the headlines are scraped from www.yahoo.com.
 ### Project Plan ###
-After a short brainstorming we decided to scrape financial data as we were already aware of available source. Give the time horizon of roughly 2.5 weeks we immediately assigned independent tasks. Elisa took over the Quandl mining, Peter wrote the 
+After a short brainstorming session we decided to scrape financial data as we were already aware of available sources. Given the time horizon of roughly 2.5 weeks we immediately assigned independent tasks. Elisa took over the Quandl mining, Peter wrote the 
 
 ### Ressources ###
 We rented a VPS with Ubuntu 16.04 Server (64-bit version), 2 vCore, ~2GHz, 4 GB RAM, 50 GB at www.ovh.com. The main tools we used are MySQL 5.7.25 for Ubuntu and Python 3.5.2. All missing Python packages wer installed using `pip3 install`.
@@ -38,7 +38,7 @@ We rented a VPS with Ubuntu 16.04 Server (64-bit version), 2 vCore, ~2GHz, 4 GB 
 
 ## <div id="A2"> <a href="#A1">Linux Server  </a> </div>
 
-The server itself needs little setup work. Most importantly the root user creates individual users and add them to the group.
+The server itself needs little setup work. Most importantly the root user creates individual users and adds them to the group.
 ```
 adduser abc
 groupadd AdvNum1 
@@ -92,7 +92,7 @@ PRIMARY KEY (DataType, Source)
 );
 ```
 
-The underlyings we aim to get data for are defined here. A ticker can only occur once and will be used in output talbes as foreign key.
+The underlyings we aim to get data for are defined here. A ticker can only occur once and will be used in output tables as foreign key.
 ```
 CREATE TABLE Underlyings (
 Ticker VARCHAR(10),
@@ -111,7 +111,7 @@ PRIMARY KEY (User, Source)
 );
 ```
 
-The below table is created to stores all End-of-Day price data we are fetching from Quandl. The columns represent all fields delivered from Quandl when requesting EOD Prices. 
+The below table is created to store all End-of-Day price data we are fetching from Quandl. The columns represent all fields delivered from Quandl when requesting EOD Prices. 
 
 ```
 CREATE TABLE Prices (
@@ -134,7 +134,7 @@ FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
 );
 ```
 
-Furthermore, the command below creates the table that stores all news data that we download from Yahoo Finance.
+Furthermore, the command below creates the table that stores all news data that we downloaded from Yahoo Finance.
 
 ```
 CREATE TABLE TickerNews (
@@ -157,6 +157,37 @@ FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
 
 
 ## <div id="C2"> <a href="#C1">Getting Price Data from Quandl</a> </div>
+
+### Quandl database ###
+
+The Quandl database has been chosen over Yahoo Finance for the stock price information. This is due to the discontinued support of the API of Yahoo Finance. Quandl is a platform that collects various types of data including economic data such as GDP or sentiment data but also financial data, which we will access for the purpose of this project. For our project we chose the Quandl database `EOD`which collects End of Day US Stock Prices. The publisher of this database is Quotemedia. The database comprises around 8000 stocks, which can be accessed through `EOD/{Ticker}` using the Quandl API. As we did only create a free account, we had access to 29 stocks which we entered into the `Underlyings` table in our database.
+
+### Quandl API ###
+
+We first import all relevant data from the `DatabaseConnection` file. Further we import the `quandl` package.
+```python
+from    DatabaseConnection import *
+import  quandl
+```
+
+To import all the informaiton stored in `DatabaseConnection`, we call:
+```python
+db = DBConn()
+```
+
+Then we have to provide the Quandl API Key, which is linked to the account we registered with. As the API key is stored in the `Authentication` table we call this entry:
+```python
+quandl.ApiConfig.api_key = db.apiKeyObject
+```
+
+We are now able to download the data from the Quandl database `EOD` with the following for loop, which executes the below line for each ticker in the `Underlyings` table. This command inserts the output of the price download directly into the database. As a last step, we close the connection to the database.
+```python
+for ticker in db.tickerObject:
+    db._insertQuandlPrices(ticker["Ticker"], quandl.get(db._getDataType("Quandl") + "/" + ticker["Ticker"], rows = 1))
+
+db.CloseConn()
+```
+
 
 ## collapsible markdown?
 
