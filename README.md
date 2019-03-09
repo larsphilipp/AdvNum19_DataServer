@@ -27,9 +27,10 @@ University of St. Gallen, 10.03.2019
 
 ## <div id="2"> <a href="#1">Introduction  </a> </div>
 
-This is the documentation for the first assignment of the class **Advanced Numerical Methods and Data Analysis** taught by Prof. Peter Gruber at the University of St. Gallen in Spring 2019. We - Elisa Fleissner, Lars Stauffenegger and Peter La Cour - are in the 2nd Semester of our Master studies and worked as a group with the aim to setup up an automated financial data mining application. Our goal is to collect price and news data of 50 Large Cap US Equities on a daily basis and store them on a data server. For the price data we use Quandl's API whilst the headlines are scraped from www.yahoo.com.
+This is the documentation for the first assignment of the class **Advanced Numerical Methods and Data Analysis** taught by Prof. Peter Gruber at the University of St. Gallen in Spring 2019. We - Elisa Fleissner, Lars Stauffenegger and Peter La Cour - are in the 2nd Semester of our Master studies and worked as a group with the aim to setup up an automated financial data mining application. Our goal is to collect price and news data of 50 Large Cap US Equities on a daily basis and store them on a data server. For the price data we use Quandl's API (www.quandl.com) whilst the headlines are scraped from www.yahoo.com.
+
 ### Project Plan ###
-After a short brainstorming session we decided to scrape financial data as we were already aware of available sources. Given the time horizon of roughly 2.5 weeks we immediately assigned independent tasks. Elisa took over the Quandl mining, Peter wrote the 
+After a short brainstorming session we decided to scrape financial data as we were already aware of available sources. Given the time horizon of roughly 2.5 weeks we immediately assigned independent tasks. Elisa took over the Quandl mining, Peter wrote the headline scraping script and Lars did setup the server and the MySQL tables and connections.
 
 ### Ressources ###
 We rented a VPS with Ubuntu 16.04 Server (64-bit version), 2 vCore, ~2GHz, 4 GB RAM, 50 GB at www.ovh.com. The main tools we used are MySQL 5.7.25 for Ubuntu and Python 3.5.2. All missing Python packages wer installed using `pip3 install`.
@@ -77,9 +78,11 @@ FLUSH PRIVILEGES;
 ```
 
 
-### Create Tables ###
+### Create tables ###
 
 The database is used to store in- and output values of the python codes. It consists of three input tables (RequestData, Underlyings, Authentications) and two output tables (Prices, Headlines).
+<br>
+The use of `PRIMARY KEY` and `FOREIGN KEY` ensures that we will not have duplicate entries and that we will use the same tickers we entered in the `Underlyings` table in both applications (get prices and get headlines). `PRIMARY KEY` allows to specify which column per entry shall be unique, and it is also possible to specify combinations that need to be unique, such as the combination of Date and Ticker in the `Prices` table. This means that every ticker can only have one entry per date and in the case of a multiple download on one day, an error would be raised. `FOREIGN KEY` refers to a `PRIMARY KEY` in the table specified through the `REFERENCE` statement and prevents invalid entries and thus protects the linkage between the different tables. We use a `FOREIGN KEY` in the output tables (Prices, Headlines) to make sure, that the Ticker in these tables are the same as they are in the `Underlyings` table.
 <br>
 The type of data that we will request is stored in the following table together with a desciption and the name of the data source. A combination of Source and DataType can only occur once.
 
@@ -150,12 +153,6 @@ FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
 );
 ```
 
-
-
---> Description of Foreign Key, Primary Key, Underlyings Reference
-
-
-
 ## <div id="C2"> <a href="#C1">Getting Price Data from Quandl</a> </div>
 
 ### Quandl database ###
@@ -188,7 +185,6 @@ for ticker in db.tickerObject:
 db.CloseConn()
 ```
 
-
 ## collapsible markdown?
 
 <details><summary>Click me</summary>
@@ -217,7 +213,7 @@ The `YahooFinanceNews.py` script was uploaded from our local machine using the c
 scp [local.file.path]/YahooFinanceNews.py [user.name]@[server.IP]:/home/advnum
 ```
 
-To get all the news headlines of the given companies the script uses the `Requests` and `Beautiful Soup` webscraping package along with the common `Pandas` and `Numpy` packages to download all the news articles using the companies ticker symbols saved in our `Underlyings` table. To write the data to the MySQL database we use `sqlalchemy` and `pymysql`.
+To get all the news headlines of the given companies the script uses the `Requests` and `Beautiful Soup` webscraping packages along with the common `Pandas` and `Numpy` packages to download all the news articles using the companies ticker symbols saved in our `Underlyings` table. To write the data to the MySQL database we use `sqlalchemy` and `pymysql`.
 
 ```python
 from    bs4         import BeautifulSoup    as bs
@@ -358,7 +354,7 @@ sudo apt-get install firefox
 ```
 
 However, to use the Firefox webdriver for the Python script we need to add its webdriver `geckodriver`. The webdriver can be downloaded here: https://github.com/mozilla/geckodriver/releases. 
-To add geckodriver to the server use  
+To add geckodriver to the server we use
 
 ```
 scp [/local/filepath/geckodriver] [user.name]@[serverIP]:/home/advnum
