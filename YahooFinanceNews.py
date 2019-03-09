@@ -94,3 +94,5 @@ for ticker in db.tickerObject:
 # Insert to DB
 db._insertNews(news_df)
 
+# Close database connection
+db.CloseConn()
