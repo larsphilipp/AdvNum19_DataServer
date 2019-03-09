@@ -155,6 +155,15 @@ FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
 );
 ```
 
+### Tables structure
+<img src="Screenshots/Image2.png"
+     alt="Screenshot of EP Model"
+     style="float: left; margin-right: 10px; padding-bottom: 30px;" />
+
+## <div id="X2"> <a href="#X1">Connecting the SQL database to the Python scripts</a> </div>
+
+
+
 ## <div id="C2"> <a href="#C1">Getting Price Data from Quandl</a> </div>
 
 ### Quandl database ###
