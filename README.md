@@ -23,7 +23,7 @@ University of St. Gallen, 10.03.2019
 4. <div id="C1"> <a href="#C2">Getting Price Data from Quandl </a></div>
 5. <div id="D1"> <a href="#D2">Yahoo Finance News Scrape </a></div>
 6. <div id="E1"> <a href="#E2">Setting up the Cronjobs </a></div>
-7. <div id="Z2"> <a href="#Z1">Installing Firefox on Linux</a> </div>
+7. <div id="Z1"> <a href="#Z2">Installing Firefox on Linux</a> </div>
 8. (Setting up GitHub?)
 
 ## <div id="2"> <a href="#1">Introduction  </a> </div>
