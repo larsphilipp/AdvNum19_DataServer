@@ -20,11 +20,12 @@ University of St. Gallen, 10.03.2019
 1. <div id="1"> <a href="#2">Introduction</a></div>
 2. <div id="A1"> <a href="#A2">Setting up the Server </a></div>
 3. <div id="B1"> <a href="#B2">Create Database in MySQL</a></div>
-4. <div id="C1"> <a href="#C2">Getting Price Data from Quandl </a></div>
-5. <div id="D1"> <a href="#D2">Yahoo Finance News Scrape </a></div>
-6. <div id="E1"> <a href="#E2">Setting up the Cronjobs </a></div>
-7. <div id="Z1"> <a href="#Z2">Installing Firefox on Linux</a> </div>
-8. (Setting up GitHub?)
+4. <div id="X1"> <a href="#X2">Connecting the SQL database to the Python scripts</a> </div>
+5. <div id="C1"> <a href="#C2">Getting Price Data from Quandl </a></div>
+6. <div id="D1"> <a href="#D2">Yahoo Finance News Scrape </a></div>
+7. <div id="E1"> <a href="#E2">Setting up the Cronjobs </a></div>
+8. <div id="Z1"> <a href="#Z2">Installing Firefox on Linux</a> </div>
+9. (Setting up GitHub?)
 
 ## <div id="2"> <a href="#1">Introduction  </a> </div>
 
@@ -156,12 +157,75 @@ FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
 ```
 
 ### Tables structure
+Below we drew an Entity-Relationship-Model for our data structure within the MySQL database.
+
 <img src="Screenshots/Image2.png"
      alt="Screenshot of EP Model"
      style="float: left; margin-right: 10px; padding-bottom: 30px;" />
 
 ## <div id="X2"> <a href="#X1">Connecting the SQL database to the Python scripts</a> </div>
 
+To easily read data from the MySQL database into our Python scripts, we created an object class in a separate Python file called `DatabaseConnection.py`. This file allows us to set the cursor to the required position and therefore linkes the scipts to the database and vice versa.
+<br> 
+First, we import the required packages.
+```python
+import pymysql
+import json
+import sqlalchemy  as db
+```
+
+As the object `DBConn` is called, the following code will directly be executed. The `config.json` file does contain the credentials needed for navigating within the server. Also, at initiation, the ticker and API key will be directly loaded.
+```python
+class DBConn():
+    def __init__(self):
+
+        with open('config.json') as json_file:
+            credentials = json.load(json_file)
+
+        dbServerName    = "localhost"
+        self.dbUser     = credentials['dataserverDB']['user']
+        self.dbPassword = credentials['dataserverDB']['password']
+        self.dbName     = "dataserver"
+        charSet         = "utf8mb4"
+        cursorType      = pymysql.cursors.DictCursor
+
+        # Cursor
+        self.connectionObject = pymysql.connect(host=dbServerName, user=self.dbUser, password=self.dbPassword, 
+                                db=self.dbName, charset=charSet,cursorclass=cursorType)
+        self.cursorObject = self.connectionObject.cursor()
+
+        # Load Data
+        self.tickerObject = self._getTickers()
+        self.apiKeyObject = self._getAPIKey()
+```
+We then defined several functions to be performed for the object `DBConn`:
+```python
+    def _getTickers(self):
+        self.cursorObject.execute("SELECT Ticker FROM Underlyings")
+        return self.cursorObject.fetchall()
+
+    def _getDataType(self, source):
+        self.cursorObject.execute("SELECT DataType FROM RequestData WHERE Source = '{}' ".format(source))
+        return self.cursorObject.fetchall()[0]["DataType"]
+
+    def _getAPIKey(self):
+        self.cursorObject.execute("SELECT APIKey FROM Authentications WHERE User = '{}' ".format(self.dbUser))
+        return self.cursorObject.fetchall()[0]["APIKey"]
+
+    def _insertQuandlPrices(self, ticker, quandlData):
+        date = quandlData.index[0].date().strftime('%Y-%m-%d')
+        self.cursorObject.execute("INSERT IGNORE INTO Prices (Date, Ticker, Open, High, Low, Close, Volume, Dividend, Split, Adj_Open, Adj_High, Adj_Low, Adj_Close, Adj_Vo$
+        self.connectionObject.commit()
+
+    def _insertNews(self, news_df):
+        self.engine = db.create_engine('mysql+pymysql://{0}:{1}@localhost/dataserver'.format(self.dbUser, self.dbPassword))
+        news_df.to_sql(name = "News", con = self.engine, if_exists='append', index = False)
+
+    def CloseConn(self):
+        # Close the database connection
+        self.connectionObject.close()
+
+```
 
 
 ## <div id="C2"> <a href="#C1">Getting Price Data from Quandl</a> </div>
