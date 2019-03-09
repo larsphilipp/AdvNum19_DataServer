@@ -91,8 +91,12 @@ time                     = round( time.hour + time.minute / 60, 2)
 for ticker in db.tickerObject:
     news_df              = news_df.append(get_news_of_company( ticker['Ticker'], time ), ignore_index = True, sort = False )
 
-# Insert to DB
+# Insert to database
 db._insertNews(news_df)
 
 # Close database connection
 db.CloseConn()
+
+
+
+# need to double check articles from yesterday
