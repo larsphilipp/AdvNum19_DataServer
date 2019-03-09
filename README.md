@@ -175,6 +175,9 @@ import sqlalchemy  as db
 ```
 
 As the object `DBConn` is called, the following code will directly be executed. The `config.json` file does contain the credentials needed for navigating within the server. Also, at initiation, the ticker and API key will be directly loaded.
+<details><summary>Click to see the code</summary>
+<p>
+     
 ```python
 class DBConn():
     def __init__(self):
@@ -198,7 +201,14 @@ class DBConn():
         self.tickerObject = self._getTickers()
         self.apiKeyObject = self._getAPIKey()
 ```
+</details>
+</p>
+<br>
+
 We then defined several functions to be performed for the object `DBConn`:
+<details><summary>Click to see the code</summary>
+<p>
+     
 ```python
     def _getTickers(self):
         self.cursorObject.execute("SELECT Ticker FROM Underlyings")
@@ -226,7 +236,8 @@ We then defined several functions to be performed for the object `DBConn`:
         self.connectionObject.close()
 
 ```
-
+</details>
+</p>
 
 ## <div id="C2"> <a href="#C1">Getting Price Data from Quandl</a> </div>
 
@@ -260,21 +271,6 @@ for ticker in db.tickerObject:
 db.CloseConn()
 ```
 
-## collapsible markdown?
-
-<details><summary>Click me</summary>
-<p>
-
-#### yes, even hidden code blocks!
-
-```python
-print("hello world!")
-```
-
-</p>
-</details>
-<br>
-
 <img src="Screenshots/QuandlPrices.png"
      alt="Screenshot of Prices database"
      style="float: left; margin-right: 10px; padding-bottom: 30px;" />
@@ -290,6 +286,9 @@ scp [local.file.path]/YahooFinanceNews.py [user.name]@[server.IP]:/home/advnum
 
 To get all the news headlines of the given companies the script uses the `Requests` and `Beautiful Soup` webscraping packages along with the common `Pandas` and `Numpy` packages to download all the news articles using the companies ticker symbols saved in our `Underlyings` table. To write the data to the MySQL database we use `sqlalchemy` and `pymysql`.
 
+<details><summary>Click to see the code</summary>
+<p>
+
 ```python
 from    bs4         import BeautifulSoup    as bs
 from    sqlalchemy  import create_engine
@@ -302,8 +301,14 @@ import  pymysql
 import  datetime
 
 ```
+</details>
+</p>
+<br>
 
 The code that gets the headlines, descriptions, links and the name of the newspapers that published the articles of a given company from Yahoo Finance is written as the `get_news_of_company` function using the `ticker` symbol as the input:
+
+<details><summary>Click to see the code</summary>
+<p>
 
 ```python
 def get_news_of_company( ticker ):
@@ -342,8 +347,14 @@ def get_news_of_company( ticker ):
 
 ```
 
+</details>
+</p>
+<br>
 
 After loading the database, selecting the tickers from the `Underlyings` table and creating the dataframe that is to be written to the `TickerNews` table we loop through the ticker list, append the data to the dataframe and finally update the dataframe to the TickerNews table using `.tosql`.
+
+<details><summary>Click to see the code</summary>
+<p>
 
 ```python
 # Load 'dataserver' database
@@ -370,7 +381,9 @@ connectionObject.close()
 
 ```
 
-
+</details>
+</p>
+<br>
 * Description of scraped data ?
 
 
