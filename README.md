@@ -20,7 +20,7 @@ University of St. Gallen, 10.03.2019
 1. <div id="1"> <a href="#2">Introduction</a></div>
 2. <div id="A1"> <a href="#A2">Setting up the Server </a></div>
 3. <div id="B1"> <a href="#B2">Create Database in MySQL</a></div>
-4. <div id="X1"> <a href="#X2">Connecting the SQL database to the Python scripts</a> </div>
+4. <div id="X1"> <a href="#X2">Connecting the MySQL database to the Python scripts</a> </div>
 5. <div id="C1"> <a href="#C2">Getting Price Data from Quandl </a></div>
 6. <div id="D1"> <a href="#D2">Yahoo Finance News Scrape </a></div>
 7. <div id="E1"> <a href="#E2">Setting up the Cronjobs </a></div>
@@ -163,7 +163,7 @@ Below we drew an Entity-Relationship-Model for our data structure within the MyS
      alt="Screenshot of EP Model"
      style="float: left; margin-right: 10px; padding-bottom: 30px;" />
 
-## <div id="X2"> <a href="#X1">Connecting the SQL database to the Python scripts</a> </div>
+## <div id="X2"> <a href="#X1">Connecting the MySQL database to the Python scripts</a> </div>
 
 To easily read data from the MySQL database into our Python scripts, we created an object class in a separate Python file called `DatabaseConnection.py`. This file allows us to set the cursor to the required position and therefore linkes the scipts to the database and vice versa.
 <br> 
