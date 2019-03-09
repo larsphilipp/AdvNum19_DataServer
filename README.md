@@ -25,7 +25,7 @@ University of St. Gallen, 10.03.2019
 6. <div id="D1"> <a href="#D2">Yahoo Finance News Scrape </a></div>
 7. <div id="E1"> <a href="#E2">Setting up the Cronjobs </a></div>
 8. <div id="Z1"> <a href="#Z2">Installing Firefox on Linux</a> </div>
-9. (Setting up GitHub?)
+9. <div id="Y1"> <a href="#Y2">Setting up GitHub</a> </div>
 
 ## <div id="2"> <a href="#1">Introduction  </a> </div>
 
@@ -214,7 +214,7 @@ We then defined several functions to be performed for the object `DBConn`:
 
     def _insertQuandlPrices(self, ticker, quandlData):
         date = quandlData.index[0].date().strftime('%Y-%m-%d')
-        self.cursorObject.execute("INSERT IGNORE INTO Prices (Date, Ticker, Open, High, Low, Close, Volume, Dividend, Split, Adj_Open, Adj_High, Adj_Low, Adj_Close, Adj_Vo$
+        self.cursorObject.execute("INSERT IGNORE INTO Prices (Date, Ticker, Open, High, Low, Close, Volume, Dividend, Split,                          Adj_Open, Adj_High, Adj_Low, Adj_Close, Adj_Volume) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(date, ticker, float(quandlData.Open[0]), float(quandlData.High[0]), float(quandlData.Low[0]), float(quandlData.Close[0]), float(quandlData.Volume[0]), float(quandlData.Dividend[0]), float(quandlData.Split[0]), float(quandlData.Adj_Open[0]), float(quandlData.Adj_High[0]), float(quandlData.Adj_Low[0]), float(quandlData.Adj_Close[0]), float(quandlData.Adj_Volume[0])))
         self.connectionObject.commit()
 
     def _insertNews(self, news_df):
@@ -436,3 +436,18 @@ scp [/local/filepath/geckodriver] [user.name]@[serverIP]:/home/advnum
 ```
 
 to secure copy the file from a local machine to the desired directory on the server.
+
+## <div id="Y2"> <a href="#Y1">Setting up GitHub</a> </div>
+
+### Setup ###
+We first installed `git` on our server. Then we navigated into the project folder, in our case `AdvNum19_DataServer` and create the repository with
+```
+git init --bare
+```
+
+--> Lars input
+
+### Collaboration ###
+To collaborate on this project, we decided to use [Github] (www.github.com), as this saved us the trouble to coordinate otherwise. We set up a repository and invited all group members to join. 
+
+
