@@ -45,9 +45,9 @@ def get_news_of_company( ticker, current_time ):
     # Get all the news links on yahoo finance into a list
     links                = [ 'www.finance.yahoo.com/' + k.find_next('a').get('href') for k in soup.find_all('h3') ]
     # Get all the newspaper names that published the articles into a list
-    newspaper            = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if "ago" in k.text ]
+    newspaper            = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if  ("ago" or "yesterday")  in k.text ]
     # Get relative time when articles were published
-    timestamp            = [ k.find_next('span').find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if "ago" in k.text ]
+    timestamp            = [ k.find_next('span').find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if  ("ago" or "yesterday")  in k.text ]
     # Estimate time of day in decimals when the article was published
     for k in range(len(timestamp)):
         if "minutes" in timestamp[k]:
