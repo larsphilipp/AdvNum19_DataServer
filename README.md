@@ -15,21 +15,21 @@ University of St. Gallen, 10.03.2019
 **Lars Stauffenegger** &nbsp; &nbsp; &nbsp;lars.stauffenegger@student.unisg.ch  <br>
 **Peter la Cour** &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; peter.lacour@student.unisg.ch
 
-## Overview
+## <div id="0">Overview</div>
 
-1. <div id="1"> <a href="#2">Introduction</a></div>
-2. <div id="A1"> <a href="#A2">Setting up the Server </a></div>
-3. <div id="B1"> <a href="#B2">Create Database in MySQL</a></div>
-4. <div id="X1"> <a href="#X2">Connecting the MySQL database to the Python scripts</a> </div>
-5. <div id="C1"> <a href="#C2">Getting Price Data from Quandl </a></div>
-6. <div id="D1"> <a href="#D2">Yahoo Finance News Scrape </a></div>
-7. <div id="E1"> <a href="#E2">Setting up the Cronjobs </a></div>
-8. <div id="Z1"> <a href="#Z2">Installing Firefox on Linux</a> </div>
+1. <a href="#2">Introduction</a>
+2. <a href="#A2">Setting up the Linux Server</a>
+3. <a href="#B2">Setting up the MySQL Database</a>
+4. <a href="#X2">Setting up the Database Connection to the Python Scripts</a>
+5. <a href="#C2">Getting Price Data from Quandl</a>
+6. <a href="#D2">Getting News Data from Yahoo Finance</a>
+7. <a href="#E2">Setting up the Cronjobs </a>
+8. <a href="#F2">Concluding Remarks</a>
 
 
-## <div id="2"> <a href="#1">Introduction  </a> </div>
+## <div id="2"> <a href="#0">Introduction  </a> </div>
 
-This is the documentation for the first assignment of the class **Advanced Numerical Methods and Data Analysis** taught by Prof. Peter Gruber at the University of St. Gallen in Spring 2019. We - Elisa Fleissner, Lars Stauffenegger and Peter La Cour - are in the 2nd Semester of our Master studies and worked as a group with the aim to set up an automated financial data mining application. Our goal is to collect price and news data of 50 Large Cap US Equities on a daily basis and store them on a data server. For the price data we use Quandl's API (www.quandl.com) whilst the headlines are scraped from [Yahoo Finance](https://finance.yahoo.com/).
+This is the documentation for the first assignment of the class **Advanced Numerical Methods and Data Analysis** taught by Prof. Peter Gruber at the University of St. Gallen in Spring 2019. We - Elisa Fleissner, Lars Stauffenegger and Peter La Cour - are in the 2nd Semester of our Master studies and worked as a group with the aim to set up an automated financial data mining application. Our goal is to collect price and news data of 29 Large Cap US Equities on a daily basis and store them on a data server. For the price data we use Quandl's API (www.quandl.com) whilst the headlines are scraped from [Yahoo Finance](https://finance.yahoo.com/).
 
 ### Project plan ###
 After a short brainstorming session we decided to scrape financial data as we were already aware of available sources. Given the time horizon of roughly 2.5 weeks we immediately assigned independent tasks. Elisa took over the Quandl mining, Peter wrote the headline scraping script and Lars did set up the server and the MySQL tables and connections.
@@ -37,9 +37,9 @@ After a short brainstorming session we decided to scrape financial data as we we
 ### Ressources ###
 We rented a VPS with Ubuntu 16.04 Server (64-bit version), 2 vCore, ~2GHz, 4 GB RAM, 50 GB at www.ovh.com. The main tools we used are MySQL 5.7.25 for Ubuntu and Python 3.5.2. All missing Python packages were installed using `pip3 install`.
 
+<div align="right"><a href="#0">Back to top</a> </div>
 
-
-## <div id="A2"> <a href="#A1">Linux Server  </a> </div>
+## <div id="A2"> <a href="#0">Setting up the Linux Server</a> </div>
 
 The server itself needs little setup work. Most importantly the root user creates individual users and adds them to the group.
 ```
@@ -54,7 +54,9 @@ chgrp AdvNum1 ./AdvNum19_DataServer
 chmod g+rwx  ./AdvNum19_DataServer
 ```
 
-## <div id="B2"> <a href="#B1">MySQL Database</a> </div>
+<div align="right"><a href="#0">Back to top</a> </div>
+
+## <div id="B2"> <a href="#0">Setting up the MySQL Database</a> </div>
 
 ### MySQL Setup ###
 
@@ -84,7 +86,7 @@ FLUSH PRIVILEGES;
 
 The database is used to store in- and output values of the python codes. It consists of three input tables (RequestData, Underlyings, Authentications) and two output tables (Prices, News).
 <br>
-The use of `PRIMARY KEY` and `FOREIGN KEY` ensures that we will not have duplicate entries and that we will use the same tickers we entered in the `Underlyings` table in both applications (get prices and get headlines). `PRIMARY KEY` allows to specify which column per entry shall be unique, and it is also possible to specify combinations that need to be unique, such as the combination of Date and Ticker in the `Prices` table. This means that every ticker can only have one entry per date and in the case of a multiple download on one day, an error would be raised. `FOREIGN KEY` refers to a `PRIMARY KEY` in the table specified through the `REFERENCE` statement and prevents invalid entries and thus protects the linkage between the different tables. We use a `FOREIGN KEY` in the output tables (Prices, News) to make sure, that the Ticker in these tables are the same as they are in the `Underlyings` table.
+The use of `PRIMARY KEY` and `FOREIGN KEY` ensures that we will not have duplicate entries and that we will use the same tickers we entered in the `Underlyings` table in both applications (get prices and get headlines). `PRIMARY KEY` allows to specify which column per entry shall be unique, and it is also possible to specify combinations that need to be unique, such as the combination of Date and Ticker in the `Prices` table. This means that every ticker can only have one entry per date and in the case of a multiple download on one day, an error would be raised. `FOREIGN KEY` refers to a `PRIMARY KEY` in the table specified through the `REFERENCE` statement and prevents invalid entries and thus protects the linkage between the different tables. We use a `FOREIGN KEY` in the output tables (Prices, News) to make sure, that the ticker in these tables are the same as they are in the `Underlyings` table.
 <br>
 <br>
 The type of data that we will request is stored in the following table together with a desciption and the name of the data source. A combination of Source and DataType can only occur once.
@@ -146,8 +148,8 @@ Furthermore, the command below creates the table that stores all news data that 
 CREATE TABLE News (
 Date DATE NOT NULL,
 Ticker VARCHAR(10),
-Headline CHAR(255),
-Description VARCHAR(16383),
+Headline CHAR(255) CHARACTER SET utf8,
+Description VARCHAR(16383) CHARACTER SET utf8,
 Newspaper CHAR(255),
 Link CHAR(255),
 Type CHAR(20),
@@ -164,7 +166,9 @@ Below we drew an Entity-Relationship-Model for our data structure within the MyS
      alt="Screenshot of EP Model"
      style="float: left; margin-right: 10px; padding-bottom: 30px;" />
 
-## <div id="X2"> <a href="#X1">Connecting the MySQL database to the Python scripts</a> </div>
+<div align="right"><a href="#0">Back to top</a> </div>
+
+## <div id="X2"> <a href="#0">Database Connection to the Python Scripts</a> </div>
 
 To easily read data from the MySQL database into our Python scripts, we created an object class in a separate Python file called `DatabaseConnection.py`. This file allows us to organise and reuse data base communication logic in an efficient manner for both mining codes.
 <br> 
@@ -175,7 +179,7 @@ import json
 import sqlalchemy  as db
 ```
 
-As the object `DBConn` is called, the following code will directly be executed. The `config.json` file does contain the credentials needed to login to the database. Also, at initiation, the ticker and API key will be directly loaded.
+As the object `DBConn` is called, the following code will directly be executed. The `config.json` file does contain the credentials needed to login to the database. Also, at initiation, the ticker list from the `Underlyings` table and Quandl API key will be loaded directly.
 <details><summary>Click to see the code</summary>
 <p>
      
@@ -205,7 +209,7 @@ class DBConn():
 </p>
 <br>
 
-We then defined several functions to be performed for the object `DBConn`. These functions execute predefined SQL statements, some of which with variable input:
+We then defined several functions to be performed for the object `DBConn`. These functions execute predefined SQL statements and are used to structure and faciliate the database communication in our code. 
 <details><summary>Click to see the code</summary>
 <p>
      
@@ -228,12 +232,12 @@ We then defined several functions to be performed for the object `DBConn`. These
         self.connectionObject.commit()
 
     def _insertNews(self, news_df):
-        self.engine = db.create_engine('mysql+pymysql://{0}:{1}@localhost/dataserver'.format(self.dbUser, self.dbPassword))
+        self.engine = db.create_engine('mysql+pymysql://{0}:{1}@localhost:3306/dataserver'.format(self.dbUser, self.dbPassword))
         news_df.to_sql(name = "News", con = self.engine, if_exists='append', index = False)
 
-    def _getYesterdaysNews(self, yesterday):
+    def _getYesterdaysNews(self, ticker, yesterday):
         self.engine = db.create_engine('mysql+pymysql://{0}:{1}@localhost/dataserver'.format(self.dbUser, self.dbPassword))
-        return read_sql("SELECT * FROM News WHERE Date = " + yesterday + ";", con = self.engine)
+        return pd.read_sql("SELECT * FROM News WHERE (Date = '" + yesterday + "') AND (Ticker = '" + ticker + "');", con = self.engine)
 
     def CloseConn(self):
         # Close the database connection
@@ -243,7 +247,9 @@ We then defined several functions to be performed for the object `DBConn`. These
 </p>
 <br>
 
-## <div id="C2"> <a href="#C1">Getting Price Data from Quandl</a> </div>
+<div align="right"><a href="#0">Back to top</a> </div>
+
+## <div id="C2"> <a href="#0">Getting Price Data from Quandl</a> </div>
 
 ### Quandl database ###
 
@@ -251,23 +257,24 @@ The Quandl database has been chosen over Yahoo Finance for the stock price infor
 
 ### Quandl API ###
 
-Withing the `EODQuandl.py` file we first import all relevant data from the `DatabaseConnection.py` file. Further we import the `quandl` package.
+Within the `EODQuandl.py` file we first import all relevant data from the `DatabaseConnection.py` file. Further, we import the `quandl` package.
 ```python
 from    DatabaseConnection import *
 import  quandl
 ```
 
-To import all the information stored in `DatabaseConnection.py`, we call:
+To initiate the database connection class from `DatabaseConnection.py`, we call:
 ```python
 db = DBConn()
 ```
 
-Then we have to provide the Quandl API Key, which is linked to the account we registered with. As the API key is stored in the `Authentications` table we call this entry:
+Then we have to provide the Quandl API Key, which is linked to the account we registered with. As the API key is stored in the `Authentications` table we call this entry to get the required information from the `DBConn` class:
 ```python
 quandl.ApiConfig.api_key = db.apiKeyObject
 ```
 
-We are now able to download the data from the Quandl database `EOD` with the following for loop, which executes the below line for each ticker in the `Underlyings` table. This command inserts the output of the price download directly into the database. As a last step, we close the connection to the database.
+We are now able to download the data from the Quandl database `EOD` with the following `for` loop, which loops over each ticker in the `Underlyings` table. The command below inserts the output of the price download directly into the database using the `._insertQuandlPrices` function from the `DBConn` class. As a last step, we close the connection to the database.
+
 ```python
 for ticker in db.tickerObject:
     db._insertQuandlPrices(ticker["Ticker"], quandl.get(db._getDataType("Quandl") + "/" + ticker["Ticker"], rows = 1))
@@ -280,15 +287,13 @@ db.CloseConn()
      style="float: left; margin-right: 10px; padding-bottom: 30px;" />
 <br>
 
-## <div id="D2"> <a href="#D1">Yahoo Finance News Scrape</a> </div>
+<div align="right"><a href="#0">Back to top</a> </div>
 
-The `YahooFinanceNews.py` script was uploaded from our local machine using the command below.
+## <div id="D2"> <a href="#0">Getting News Data from Yahoo Finance</a> </div>
 
-```
-scp [local.file.path]/YahooFinanceNews.py [user.name]@[server.IP]:/home/advnum
-```
+The `YahooFinanceNews.py` script was written to get all the news data displayed on yahoo finance for a given company in our `Underlyings` table.
 
-To get all the news headlines of the given companies the script uses the `Requests` and `Beautiful Soup` webscraping packages along with the common `Pandas` and `Numpy` packages to download all the news articles using the companies ticker symbols saved in our `Underlyings` table. To write the data to the MySQL database we use `sqlalchemy` and `pymysql`.
+To get all the news headlines of the given companies the script uses the `Requests` and `Beautiful Soup` webscraping packages along with the common `Pandas` and `Numpy` packages to download all the news articles using the companies ticker symbols saved in our `Underlyings` table. To ensure we get the correct timestamp and to deal with potential duplicate values we also import the `datetime` package.
 
 <details><summary>Click to see the code</summary>
 <p>
@@ -299,7 +304,6 @@ from    bs4                 import BeautifulSoup    as bs
 import  pandas              as pd
 import  numpy               as np
 import  requests
-import  pymysql
 import  datetime
 
 ```
@@ -307,7 +311,7 @@ import  datetime
 </p>
 <br>
 
-The code that gets the headlines, descriptions, links and the name of the newspapers that published the articles of a given company from Yahoo Finance is written as the `get_news_of_company` function using the `ticker` symbol as the input:
+The code that gets the headlines, descriptions, links and the name of the newspapers that published the articles of a given company from Yahoo Finance is written as the `get_news_of_company` function using the `ticker` symbol and today's and yesterday's data as inputs. We use yesterday's date to check if there are still news headlines from the day before on Yahoo Finance to avoid duplicates in our data. 
 
 <details><summary>Click to see the code</summary>
 <p>
@@ -321,7 +325,7 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
                          and newspapers of the given company from Yahoo Finance
     '''
     # Get the url with the ticker
-    url                  = "https://finance.yahoo.com/quote/AAPL/news?p=" + ticker
+    url                  = "https://finance.yahoo.com/quote/" + ticker + "/news?p=" + ticker
     response             = requests.get( url )
     soup                 = bs( response.content, "html.parser" )
 
@@ -361,15 +365,27 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
         else:
             types.append("Article")
 
-    # Generalise the newspaper names by removing "Videos"
+    # Generalise the newspaper names by removing " Videos"
     newspaper            = [ k.replace(" Videos","") for k in newspaper ]
 
-    # Create output DataFrame with dictionary dictionary of the scraped data
-    output               = pd.DataFrame( { "Ticker": ticker, "Date": todaysDate, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp } )
+    # Create Dictionary containing the data
+    data = { "Ticker": ticker, "Date": today, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp }
+
+    # Delete duplicate news on yahoo finance from dictionary lists
+    for k in headers:
+         if headers.count(k) > 1:
+            index = headers.index(k)
+            for l in ["Headline", "Link", "Description", "Newspaper", "Type", "Time"]:
+                data[l].pop( index )
+
+    # Create output DataFrame with dictionary of the scraped data
+    output               = pd.DataFrame( data )
 
     # Check for news duplicates from yesterday's news and remove them from the output dataframe
     yesterdayNews        = db._getYesterdaysNews( ticker, yesterdaysDate )
-    output               = output[ output[["Ticker", "Headline", "Newspaper"]].apply( lambda x: x.values.tolist() not in yesterdayNews[["Ticker", "Headline", "Newspaper"]].values.tolist(), axis=1 ) ]
+    output               = output[ output[[ "Ticker", "Headline", "Newspaper" ]].apply( lambda x: x.values.tolist() not in yesterdayNews[[ "Ticker", "Headline", "Newspaper" ]].values.tolist(), axis=1 ) ]
+
+    return output
 
     return output
 ```
@@ -378,7 +394,8 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
 </p>
 <br>
 
-After loading the database, selecting the tickers from the `Underlyings` table and creating the dataframe that is to be written to the `News` table we loop through the ticker list, append the data to the dataframe and finally update the dataframe to the `News` table using `.tosql`.
+After loading the `DBConn` class, and getting the current time, today's date and yesterday's date, we loop through the ` db.tickerObject` which contains all the tickers from the `Underlyings` table and insert the dataframe output from the `get_news_of_company()` function directly into the `News` database table.
+
 
 <details><summary>Click to see the code</summary>
 <p>
@@ -410,9 +427,9 @@ db.CloseConn()
      alt="Screenshot of TickerNews database"
      style="float: left; margin-right: 10px;padding-bottom: 30px;" />
 
+<div align="right"><a href="#0">Back to top</a> </div>
 
-
-## <div id="E2"><a href="#E1">Setting up the Cronjobs </a> </div>
+## <div id="E2"><a href="#0">Setting up the Cronjobs </a> </div>
 
 
 To automatically run the script each day we set up a cronjob on the server using the commandline code:
@@ -436,35 +453,8 @@ GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab
 
 This will automatically populate the tables in our database at 23:30 from Monday to Friday. In the future we could potentially use this data to analyse the impact of news on stock prices using a sentiment analysis of the news headlines.
 
+<div align="right"><a href="#0">Back to top</a> </div>
 
+## <div id="F2"><a href="#0">Concluding Remarks</a> </div>
 
-
-
-## <div id="Z2"> <a href="#Z1">Installing Firefox on Linux</a> </div>
-
-To install Firefox on Linux we first add its repository with the command:
-
-```
-sudo add-apt-repository ppa:mozillateam/firefox-next
-```
-
-Before continuing we update the packages on our server to ensure that the new firefox is compatible:
-
-```
-sudo apt-get update
-```
-
-Finally, we run the following command to install Firefox:
-
-```
-sudo apt-get install firefox
-```
-
-However, to use the Firefox webdriver for the Python script we need to add its webdriver `geckodriver`. The webdriver can be downloaded here: https://github.com/mozilla/geckodriver/releases. 
-To add geckodriver to the server we use
-
-```
-scp [/local/filepath/geckodriver] [user.name]@[serverIP]:/home/advnum
-```
-
-to secure copy the file from a local machine to the desired directory on the server.
+<div align="right"><a href="#0">Back to top</a> </div>
