@@ -110,7 +110,6 @@ yesterday                = ( datetime.datetime.today() - datetime.timedelta(days
 # Loop through ticker list to get news data from Yahoo Finance and insert into database
 for ticker in db.tickerObject:
     db._insertNews( get_news_of_company( ticker['Ticker'], time, today, yesterday ) )
-    print(ticker['Ticker'])
 
 # Close database connection
 db.CloseConn()
