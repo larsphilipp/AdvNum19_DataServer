@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>README</title>
+
+
+<style type="text/css">
+body {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  padding: 30px; }
+
+body > *:first-child {
+  margin-top: 0 !important; }
+body > *:last-child {
+  margin-bottom: 0 !important; }
+
+a {
+  color: #4183C4; }
+a.absent {
+  color: #cc0000; }
+a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative; }
+
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+  text-decoration: none; }
+
+h1 tt, h1 code {
+  font-size: inherit; }
+
+h2 tt, h2 code {
+  font-size: inherit; }
+
+h3 tt, h3 code {
+  font-size: inherit; }
+
+h4 tt, h4 code {
+  font-size: inherit; }
+
+h5 tt, h5 code {
+  font-size: inherit; }
+
+h6 tt, h6 code {
+  font-size: inherit; }
+
+h1 {
+  font-size: 28px;
+  color: black; }
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+  color: black; }
+
+h3 {
+  font-size: 18px; }
+
+h4 {
+  font-size: 16px; }
+
+h5 {
+  font-size: 14px; }
+
+h6 {
+  color: #777777;
+  font-size: 14px; }
+
+p, blockquote, ul, ol, dl, li, table, pre {
+  margin: 15px 0; }
+
+hr {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+  border: 0 none;
+  color: #cccccc;
+  height: 4px;
+  padding: 0;
+}
+
+body > h2:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+body > h1:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+  body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0; }
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  margin-top: 0; }
+
+li p.first {
+  display: inline-block; }
+li {
+  margin: 0; }
+ul, ol {
+  padding-left: 30px; }
+
+ul :first-child, ol :first-child {
+  margin-top: 0; }
+
+dl {
+  padding: 0; }
+  dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px; }
+    dl dt:first-child {
+      padding: 0; }
+    dl dt > :first-child {
+      margin-top: 0; }
+    dl dt > :last-child {
+      margin-bottom: 0; }
+  dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px; }
+    dl dd > :first-child {
+      margin-top: 0; }
+    dl dd > :last-child {
+      margin-bottom: 0; }
+
+blockquote {
+  border-left: 4px solid #dddddd;
+  padding: 0 15px;
+  color: #777777; }
+  blockquote > :first-child {
+    margin-top: 0; }
+  blockquote > :last-child {
+    margin-bottom: 0; }
+
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }
+
+img {
+  max-width: 100%; }
+
+span.frame {
+  display: block;
+  overflow: hidden; }
+  span.frame > span {
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto; }
+  span.frame span img {
+    display: block;
+    float: left; }
+  span.frame span span {
+    clear: both;
+    color: #333333;
+    display: block;
+    padding: 5px 0 0; }
+span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center; }
+  span.align-center span img {
+    margin: 0 auto;
+    text-align: center; }
+span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right; }
+  span.align-right span img {
+    margin: 0;
+    text-align: right; }
+span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left; }
+  span.float-left span {
+    margin: 13px 0 0; }
+span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right; }
+  span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right; }
+
+code, tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px; }
+
+pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent; }
+
+.highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+  pre code, pre tt {
+    background-color: transparent;
+    border: none; }
+
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb
+}
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+
+
+</head>
+
+<body>
+
+<div align="right">
+Advanced Numerical Methods and Data Analysis - FS19-8,780
+<br>
+University of St. Gallen, 10.03.2019
+<br>
+</div>
+
+<hr>
+
+<h1 id="toc_0">Dataserver Project Description</h1>
+
+<p><strong>Elisa Fleissner</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  elisa.fleissner@student.unisg.ch <br>
+<strong>Lars Stauffenegger</strong> &nbsp; &nbsp; &nbsp;lars.stauffenegger@student.unisg.ch  <br>
+<strong>Peter la Cour</strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; peter.lacour@student.unisg.ch</p>
+
+<h2 id="toc_1"><div id="0">Overview</div></h2>
+
+<ol>
+<li><a href="#2">Introduction</a></li>
+<li><a href="#A2">Setting up the Linux Server</a></li>
+<li><a href="#B2">Setting up the MySQL Database</a></li>
+<li><a href="#X2">Setting up the Database Connection to the Python Scripts</a></li>
+<li><a href="#C2">Getting Price Data from Quandl</a></li>
+<li><a href="#D2">Getting News Data from Yahoo Finance</a></li>
+<li><a href="#E2">Setting up the Cronjobs </a></li>
+<li><a href="#F2">Concluding Remarks</a></li>
+</ol>
+
+<h2 id="toc_2"><div id="2"> <a href="#0">Introduction  </a> </div></h2>
+
+<p>This is the documentation for the first assignment of the class <strong>Advanced Numerical Methods and Data Analysis</strong> taught by Prof. Peter Gruber at the University of St. Gallen in Spring 2019. We - Elisa Fleissner, Lars Stauffenegger and Peter La Cour - are in the 2nd Semester of our Master studies and worked as a group with the aim to set up an automated financial data mining application. Our goal is to collect price and news data of 29 Large Cap US Equities on a daily basis and store them on a data server. For the price data we use Quandl&#39;s API (www.quandl.com) whilst the headlines are scraped from <a href="https://finance.yahoo.com/">Yahoo Finance</a>.</p>
+
+<h3 id="toc_3">Project plan</h3>
+
+<p>After a short brainstorming session we decided to scrape financial data as we were already aware of available sources. Given the time horizon of roughly 2.5 weeks we immediately assigned independent tasks. Elisa took over the Quandl mining, Peter wrote the headline scraping script and Lars did set up the server and the MySQL tables and connections.</p>
+
+<h3 id="toc_4">Ressources</h3>
+
+<p>We rented a VPS with Ubuntu 16.04 Server (64-bit version), 2 vCore, ~2GHz, 4 GB RAM, 50 GB at www.ovh.com. The main tools we used are MySQL 5.7.25 for Ubuntu and Python 3.5.2. All missing Python packages were installed using <code>pip3 install</code>.</p>
+
+<div align="right"><a href="#0">Back to top</a> </div>
+
+<h2 id="toc_5"><div id="A2"> <a href="#0">Setting up the Linux Server</a> </div></h2>
+
+<p>The server itself needs little setup work. Most importantly the root user creates individual users and adds them to the group.</p>
+
+<div><pre><code class="language-none">adduser abc
+groupadd AdvNum1 
+usermod -a -G AdvNum1 abc</code></pre></div>
+
+<p>The project is cloned from Github into individual workspaces and - for production - into the home directory, where rights are granted to the group.</p>
+
+<div><pre><code class="language-none">git clone https://github.com/larsphilipp/AdvNum19_DataServer.git
+chgrp AdvNum1 ./AdvNum19_DataServer
+chmod g+rwx  ./AdvNum19_DataServer</code></pre></div>
+
+<div align="right"><a href="#0">Back to top</a> </div>
+
+<h2 id="toc_6"><div id="B2"> <a href="#0">Setting up the MySQL Database</a> </div></h2>
+
+<h3 id="toc_7">MySQL Setup</h3>
+
+<p>Once the server is ready and accessible for all users, a MySQL database is installed and the root user starts the application in order to set a password.</p>
+
+<div><pre><code class="language-none">sudo apt-get install mysql-server
+/usr/bin/mysql -u root -p</code></pre></div>
+
+<p>The root user now creates a database named after the project.</p>
+
+<div><pre><code class="language-none">CREATE DATABASE dataserver;</code></pre></div>
+
+<p>Then personal users are added. </p>
+
+<div><pre><code class="language-none">INSERT INTO mysql.user (User,Host,authentication_string,ssl_cipher,x509_issuer,x509_subject) VALUES
+(&#39;abc&#39;,&#39;localhost&#39;,PASSWORD(&#39;secret&#39;),&#39;&#39;,&#39;&#39;,&#39;&#39;);
+FLUSH PRIVILEGES;</code></pre></div>
+
+<p>Rights are granted for the relevant database.</p>
+
+<div><pre><code class="language-none">GRANT SELECT,INSERT,UPDATE ON dataserver.* TO &#39;abc&#39;@&#39;localhost&#39;;
+FLUSH PRIVILEGES;</code></pre></div>
+
+<h3 id="toc_8">Create tables</h3>
+
+<p>The database is used to store in- and output values of the python codes. It consists of three input tables (RequestData, Underlyings, Authentications) and two output tables (Prices, News).</p>
+
+<p>The use of <code>PRIMARY KEY</code> and <code>FOREIGN KEY</code> ensures that we will not have duplicate entries and that we will use the same tickers we entered in the <code>Underlyings</code> table in both applications (get prices and get headlines). <code>PRIMARY KEY</code> allows to specify which column per entry shall be unique, and it is also possible to specify combinations that need to be unique, such as the combination of Date and Ticker in the <code>Prices</code> table. This means that every ticker can only have one entry per date and in the case of a multiple download on one day, an error would be raised. </p>
+
+<p>The <code>FOREIGN KEY</code> refers to a <code>PRIMARY KEY</code> in the table specified through the <code>REFERENCE</code> statement and prevents invalid entries and thus protects the linkage between the different tables. We use a <code>FOREIGN KEY</code> in the output tables (Prices, News) to make sure, that the ticker in these tables are the same as they are in the <code>Underlyings</code> table.</p>
+
+<p>The type of data that we will request is stored in the following table together with a desciption and the name of the data source. A combination of Source and DataType can only occur once.</p>
+
+<div><pre><code class="language-none">CREATE TABLE RequestData (
+DataType VARCHAR(20),
+Description CHAR(30),
+Source VARCHAR(20),
+PRIMARY KEY (DataType, Source)
+);</code></pre></div>
+
+<p>The underlyings we aim to get data for are defined here. A ticker can only occur once and will be used in output tables as foreign key.</p>
+
+<div><pre><code class="language-none">CREATE TABLE Underlyings (
+Ticker VARCHAR(10),
+Name VARCHAR(20),
+PRIMARY KEY (Ticker)
+);</code></pre></div>
+
+<p>The authentications table centrally stores APIKeys if needed for web requests. Per source and user only one key can exist in the table.</p>
+
+<div><pre><code class="language-none">CREATE TABLE Authentications (
+User VARCHAR(25),
+APIKey VARCHAR(30),
+Source VARCHAR(20),
+PRIMARY KEY (User, Source)
+);</code></pre></div>
+
+<p>The below table is created to store all End-of-Day price data we are fetching from Quandl. The columns represent all fields delivered from Quandl when requesting EOD Prices. </p>
+
+<div><pre><code class="language-none">CREATE TABLE Prices (
+Date DATE NOT NULL,
+Ticker VARCHAR(10),
+Open DECIMAL(14,4),
+High DECIMAL(14,4),
+Low DECIMAL(14,4),
+Close DECIMAL(14,4),
+Volume INT,
+Dividend DECIMAL(14,4),
+Split DECIMAL(14,4),
+Adj_Open DECIMAL(14,4),
+Adj_High DECIMAL(14,4),
+Adj_Low DECIMAL(14,4),
+Adj_Close DECIMAL(14,4),
+Adj_Volume INT,
+PRIMARY KEY (Date, Ticker),
+FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
+);</code></pre></div>
+
+<p>Furthermore, the command below creates the table that stores all news data that we downloaded from Yahoo Finance.</p>
+
+<div><pre><code class="language-none">CREATE TABLE News (
+Date DATE NOT NULL,
+Ticker VARCHAR(10),
+Headline CHAR(255) CHARACTER SET utf8,
+Description VARCHAR(16383) CHARACTER SET utf8,
+Newspaper CHAR(255),
+Link CHAR(255),
+Type CHAR(20),
+Time VARCHAR(10),
+PRIMARY KEY (Date, Ticker, Headline, Newspaper),
+FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
+);</code></pre></div>
+
+<h3 id="toc_9">Tables structure</h3>
+
+<p>Below we drew an Entity-Relationship-Model for our data structure within the MySQL database.</p>
+
+<p><img src="Screenshots/EntityRelationshipModel.png"
+     alt="Screenshot of EP Model"
+     style="float: left; margin-right: 10px; padding-bottom: 30px;" /></p>
+
+<div align="right"><a href="#0">Back to top</a> </div>
+
+<h2 id="toc_10"><div id="X2"> <a href="#0">Setting up the Database Connection to the Python Scripts</a> </div></h2>
+
+<p>To easily read data from the MySQL database into our Python scripts, we created an object class in a separate Python file called <code>DatabaseConnection.py</code>. This file allows us to organise and reuse data base communication logic in an efficient manner for both mining codes.</p>
+
+<p>First, we import the required packages.</p>
+
+<div><pre><code class="language-python">import pymysql
+import json
+import sqlalchemy  as db</code></pre></div>
+
+<p>As the object <code>DBConn</code> is called, the following code will directly be executed. The <code>config.json</code> file does contain the credentials needed to login to the database. Also, at initiation, the ticker list from the <code>Underlyings</code> table and Quandl API key will be loaded directly.
+<details><summary>Click to see the code</summary>
+<p></p>
+
+<div><pre><code class="language-python">class DBConn():
+    def __init__(self):
+
+        with open(&#39;config.json&#39;) as json_file:
+            credentials = json.load(json_file)
+
+        dbServerName    = &quot;localhost&quot;
+        self.dbUser     = credentials[&#39;dataserverDB&#39;][&#39;user&#39;]
+        self.dbPassword = credentials[&#39;dataserverDB&#39;][&#39;password&#39;]
+        self.dbName     = &quot;dataserver&quot;
+        charSet         = &quot;utf8mb4&quot;
+        cursorType      = pymysql.cursors.DictCursor
+
+        # Cursor
+        self.connectionObject = pymysql.connect(host=dbServerName, user=self.dbUser, password=self.dbPassword, db=self.dbName, charset=charSet,cursorclass=cursorType)
+        self.cursorObject = self.connectionObject.cursor()
+
+        # Load Data
+        self.tickerObject = self._getTickers()
+        self.apiKeyObject = self._getAPIKey()</code></pre></div>
+
+<p></details>
+</p>
+<br></p>
+
+<p>We then defined several functions to be performed for the object <code>DBConn</code>. These functions execute predefined SQL statements and are used to structure and faciliate the database communication in our code. 
+<details><summary>Click to see the code</summary>
+<p></p>
+
+<div><pre><code class="language-python">    def _getTickers(self):
+        self.cursorObject.execute(&quot;SELECT Ticker FROM Underlyings&quot;)
+        return self.cursorObject.fetchall()
+
+    def _getDataType(self, source):
+        self.cursorObject.execute(&quot;SELECT DataType FROM RequestData WHERE Source = &#39;{}&#39; &quot;.format(source))
+        return self.cursorObject.fetchall()[0][&quot;DataType&quot;]
+
+    def _getAPIKey(self):
+        self.cursorObject.execute(&quot;SELECT APIKey FROM Authentications WHERE User = &#39;{}&#39; &quot;.format(self.dbUser))
+        return self.cursorObject.fetchall()[0][&quot;APIKey&quot;]
+
+    def _insertQuandlPrices(self, ticker, quandlData):
+        date = quandlData.index[0].date().strftime(&#39;%Y-%m-%d&#39;)
+        self.cursorObject.execute(&quot;INSERT IGNORE INTO Prices (Date, Ticker, Open, High, Low, Close, Volume, Dividend, Split, Adj_Open, Adj_High, Adj_Low, Adj_Close, Adj_Volume) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)&quot;,(date, ticker, float(quandlData.Open[0]), float(quandlData.High[0]), float(quandlData.Low[0]), float(quandlData.Close[0]), float(quandlData.Volume[0]), float(quandlData.Dividend[0]), float(quandlData.Split[0]), float(quandlData.Adj_Open[0]), float(quandlData.Adj_High[0]), float(quandlData.Adj_Low[0]), float(quandlData.Adj_Close[0]), float(quandlData.Adj_Volume[0])))
+        self.connectionObject.commit()
+
+    def _insertNews(self, news_df):
+        self.engine = db.create_engine(&#39;mysql+pymysql://{0}:{1}@localhost:3306/dataserver&#39;.format(self.dbUser, self.dbPassword))
+        news_df.to_sql(name = &quot;News&quot;, con = self.engine, if_exists=&#39;append&#39;, index = False)
+
+    def _getYesterdaysNews(self, ticker, yesterday):
+        self.engine = db.create_engine(&#39;mysql+pymysql://{0}:{1}@localhost/dataserver&#39;.format(self.dbUser, self.dbPassword))
+        return pd.read_sql(&quot;SELECT * FROM News WHERE (Date = &#39;&quot; + yesterday + &quot;&#39;) AND (Ticker = &#39;&quot; + ticker + &quot;&#39;);&quot;, con = self.engine)
+
+    def CloseConn(self):
+        # Close the database connection
+        self.connectionObject.close()</code></pre></div>
+
+<p></details>
+</p>
+<br></p>
+
+<div align="right"><a href="#0">Back to top</a> </div>
+
+<h2 id="toc_11"><div id="C2"> <a href="#0">Getting Price Data from Quandl</a> </div></h2>
+
+<h3 id="toc_12">Quandl database</h3>
+
+<p>The Quandl database has been chosen over Yahoo Finance for the stock price information. This is due to the discontinued support of the API of Yahoo Finance. Quandl is a platform that collects various types of data including economic data such as GDP or sentiment data but also financial data, which we will access for the purpose of this project. For our project we chose the Quandl database <code>EOD</code> which collects End of Day US Stock Prices. The publisher of this database is Quotemedia. The database comprises around 8000 stocks, which can be accessed through <code>EOD/{Ticker}</code> using the Quandl API. As we did only create a free account, we had access to 29 stocks which we entered into the <code>Underlyings</code> table in our database.</p>
+
+<h3 id="toc_13">Quandl API</h3>
+
+<p>Within the <code>EODQuandl.py</code> file we first import all relevant data from the <code>DatabaseConnection.py</code> file. Further, we import the <code>quandl</code> package.</p>
+
+<div><pre><code class="language-python">from    DatabaseConnection import *
+import  quandl</code></pre></div>
+
+<p>To initiate the database connection class from <code>DatabaseConnection.py</code>, we call:</p>
+
+<div><pre><code class="language-python">db = DBConn()</code></pre></div>
+
+<p>Then we have to provide the Quandl API Key, which is linked to the account we registered with. As the API key is stored in the <code>Authentications</code> table we call this entry to get the required information from the <code>DBConn</code> class:</p>
+
+<div><pre><code class="language-python">quandl.ApiConfig.api_key = db.apiKeyObject</code></pre></div>
+
+<p>We are now able to download the data from the Quandl database <code>EOD</code> with the following <code>for</code> loop, which loops over each ticker in the <code>Underlyings</code> table. The command below inserts the output of the price download directly into the database using the <code>._insertQuandlPrices</code> function from the <code>DBConn</code> class. As a last step, we close the connection to the database.</p>
+
+<div><pre><code class="language-python">for ticker in db.tickerObject:
+    db._insertQuandlPrices(ticker[&quot;Ticker&quot;], quandl.get(db._getDataType(&quot;Quandl&quot;) + &quot;/&quot; + ticker[&quot;Ticker&quot;], rows = 1))
+
+db.CloseConn()</code></pre></div>
+
+<p><img src="Screenshots/QuandlPrices.png"
+     alt="Screenshot of Prices database"
+     style="float: left; margin-right: 10px; padding-bottom: 30px;" />
+<br></p>
+
+<div align="right"><a href="#0">Back to top</a> </div>
+
+<h2 id="toc_14"><div id="D2"> <a href="#0">Getting News Data from Yahoo Finance</a> </div></h2>
+
+<p>The <code>YahooFinanceNews.py</code> script was written to get all the news data displayed on yahoo finance for a given company in our <code>Underlyings</code> table.</p>
+
+<h3 id="toc_15">Yahoo Finance News Scrape</h3>
+
+<p>To get all the news headlines of the given companies the script uses the <code>Requests</code> and <code>Beautiful Soup</code> webscraping packages along with the common <code>Pandas</code> and <code>Numpy</code> packages to download all the news articles using the companies ticker symbols saved in our <code>Underlyings</code> table. To ensure we get the correct timestamp and to deal with potential duplicate values we also import the <code>datetime</code> package.</p>
+
+<p><details><summary>Click to see the code</summary>
+<p></p>
+
+<div><pre><code class="language-python">from    DatabaseConnection  import *
+from    bs4                 import BeautifulSoup    as bs
+import  pandas              as pd
+import  numpy               as np
+import  requests
+import  datetime
+</code></pre></div>
+
+<p></details>
+</p>
+<br></p>
+
+<p>The code that gets the headlines, descriptions, links and the name of the newspapers that published the articles of a given company from Yahoo Finance is written as the <code>get_news_of_company</code> function using the <code>ticker</code> symbol and today&#39;s and yesterday&#39;s data as inputs. We use yesterday&#39;s date to check if there are still news headlines from the day before on Yahoo Finance to avoid duplicates in our data. </p>
+
+<p><details><summary>Click to see the code</summary>
+<p></p>
+
+<div><pre><code class="language-python">def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
+    &#39;&#39;&#39;
+    Description:         Gets all the news from Yahoo Finance for the company with the specified ticker symbol
+    Inputs:              Ticker symbol of company, current time when the script is running, today&#39;s date and yesterday&#39;s date
+    Outputs:             DataFrame with all the news headlines, descriptions, links, dates, relative timestamps, types (Videos or Articles)
+                         and newspapers of the given company from Yahoo Finance
+    &#39;&#39;&#39;
+    # Get the url with the ticker
+    url                  = &quot;https://finance.yahoo.com/quote/&quot; + ticker + &quot;/news?p=&quot; + ticker
+    response             = requests.get( url )
+    soup                 = bs( response.content, &quot;html.parser&quot; )
+
+    # Get all the newspaper headlines into a list
+    headers              = [ k.text for k in soup.find_all(&#39;h3&#39;) ]
+
+    # Get all the newspaper descriptions into a list
+    descriptions         = [ k.find_next(&#39;p&#39;).text for k in soup.find_all(&#39;h3&#39;) ]
+
+    # Get all the news links on yahoo finance into a list
+    links                = [ &#39;www.finance.yahoo.com/&#39; + k.find_next(&#39;a&#39;).get(&#39;href&#39;) for k in soup.find_all(&#39;h3&#39;) ]
+
+    # Get all the names of the newspaper that published the articles into a list
+    newspaper            = [ k.find_next(&#39;span&#39;).text for k in soup.find_all( class_ = &#39;C(#959595)&#39; ) if k.find_next(&#39;h3&#39;).text in headers ]
+
+    # Get relative time when articles were published
+    timestamp            = [ k.find_next(&#39;span&#39;).find_next(&#39;span&#39;).text for k in soup.find_all( class_ = &#39;C(#959595)&#39; ) if k.find_next(&#39;h3&#39;).text in headers ]
+
+    # Estimate the time of day in decimals when the article was published, i.e. 10:30 =&gt; 10.5 or 17:45 =&gt; 17.75
+    for k in range(len(timestamp)):
+        if &quot;minutes&quot; in timestamp[k]:
+            timestamp[k] = round( currentTime - float( timestamp[k].replace( &quot; minutes ago&quot;, &quot;&quot; ) ) / 60, 2 )
+        elif &quot;hours&quot; in timestamp[k]:
+            timestamp[k] = round( currentTime - float( timestamp[k].replace( &quot; hours ago&quot;, &quot;&quot; ) ) )
+        elif &quot;hour&quot; in timestamp[k]:
+            timestamp[k] = round( currentTime - float( timestamp[k].replace( &quot; hour ago&quot;, &quot;&quot; ) ) )
+        elif &quot;yesterday&quot; in timestamp[k]:
+            timestamp[k] = round( currentTime - 24.0 )
+        else:
+            timestamp[k] = np.nan
+
+    # Get the types of news into a list (Video or Article) based on the news tag on Yahoo Finance
+    types                = []
+    for k in range(len(newspaper)):
+        if &quot;Videos&quot; in newspaper[k]:
+            types.append(&quot;Video&quot;)
+        else:
+            types.append(&quot;Article&quot;)
+
+    # Generalise the newspaper names by removing &quot; Videos&quot;
+    newspaper            = [ k.replace(&quot; Videos&quot;,&quot;&quot;) for k in newspaper ]
+
+    # Create Dictionary containing the data
+    data = { &quot;Ticker&quot;: ticker, &quot;Date&quot;: today, &quot;Headline&quot;: headers, &quot;Link&quot;: links, &quot;Description&quot;: descriptions, &quot;Newspaper&quot;: newspaper, &quot;Type&quot;: types, &quot;Time&quot;: timestamp }
+
+    # Delete duplicate news on yahoo finance from dictionary lists
+    for k in headers:
+         if headers.count(k) &gt; 1:
+            index = headers.index(k)
+            for l in [&quot;Headline&quot;, &quot;Link&quot;, &quot;Description&quot;, &quot;Newspaper&quot;, &quot;Type&quot;, &quot;Time&quot;]:
+                data[l].pop( index )
+
+    # Create output DataFrame with dictionary of the scraped data
+    output               = pd.DataFrame( data )
+
+    # Check for news duplicates from yesterday&#39;s news and remove them from the output dataframe
+    yesterdayNews        = db._getYesterdaysNews( ticker, yesterdaysDate )
+    output               = output[ output[[ &quot;Ticker&quot;, &quot;Headline&quot;, &quot;Newspaper&quot; ]].apply( lambda x: x.values.tolist() not in yesterdayNews[[ &quot;Ticker&quot;, &quot;Headline&quot;, &quot;Newspaper&quot; ]].values.tolist(), axis=1 ) ]
+
+    return output
+
+    return output</code></pre></div>
+
+<p></details>
+</p>
+<br></p>
+
+<p>After loading the <code>DBConn</code> class, and getting the current time, today&#39;s date and yesterday&#39;s date, we loop through the <code>db.tickerObject</code> which contains all the tickers from the <code>Underlyings</code> table and insert the dataframe output from the <code>get_news_of_company()</code> function directly into the <code>News</code> database table.</p>
+
+<p><details><summary>Click to see the code</summary>
+<p></p>
+
+<div><pre><code class="language-python">db = DBConn()
+
+# Get current time in decimal format, i.e. 10:30 =&gt; 10.5 or 17:45 =&gt; 17.75 and today&#39;s and yesterday&#39;s date
+time                     = round( datetime.datetime.now().hour + datetime.datetime.now().minute / 60, 2 )
+today                    = datetime.datetime.today().strftime(&#39;%Y-%m-%d&#39;)
+yesterday                = ( datetime.datetime.today() - datetime.timedelta(days = 1) ).strftime(&#39;%Y-%m-%d&#39;)
+
+# Loop through ticker list to get news data from Yahoo Finance and insert into database
+for ticker in db.tickerObject:
+    db._insertNews( get_news_of_company( ticker[&#39;Ticker&#39;], time, today, yesterday ) )
+
+# Close database connection
+db.CloseConn()
+</code></pre></div>
+
+<p></details>
+</p>
+<br></p>
+
+<h3 id="toc_16">Description of the Yahoo Finance News Data</h3>
+
+<p>The screenshot below shows an excerpt from the <code>News</code> table. The <em>&#39;Headline&#39;</em> column for example shows all the news headlines shown on the Yahoo Finance summary website for <a href="https://finance.yahoo.com/quote/AAPL/">Apple</a> on the 10th of March 2019. The <em>&#39;Newspaper&#39;</em> column shows the newspapers that published the article and the <em>&#39;Type&#39;</em> column specifies whether it is a video or an article.</p>
+
+<p>The <em>&#39;Time&#39;</em> column shows the approximated time of when the article was published. The negative values shown in the screenshot indicate that the articles were published on previous days from the scrape date. These negative numbers will disappear once the database populates.</p>
+
+<p><img src="Screenshots/YahooFinanceNews.png"
+     alt="Screenshot of TickerNews database"
+     style="float: left; margin-right: 10px;padding-bottom: 30px;" /></p>
+
+<p>Finally, the last column of the news data is the <em>&#39;Description&#39;</em> associated with the headlines on Yahoo Finance. Given the varying length of the article descriptions we only included a screenshot of the <em>&#39;Description&#39;</em> column of the first 3 headlines from Apple shown in the screenshot above: </p>
+
+<p><img src="Screenshots/YahooFinanceNewsDescriptions.png"
+     alt="Screenshot of TickerNews database"
+     style="float: left; margin-right: 10px;padding-bottom: 30px;" /></p>
+
+<div align="right"><a href="#0">Back to top</a> </div>
+
+<h2 id="toc_17"><div id="E2"><a href="#0">Setting up the Cronjobs </a> </div></h2>
+
+<p>To automatically run the script each day we set up a cronjob on the server using the commandline code:</p>
+
+<div><pre><code class="language-none">[user.name]@[server]:/home/AdvNum19_DataServer$ crontab -e</code></pre></div>
+
+<p>Which opens a crontab editor where we specify the times when we want to execute the two scripts to download the prices from Quandl and the news from Yahoo Finance:</p>
+
+<div><pre><code class="language-none">GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab                       
+
+30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/EODQuandl.py
+30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/yahoo_finance_news.py
+
+# Edit this file to introduce tasks to be run by cron.
+...
+...</code></pre></div>
+
+<p>This will automatically populate the tables in our database at 23:30 from Monday to Friday with the data from Quandl and Yahoo Finance. </p>
+
+<div align="right"><a href="#0">Back to top</a> </div>
+
+<h2 id="toc_18"><div id="F2"><a href="#0">Concluding Remarks</a> </div></h2>
+
+<p>The purpose of our project was to create a data server that automatically updates a database consisting of price data from US Large Cap Equities and their associated news.</p>
+
+<p>In the future we could potentially use this data to analyse the impact of news on stock prices using a sentiment analysis of the news headlines. More specifically, we could for example anaylse the over- or underreaction following news over a given time frame or do a volume weigthed analysis based on a news sentiment indicator.</p>
+
+<div align="right"><a href="#0">Back to top</a> </div>
+
+
+
+
+</body>
+
+</html>

@@ -42,12 +42,15 @@ We rented a VPS with Ubuntu 16.04 Server (64-bit version), 2 vCore, ~2GHz, 4 GB 
 ## <div id="A2"> <a href="#0">Setting up the Linux Server</a> </div>
 
 The server itself needs little setup work. Most importantly the root user creates individual users and adds them to the group.
+
 ```
 adduser abc
 groupadd AdvNum1 
 usermod -a -G AdvNum1 abc
 ```
+
 The project is cloned from Github into individual workspaces and - for production - into the home directory, where rights are granted to the group.
+
 ```
 git clone https://github.com/larsphilipp/AdvNum19_DataServer.git
 chgrp AdvNum1 ./AdvNum19_DataServer
@@ -61,21 +64,28 @@ chmod g+rwx  ./AdvNum19_DataServer
 ### MySQL Setup ###
 
 Once the server is ready and accessible for all users, a MySQL database is installed and the root user starts the application in order to set a password.
+
 ```
 sudo apt-get install mysql-server
 /usr/bin/mysql -u root -p
 ```
+
 The root user now creates a database named after the project.
+
 ```
 CREATE DATABASE dataserver;
 ```
+
 Then personal users are added. 
+
 ```
 INSERT INTO mysql.user (User,Host,authentication_string,ssl_cipher,x509_issuer,x509_subject) VALUES
 ('abc','localhost',PASSWORD('secret'),'','','');
 FLUSH PRIVILEGES;
 ```
+
 Rights are granted for the relevant database.
+
 ```
 GRANT SELECT,INSERT,UPDATE ON dataserver.* TO 'abc'@'localhost';
 FLUSH PRIVILEGES;
@@ -102,6 +112,7 @@ PRIMARY KEY (DataType, Source)
 ```
 
 The underlyings we aim to get data for are defined here. A ticker can only occur once and will be used in output tables as foreign key.
+
 ```
 CREATE TABLE Underlyings (
 Ticker VARCHAR(10),
@@ -111,6 +122,7 @@ PRIMARY KEY (Ticker)
 ```
 
 The authentications table centrally stores APIKeys if needed for web requests. Per source and user only one key can exist in the table.
+
 ```
 CREATE TABLE Authentications (
 User VARCHAR(25),
@@ -174,6 +186,7 @@ Below we drew an Entity-Relationship-Model for our data structure within the MyS
 To easily read data from the MySQL database into our Python scripts, we created an object class in a separate Python file called `DatabaseConnection.py`. This file allows us to organise and reuse data base communication logic in an efficient manner for both mining codes.
 
 First, we import the required packages.
+
 ```python
 import pymysql
 import json
@@ -259,17 +272,20 @@ The Quandl database has been chosen over Yahoo Finance for the stock price infor
 ### Quandl API ###
 
 Within the `EODQuandl.py` file we first import all relevant data from the `DatabaseConnection.py` file. Further, we import the `quandl` package.
+
 ```python
 from    DatabaseConnection import *
 import  quandl
 ```
 
 To initiate the database connection class from `DatabaseConnection.py`, we call:
+
 ```python
 db = DBConn()
 ```
 
 Then we have to provide the Quandl API Key, which is linked to the account we registered with. As the API key is stored in the `Authentications` table we call this entry to get the required information from the `DBConn` class:
+
 ```python
 quandl.ApiConfig.api_key = db.apiKeyObject
 ```
