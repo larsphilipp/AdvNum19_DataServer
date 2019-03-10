@@ -472,9 +472,9 @@ Which opens a crontab editor where we specify the times when we want to execute 
 ```
 GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab                       
 
-MAILTO="elisa.fleissner@student.unisg.ch, lars.stauffenegger@student.unisg.ch, peter.lacour@student.unisg.ch“
-30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/EODQuandl.py
-30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/yahoo_finance_news.py
+30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/EODQuandl.py >"/home/AdvNum19_DataServer/EODQuandlCrontab.log" 2>&1
+30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/YahooFinanceNews.py >"home/AdvNum19_DataServer/yahooFinanceNewsCrontab.log" 2>&1
+
 
 # Edit this file to introduce tasks to be run by cron.
 ...
