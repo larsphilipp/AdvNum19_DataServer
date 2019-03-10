@@ -79,10 +79,9 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     # Create output DataFrame with dictionary dictionary of the scraped data
     output               = pd.DataFrame( { "Ticker": ticker, "Date": todaysDate, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp } )
 
-    # Check for news duplicates from yesterday's news and remove them
+    # Check for news duplicates from yesterday's news and remove them from the output dataframe
     yesterdayNews        = db._getYesterdaysNews( ticker, yesterdaysDate )
-    yesterdayNews["Date"]= todaysDate
-    output               = output[ output.apply( lambda x: x.values.tolist() not in yesterdayNews.values.tolist(), axis=1 ) ]
+    output               = output[ output[["Ticker", "Headline", "Newspaper"]].apply( lambda x: x.values.tolist() not in yesterdayNews[["Ticker", "Headline", "Newspaper"]].values.tolist(), axis=1 ) ]
 
     return output
 
