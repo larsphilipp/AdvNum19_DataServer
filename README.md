@@ -86,15 +86,9 @@ FLUSH PRIVILEGES;
 
 The database is used to store in- and output values of the python codes. It consists of three input tables (RequestData, Underlyings, Authentications) and two output tables (Prices, News).
 
-<br>
-
 The use of `PRIMARY KEY` and `FOREIGN KEY` ensures that we will not have duplicate entries and that we will use the same tickers we entered in the `Underlyings` table in both applications (get prices and get headlines). `PRIMARY KEY` allows to specify which column per entry shall be unique, and it is also possible to specify combinations that need to be unique, such as the combination of Date and Ticker in the `Prices` table. This means that every ticker can only have one entry per date and in the case of a multiple download on one day, an error would be raised. 
 
-<br>
-
 The `FOREIGN KEY` refers to a `PRIMARY KEY` in the table specified through the `REFERENCE` statement and prevents invalid entries and thus protects the linkage between the different tables. We use a `FOREIGN KEY` in the output tables (Prices, News) to make sure, that the ticker in these tables are the same as they are in the `Underlyings` table.
-
-<br>
 
 The type of data that we will request is stored in the following table together with a desciption and the name of the data source. A combination of Source and DataType can only occur once.
 
@@ -178,7 +172,7 @@ Below we drew an Entity-Relationship-Model for our data structure within the MyS
 ## <div id="X2"> <a href="#0">Setting up the Database Connection to the Python Scripts</a> </div>
 
 To easily read data from the MySQL database into our Python scripts, we created an object class in a separate Python file called `DatabaseConnection.py`. This file allows us to organise and reuse data base communication logic in an efficient manner for both mining codes.
-<br> 
+
 First, we import the required packages.
 ```python
 import pymysql
