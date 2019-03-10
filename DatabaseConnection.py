@@ -57,7 +57,7 @@ class DBConn():
         self.connectionObject.commit()
 
     def _insertNews(self, news_df):
-        self.engine = db.create_engine('mysql+pymysql://{0}:{1}@localhost/dataserver'.format(self.dbUser, self.dbPassword) + ":" + "3306" '/'+ self.dbName + '?charset=' + charSet)
+        self.engine = db.create_engine('mysql+pymysql://{0}:{1}@localhost/dataserver'.format(self.dbUser, self.dbPassword) + ":" + "3306" '/'+ self.dbName + '?charset=utf8mb4')
         news_df.to_sql(name = "News", con = self.engine, if_exists='append', index = False)
 
     def _getYesterdaysNews(self, ticker, yesterday):
