@@ -14,6 +14,7 @@
 # Loading Packages
 import pymysql
 import json
+import pandas      as pd
 import sqlalchemy  as db
 
 ## Class as Instance of a Requests Session
@@ -61,7 +62,7 @@ class DBConn():
 
     def _getYesterdaysNews(self, ticker, yesterday):
         self.engine = db.create_engine('mysql+pymysql://{0}:{1}@localhost/dataserver'.format(self.dbUser, self.dbPassword))
-        return read_sql("SELECT * FROM News WHERE Date = " + yesterday + "WHERE Ticker = " + ticker + ";", con = self.engine)
+        return pd.read_sql("SELECT * FROM News WHERE Date = " + yesterday + "WHERE Ticker = " + ticker + ";", con = self.engine)
 
     def CloseConn(self):
         # Close the database connection
