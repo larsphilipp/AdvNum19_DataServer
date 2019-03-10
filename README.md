@@ -427,9 +427,16 @@ db.CloseConn()
 
 The screenshot below shows an excerpt from the `News` table. The *'Headline'* column for example shows all the news headlines shown on the Yahoo Finance summary website for [Apple](https://finance.yahoo.com/quote/AAPL/) on the 10th of March 2019. The *'Newspaper'* column shows the newspapers that published the article and the *'Type'* column specifies whether it is a video or an article.
 
+The *'Time'* column shows the approximated time of when the article was published. The negative values shown in the screenshot indicate that the articles were published on previous days from the scrape date. These negative numbers will disappear once the database populates.
 
 
 <img src="Screenshots/YahooFinanceNews.png"
+     alt="Screenshot of TickerNews database"
+     style="float: left; margin-right: 10px;padding-bottom: 30px;" />
+
+Finally, the last column of the news data is the *'Description'* associated with the headlines on Yahoo Finance. Given the varying length of the article descriptions we only included a screenshot of the *'Description'* column of the first 2 headlines from Apple shown in the screenshot above: 
+
+<img src="Screenshots/YahooFinanceNewsDescriptions.png"
      alt="Screenshot of TickerNews database"
      style="float: left; margin-right: 10px;padding-bottom: 30px;" />
 
@@ -465,7 +472,7 @@ This will automatically populate the tables in our database at 23:30 from Monday
 
 The purpose of our project was to create a data server that automatically updates a database consisting of price data from US Large Cap Equities and their associated news.
 
-In the future we could potentially use this data to analyse the impact of news on stock prices using a sentiment analysis of the news headlines. More specifically, we could for example anaylse the over or underreaction following important news over a given time frame or do a volume weigthed analysis based on a news sentiment indicator.
+In the future we could potentially use this data to analyse the impact of news on stock prices using a sentiment analysis of the news headlines. More specifically, we could for example anaylse the over- or underreaction following news over a given time frame or do a volume weigthed analysis based on a news sentiment indicator.
 
 
 
