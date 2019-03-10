@@ -162,7 +162,7 @@ FOREIGN KEY (Ticker) REFERENCES Underlyings(Ticker)
 ### Tables structure
 Below we drew an Entity-Relationship-Model for our data structure within the MySQL database.
 
-<img src="Screenshots/Image2.png"
+<img src="Screenshots/EntityRelationshipModel.png"
      alt="Screenshot of EP Model"
      style="float: left; margin-right: 10px; padding-bottom: 30px;" />
 
