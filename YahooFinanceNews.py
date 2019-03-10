@@ -76,12 +76,22 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     # Generalise the newspaper names by removing " Videos"
     newspaper            = [ k.replace(" Videos","") for k in newspaper ]
 
+    # Create Dictionary containing the data
+    data = { "Ticker": t, "Date": today, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp }
+
+    # Delete duplicate news on yahoo finance
+    for k in headers:
+         if headers.count(k) > 1:
+            index = headers.index(k)
+            for l in ["Headline", "Link", "Description", "Newspaper", "Type", "Time"]:
+                data[l].pop(index)
+
     # Create output DataFrame with dictionary dictionary of the scraped data
-    output               = pd.DataFrame( { "Ticker": ticker, "Date": todaysDate, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp } )
+    output               = pd.DataFrame( data )
 
     # Check for news duplicates from yesterday's news and remove them from the output dataframe
     yesterdayNews        = db._getYesterdaysNews( ticker, yesterdaysDate )
-    #output               = output[ output[[ "Ticker", "Headline", "Newspaper" ]].apply( lambda x: x.values.tolist() not in yesterdayNews[[ "Ticker", "Headline", "Newspaper" ]].values.tolist(), axis=1 ) ]
+    output               = output[ output[[ "Ticker", "Headline", "Newspaper" ]].apply( lambda x: x.values.tolist() not in yesterdayNews[[ "Ticker", "Headline", "Newspaper" ]].values.tolist(), axis=1 ) ]
 
     return output
 
@@ -99,7 +109,7 @@ yesterday                = ( datetime.datetime.today() - datetime.timedelta(days
 
 # Loop through ticker list to get news data from Yahoo Finance and insert into database
 for ticker in db.tickerObject:
-    db._insertNews( get_news_of_company( ticker['Ticker'], time, today, yesterday ) ) 
+    db._insertNews( get_news_of_company( ticker['Ticker'], time, today, yesterday ) )
     print(ticker['Ticker'])
 
 # Close database connection
