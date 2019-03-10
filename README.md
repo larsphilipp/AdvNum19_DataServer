@@ -481,7 +481,7 @@ MAILTO="elisa.fleissner@student.unisg.ch, lars.stauffenegger@student.unisg.ch, p
 ...
 ```
 
-This will automatically populate the tables in our database at 23:30 from Monday to Friday with the data from Quandl and Yahoo Finance. In the unlikely case that there was a problem running the code we will be notified via e-mail.
+This will automatically populate the tables in our database at 23:30 from Monday to Friday with the data from Quandl and Yahoo Finance. In case that there was a problem running the code via the cronjobs we will be notified via e-mail.
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
