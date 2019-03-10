@@ -25,17 +25,17 @@ University of St. Gallen, 10.03.2019
 6. <div id="D1"> <a href="#D2">Yahoo Finance News Scrape </a></div>
 7. <div id="E1"> <a href="#E2">Setting up the Cronjobs </a></div>
 8. <div id="Z1"> <a href="#Z2">Installing Firefox on Linux</a> </div>
-9. <div id="Y1"> <a href="#Y2">Setting up GitHub</a> </div>
+
 
 ## <div id="2"> <a href="#1">Introduction  </a> </div>
 
-This is the documentation for the first assignment of the class **Advanced Numerical Methods and Data Analysis** taught by Prof. Peter Gruber at the University of St. Gallen in Spring 2019. We - Elisa Fleissner, Lars Stauffenegger and Peter La Cour - are in the 2nd Semester of our Master studies and worked as a group with the aim to setup up an automated financial data mining application. Our goal is to collect price and news data of 50 Large Cap US Equities on a daily basis and store them on a data server. For the price data we use Quandl's API (www.quandl.com) whilst the headlines are scraped from [Yahoo Finance](https://finance.yahoo.com/).
+This is the documentation for the first assignment of the class **Advanced Numerical Methods and Data Analysis** taught by Prof. Peter Gruber at the University of St. Gallen in Spring 2019. We - Elisa Fleissner, Lars Stauffenegger and Peter La Cour - are in the 2nd Semester of our Master studies and worked as a group with the aim to set up an automated financial data mining application. Our goal is to collect price and news data of 50 Large Cap US Equities on a daily basis and store them on a data server. For the price data we use Quandl's API (www.quandl.com) whilst the headlines are scraped from [Yahoo Finance](https://finance.yahoo.com/).
 
-### Project Plan ###
-After a short brainstorming session we decided to scrape financial data as we were already aware of available sources. Given the time horizon of roughly 2.5 weeks we immediately assigned independent tasks. Elisa took over the Quandl mining, Peter wrote the headline scraping script and Lars did setup the server and the MySQL tables and connections.
+### Project plan ###
+After a short brainstorming session we decided to scrape financial data as we were already aware of available sources. Given the time horizon of roughly 2.5 weeks we immediately assigned independent tasks. Elisa took over the Quandl mining, Peter wrote the headline scraping script and Lars did set up the server and the MySQL tables and connections.
 
 ### Ressources ###
-We rented a VPS with Ubuntu 16.04 Server (64-bit version), 2 vCore, ~2GHz, 4 GB RAM, 50 GB at www.ovh.com. The main tools we used are MySQL 5.7.25 for Ubuntu and Python 3.5.2. All missing Python packages wer installed using `pip3 install`.
+We rented a VPS with Ubuntu 16.04 Server (64-bit version), 2 vCore, ~2GHz, 4 GB RAM, 50 GB at www.ovh.com. The main tools we used are MySQL 5.7.25 for Ubuntu and Python 3.5.2. All missing Python packages were installed using `pip3 install`.
 
 
 
@@ -58,7 +58,7 @@ chmod g+rwx  ./AdvNum19_DataServer
 
 ### MySQL Setup ###
 
-Once the server is ready and accessible for all users a MySQL database is installed and the root user starts the application in order to set a password.
+Once the server is ready and accessible for all users, a MySQL database is installed and the root user starts the application in order to set a password.
 ```
 sudo apt-get install mysql-server
 /usr/bin/mysql -u root -p
@@ -82,9 +82,9 @@ FLUSH PRIVILEGES;
 
 ### Create tables ###
 
-The database is used to store in- and output values of the python codes. It consists of three input tables (RequestData, Underlyings, Authentications) and two output tables (Prices, Headlines).
+The database is used to store in- and output values of the python codes. It consists of three input tables (RequestData, Underlyings, Authentications) and two output tables (Prices, News).
 <br>
-The use of `PRIMARY KEY` and `FOREIGN KEY` ensures that we will not have duplicate entries and that we will use the same tickers we entered in the `Underlyings` table in both applications (get prices and get headlines). `PRIMARY KEY` allows to specify which column per entry shall be unique, and it is also possible to specify combinations that need to be unique, such as the combination of Date and Ticker in the `Prices` table. This means that every ticker can only have one entry per date and in the case of a multiple download on one day, an error would be raised. `FOREIGN KEY` refers to a `PRIMARY KEY` in the table specified through the `REFERENCE` statement and prevents invalid entries and thus protects the linkage between the different tables. We use a `FOREIGN KEY` in the output tables (Prices, Headlines) to make sure, that the Ticker in these tables are the same as they are in the `Underlyings` table.
+The use of `PRIMARY KEY` and `FOREIGN KEY` ensures that we will not have duplicate entries and that we will use the same tickers we entered in the `Underlyings` table in both applications (get prices and get headlines). `PRIMARY KEY` allows to specify which column per entry shall be unique, and it is also possible to specify combinations that need to be unique, such as the combination of Date and Ticker in the `Prices` table. This means that every ticker can only have one entry per date and in the case of a multiple download on one day, an error would be raised. `FOREIGN KEY` refers to a `PRIMARY KEY` in the table specified through the `REFERENCE` statement and prevents invalid entries and thus protects the linkage between the different tables. We use a `FOREIGN KEY` in the output tables (Prices, News) to make sure, that the Ticker in these tables are the same as they are in the `Underlyings` table.
 <br>
 <br>
 The type of data that we will request is stored in the following table together with a desciption and the name of the data source. A combination of Source and DataType can only occur once.
@@ -194,8 +194,7 @@ class DBConn():
         cursorType      = pymysql.cursors.DictCursor
 
         # Cursor
-        self.connectionObject = pymysql.connect(host=dbServerName, user=self.dbUser, password=self.dbPassword, 
-                                db=self.dbName, charset=charSet,cursorclass=cursorType)
+        self.connectionObject = pymysql.connect(host=dbServerName, user=self.dbUser, password=self.dbPassword, db=self.dbName, charset=charSet,cursorclass=cursorType)
         self.cursorObject = self.connectionObject.cursor()
 
         # Load Data
@@ -211,7 +210,7 @@ We then defined several functions to be performed for the object `DBConn`:
 <p>
      
 ```python
-    def _getTickers(self):
+def _getTickers(self):
         self.cursorObject.execute("SELECT Ticker FROM Underlyings")
         return self.cursorObject.fetchall()
 
@@ -225,41 +224,45 @@ We then defined several functions to be performed for the object `DBConn`:
 
     def _insertQuandlPrices(self, ticker, quandlData):
         date = quandlData.index[0].date().strftime('%Y-%m-%d')
-        self.cursorObject.execute("INSERT IGNORE INTO Prices (Date, Ticker, Open, High, Low, Close, Volume, Dividend, Split,                          Adj_Open, Adj_High, Adj_Low, Adj_Close, Adj_Volume) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(date, ticker, float(quandlData.Open[0]), float(quandlData.High[0]), float(quandlData.Low[0]), float(quandlData.Close[0]), float(quandlData.Volume[0]), float(quandlData.Dividend[0]), float(quandlData.Split[0]), float(quandlData.Adj_Open[0]), float(quandlData.Adj_High[0]), float(quandlData.Adj_Low[0]), float(quandlData.Adj_Close[0]), float(quandlData.Adj_Volume[0])))
+        self.cursorObject.execute("INSERT IGNORE INTO Prices (Date, Ticker, Open, High, Low, Close, Volume, Dividend, Split, Adj_Open, Adj_High, Adj_Low, Adj_Close, Adj_Volume) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(date, ticker, float(quandlData.Open[0]), float(quandlData.High[0]), float(quandlData.Low[0]), float(quandlData.Close[0]), float(quandlData.Volume[0]), float(quandlData.Dividend[0]), float(quandlData.Split[0]), float(quandlData.Adj_Open[0]), float(quandlData.Adj_High[0]), float(quandlData.Adj_Low[0]), float(quandlData.Adj_Close[0]), float(quandlData.Adj_Volume[0])))
         self.connectionObject.commit()
 
     def _insertNews(self, news_df):
         self.engine = db.create_engine('mysql+pymysql://{0}:{1}@localhost/dataserver'.format(self.dbUser, self.dbPassword))
         news_df.to_sql(name = "News", con = self.engine, if_exists='append', index = False)
 
+    def _getYesterdaysNews(self, yesterday):
+        self.engine = db.create_engine('mysql+pymysql://{0}:{1}@localhost/dataserver'.format(self.dbUser, self.dbPassword))
+        return read_sql("SELECT * FROM News WHERE Date = " + yesterday + ";", con = self.engine)
+
     def CloseConn(self):
         # Close the database connection
         self.connectionObject.close()
-
 ```
 </details>
 </p>
+<br>
 
 ## <div id="C2"> <a href="#C1">Getting Price Data from Quandl</a> </div>
 
 ### Quandl database ###
 
-The Quandl database has been chosen over Yahoo Finance for the stock price information. This is due to the discontinued support of the API of Yahoo Finance. Quandl is a platform that collects various types of data including economic data such as GDP or sentiment data but also financial data, which we will access for the purpose of this project. For our project we chose the Quandl database `EOD`which collects End of Day US Stock Prices. The publisher of this database is Quotemedia. The database comprises around 8000 stocks, which can be accessed through `EOD/{Ticker}` using the Quandl API. As we did only create a free account, we had access to 29 stocks which we entered into the `Underlyings` table in our database.
+The Quandl database has been chosen over Yahoo Finance for the stock price information. This is due to the discontinued support of the API of Yahoo Finance. Quandl is a platform that collects various types of data including economic data such as GDP or sentiment data but also financial data, which we will access for the purpose of this project. For our project we chose the Quandl database `EOD` which collects End of Day US Stock Prices. The publisher of this database is Quotemedia. The database comprises around 8000 stocks, which can be accessed through `EOD/{Ticker}` using the Quandl API. As we did only create a free account, we had access to 29 stocks which we entered into the `Underlyings` table in our database.
 
 ### Quandl API ###
 
-We first import all relevant data from the `DatabaseConnection` file. Further we import the `quandl` package.
+Withing the `EODQuandl.py` file we first import all relevant data from the `DatabaseConnection.py` file. Further we import the `quandl` package.
 ```python
 from    DatabaseConnection import *
 import  quandl
 ```
 
-To import all the informaiton stored in `DatabaseConnection`, we call:
+To import all the information stored in `DatabaseConnection.py`, we call:
 ```python
 db = DBConn()
 ```
 
-Then we have to provide the Quandl API Key, which is linked to the account we registered with. As the API key is stored in the `Authentication` table we call this entry:
+Then we have to provide the Quandl API Key, which is linked to the account we registered with. As the API key is stored in the `Authentications` table we call this entry:
 ```python
 quandl.ApiConfig.api_key = db.apiKeyObject
 ```
@@ -310,39 +313,46 @@ The code that gets the headlines, descriptions, links and the name of the newspa
 <p>
 
 ```python
-def get_news_of_company( ticker, current_time ):
+def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     '''
-    Description:   Gets all the news from Yahoo Finance for the company with the specified ticker symbol
-    Inputs:        Ticker symbol of company
-    Outputs:       DataFrame with all the news headlines, descriptions, links, dates, and types (Videos or Articles)
-                   and newspapers of the given company from Yahoo Finance
+    Description:         Gets all the news from Yahoo Finance for the company with the specified ticker symbol
+    Inputs:              Ticker symbol of company, current time when the script is running, today's date and yesterday's date
+    Outputs:             DataFrame with all the news headlines, descriptions, links, dates, relative timestamps, types (Videos or Articles)
+                         and newspapers of the given company from Yahoo Finance
     '''
     # Get the url with the ticker
     url                  = "https://finance.yahoo.com/quote/AAPL/news?p=" + ticker
-    response             = requests.get(url)
-    soup                 = bs(response.content, "html.parser")
-    # Get today's date
-    today                = datetime.datetime.today().strftime('%Y-%m-%d')
+    response             = requests.get( url )
+    soup                 = bs( response.content, "html.parser" )
+
     # Get all the newspaper headlines into a list
     headers              = [ k.text for k in soup.find_all('h3') ]
+
     # Get all the newspaper descriptions into a list
     descriptions         = [ k.find_next('p').text for k in soup.find_all('h3') ]
+
     # Get all the news links on yahoo finance into a list
     links                = [ 'www.finance.yahoo.com/' + k.find_next('a').get('href') for k in soup.find_all('h3') ]
-    # Get all the newspaper names that published the articles into a list
-    newspaper            = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if  ("ago" or "yesterday")  in k.text ]
+
+    # Get all the names of the newspaper that published the articles into a list
+    newspaper            = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)' ) if k.find_next('h3').text in headers ]
+
     # Get relative time when articles were published
-    timestamp            = [ k.find_next('span').find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if  ("ago" or "yesterday")  in k.text ]
-    # Estimate time of day in decimals when the article was published
+    timestamp            = [ k.find_next('span').find_next('span').text for k in soup.find_all( class_ = 'C(#959595)' ) if k.find_next('h3').text in headers ]
+
+    # Estimate the time of day in decimals when the article was published, i.e. 10:30 => 10.5 or 17:45 => 17.75
     for k in range(len(timestamp)):
         if "minutes" in timestamp[k]:
-            timestamp[k] = round( current_time - float(timestamp[k].replace(" minutes ago", "") ) / 60,2)
+            timestamp[k] = round( currentTime - float( timestamp[k].replace( " minutes ago", "" ) ) / 60, 2 )
         elif "hours" in timestamp[k]:
-            timestamp[k] = round( current_time - float(timestamp[k].replace(" hours ago", "")) )
+            timestamp[k] = round( currentTime - float( timestamp[k].replace( " hours ago", "" ) ) )
         elif "hour" in timestamp[k]:
-            timestamp[k] = round( current_time - float(timestamp[k].replace(" hour ago", "")) )
+            timestamp[k] = round( currentTime - float( timestamp[k].replace( " hour ago", "" ) ) )
+        elif "yesterday" in timestamp[k]:
+            timestamp[k] = round( currentTime - 24.0 )
         else:
             timestamp[k] = np.nan
+
     # Get the types of news into a list (Video or Article) based on the news tag on Yahoo Finance
     types                = []
     for k in range(len(newspaper)):
@@ -350,41 +360,40 @@ def get_news_of_company( ticker, current_time ):
             types.append("Video")
         else:
             types.append("Article")
+
     # Generalise the newspaper names by removing "Videos"
     newspaper            = [ k.replace(" Videos","") for k in newspaper ]
-    # Create dictionary with the scraped data to write to DataFrame
-    data                 = { "Ticker": ticker, "Date": today, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp }
-    return pd.DataFrame(data)
 
+    # Create output DataFrame with dictionary dictionary of the scraped data
+    output               = pd.DataFrame( { "Ticker": ticker, "Date": todaysDate, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp } )
+
+    # Check for news duplicates from yesterday's news and remove them from the output dataframe
+    yesterdayNews        = db._getYesterdaysNews( ticker, yesterdaysDate )
+    output               = output[ output[["Ticker", "Headline", "Newspaper"]].apply( lambda x: x.values.tolist() not in yesterdayNews[["Ticker", "Headline", "Newspaper"]].values.tolist(), axis=1 ) ]
+
+    return output
 ```
 
 </details>
 </p>
 <br>
 
-After loading the database, selecting the tickers from the `Underlyings` table and creating the dataframe that is to be written to the `TickerNews` table we loop through the ticker list, append the data to the dataframe and finally update the dataframe to the TickerNews table using `.tosql`.
+After loading the database, selecting the tickers from the `Underlyings` table and creating the dataframe that is to be written to the `News` table we loop through the ticker list, append the data to the dataframe and finally update the dataframe to the `News` table using `.tosql`.
 
 <details><summary>Click to see the code</summary>
 <p>
 
 ```python
-## DB Connection (includes loading of relevant data)
 db = DBConn()
 
-# Create 'news_df' DataFrame
-columns                  = [ "Ticker", "Date", "Headline", "Link", "Description", "Newspaper", "Type" ]
-news_df                  = pd.DataFrame( columns = columns)
+# Get current time in decimal format, i.e. 10:30 => 10.5 or 17:45 => 17.75 and today's and yesterday's date
+time                     = round( datetime.datetime.now().hour + datetime.datetime.now().minute / 60, 2 )
+today                    = datetime.datetime.today().strftime('%Y-%m-%d')
+yesterday                = ( datetime.datetime.today() - datetime.timedelta(days = 1) ).strftime('%Y-%m-%d')
 
-# Get current time in decimal format
-time                     = datetime.datetime.now()
-time                     = round( time.hour + time.minute / 60, 2)
-
-# Loop through ticker list to get news data from Yahoo Finance
+# Loop through ticker list to get news data from Yahoo Finance and insert into database
 for ticker in db.tickerObject:
-    news_df              = news_df.append(get_news_of_company( ticker['Ticker'], time ), ignore_index = True, sort = False )
-
-# Insert to database
-db._insertNews(news_df)
+    db._insertNews( get_news_of_company( ticker['Ticker'], time, today, yesterday ) )
 
 # Close database connection
 db.CloseConn()
@@ -459,18 +468,3 @@ scp [/local/filepath/geckodriver] [user.name]@[serverIP]:/home/advnum
 ```
 
 to secure copy the file from a local machine to the desired directory on the server.
-
-## <div id="Y2"> <a href="#Y1">Setting up GitHub</a> </div>
-
-### Setup ###
-We first installed `git` on our server. Then we navigated into the project folder, in our case `AdvNum19_DataServer` and create the repository with
-```
-git init --bare
-```
-
---> Lars input
-
-### Collaboration ###
-To collaborate on this project, we decided to use [Github] (www.github.com), as this saved us the trouble to coordinate otherwise. We set up a repository and invited all group members to join. 
-
-
