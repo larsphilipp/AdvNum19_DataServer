@@ -299,6 +299,8 @@ for ticker in db.tickerObject:
 db.CloseConn()
 ```
 
+A screenshot of the resulting data table can be seen below:
+
 <img src="Screenshots/QuandlPrices.png"
      alt="Screenshot of Prices database"
      style="float: left; margin-right: 10px; padding-bottom: 30px;" />
@@ -450,7 +452,7 @@ The *'Time'* column shows the approximated time of when the article was publishe
      alt="Screenshot of TickerNews database"
      style="float: left; margin-right: 10px;padding-bottom: 30px;" />
 
-Finally, the last column of the news data is the *'Description'* associated with the headlines on Yahoo Finance. Given the varying length of the article descriptions we only included a screenshot of the *'Description'* column of the first 3 headlines from Apple shown in the screenshot above: 
+Finally, the last column of the news data is the *'Description'* associated with the headlines on Yahoo Finance. Given the varying length of the article descriptions we only included a screenshot of the *'Description'* column of the first 3 headlines from Apple on the 10th of March 2019: 
 
 <img src="Screenshots/YahooFinanceNewsDescriptions.png"
      alt="Screenshot of TickerNews database"
@@ -481,7 +483,7 @@ GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab
 ...
 ```
 
-This will automatically populate the tables in our database at 23:30 from Monday to Friday with the data from Quandl and Yahoo Finance. In case that there was a problem running the code via the cronjobs, the error code will be written into the log files `EODQuandlCrontab.log` and `YahooFinanceNewsCrontab.log`.
+This will automatically run the `EODQuandl.py` script at 23:30 from Monday to Friday and update the `Prices` table. Furthermore, the `YahooFinanceNews.py` script will run every day of the week at 23.30 and add the news from the day to the `News` table. In case that there was a problem running the code via the cronjobs, the error code will be written into the log files `EODQuandlCrontab.log` and `YahooFinanceNewsCrontab.log`.
  
 <div align="right"><a href="#0">Back to top</a> </div>
 

@@ -596,6 +596,8 @@ import  quandl</code></pre></div>
 
 db.CloseConn()</code></pre></div>
 
+<p>A screenshot of the resulting data table can be seen below:</p>
+
 <p><img src="Screenshots/QuandlPrices.png"
      alt="Screenshot of Prices database"
      style="float: left; margin-right: 10px; padding-bottom: 30px;" />
@@ -741,7 +743,7 @@ db.CloseConn()
      alt="Screenshot of TickerNews database"
      style="float: left; margin-right: 10px;padding-bottom: 30px;" /></p>
 
-<p>Finally, the last column of the news data is the <em>&#39;Description&#39;</em> associated with the headlines on Yahoo Finance. Given the varying length of the article descriptions we only included a screenshot of the <em>&#39;Description&#39;</em> column of the first 3 headlines from Apple shown in the screenshot above: </p>
+<p>Finally, the last column of the news data is the <em>&#39;Description&#39;</em> associated with the headlines on Yahoo Finance. Given the varying length of the article descriptions we only included a screenshot of the <em>&#39;Description&#39;</em> column of the first 3 headlines from Apple on the 10th of March 2019: </p>
 
 <p><img src="Screenshots/YahooFinanceNewsDescriptions.png"
      alt="Screenshot of TickerNews database"
@@ -760,14 +762,14 @@ db.CloseConn()
 <div><pre><code class="language-none">GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab                       
 
 30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/EODQuandl.py &gt;&quot;/home/AdvNum19_DataServer/EODQuandlCrontab.log&quot; 2&gt;&amp;1
-30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/YahooFinanceNews.py &gt;&quot;home/AdvNum19_DataServer/yahooFinanceNewsCrontab.log&quot; 2&gt;&amp;1
+30 23 * * * /usr/bin/python3 /home/AdvNum19_DataServer/YahooFinanceNews.py &gt;&quot;home/AdvNum19_DataServer/yahooFinanceNewsCrontab.log&quot; 2&gt;&amp;1
 
 
 # Edit this file to introduce tasks to be run by cron.
 ...
 ...</code></pre></div>
 
-<p>This will automatically populate the tables in our database at 23:30 from Monday to Friday with the data from Quandl and Yahoo Finance. In case that there was a problem running the code via the cronjobs, the error code will be written into the log files <code>EODQuandlCrontab.log</code> and <code>YahooFinanceNewsCrontab.log</code>.</p>
+<p>This will automatically run the <code>EODQuandl.py</code> script at 23:30 from Monday to Friday and update the <code>Prices</code> table. Furthermore, the <code>YahooFinanceNews.py</code> script will run every day of the week at 23.30 and add the news from the day to the <code>News</code> table. In case that there was a problem running the code via the cronjobs, the error code will be written into the log files <code>EODQuandlCrontab.log</code> and <code>YahooFinanceNewsCrontab.log</code>.</p>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
