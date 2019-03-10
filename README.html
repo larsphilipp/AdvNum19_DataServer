@@ -667,7 +667,9 @@ import  datetime
         elif &quot;hour&quot; in timestamp[k]:
             timestamp[k] = round( currentTime - float( timestamp[k].replace( &quot; hour ago&quot;, &quot;&quot; ) ) )
         elif &quot;yesterday&quot; in timestamp[k]:
-            timestamp[k] = round( currentTime - 24.0 )
+            timestamp[k] = round( currentTime - 24.0, 2 )
+        elif &quot;days&quot; in timestamp[k]:
+            timestamp[k] = round( currentTime - 24.0 * float(timestamp[k].replace(&quot; days ago&quot;, &quot;&quot;)) )
         else:
             timestamp[k] = np.nan
 
@@ -698,8 +700,6 @@ import  datetime
     # Check for news duplicates from yesterday&#39;s news and remove them from the output dataframe
     yesterdayNews        = db._getYesterdaysNews( ticker, yesterdaysDate )
     output               = output[ output[[ &quot;Ticker&quot;, &quot;Headline&quot;, &quot;Newspaper&quot; ]].apply( lambda x: x.values.tolist() not in yesterdayNews[[ &quot;Ticker&quot;, &quot;Headline&quot;, &quot;Newspaper&quot; ]].values.tolist(), axis=1 ) ]
-
-    return output
 
     return output</code></pre></div>
 
@@ -735,7 +735,7 @@ db.CloseConn()
 
 <p>The screenshot below shows an excerpt from the <code>News</code> table. The <em>&#39;Headline&#39;</em> column for example shows all the news headlines shown on the Yahoo Finance summary website for <a href="https://finance.yahoo.com/quote/AAPL/">Apple</a> on the 10th of March 2019. The <em>&#39;Newspaper&#39;</em> column shows the newspapers that published the article and the <em>&#39;Type&#39;</em> column specifies whether it is a video or an article.</p>
 
-<p>The <em>&#39;Time&#39;</em> column shows the approximated time of when the article was published. The negative values shown in the screenshot indicate that the articles were published on previous days from the scrape date. These negative numbers will disappear once the database populates.</p>
+<p>The <em>&#39;Time&#39;</em> column shows the approximated time of when the article was published. The negative values shown in the screenshot indicate that the articles were published on previous days from the scrape date. Once the database populates these numbers should generally range from 0.00 to 24.00.</p>
 
 <p><img src="Screenshots/YahooFinanceNews.png"
      alt="Screenshot of TickerNews database"
@@ -759,14 +759,15 @@ db.CloseConn()
 
 <div><pre><code class="language-none">GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab                       
 
-30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/EODQuandl.py
-30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/yahoo_finance_news.py
+30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/EODQuandl.py &gt;&quot;/home/AdvNum19_DataServer/EODQuandlCrontab.log&quot; 2&gt;&amp;1
+30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/YahooFinanceNews.py &gt;&quot;home/AdvNum19_DataServer/yahooFinanceNewsCrontab.log&quot; 2&gt;&amp;1
+
 
 # Edit this file to introduce tasks to be run by cron.
 ...
 ...</code></pre></div>
 
-<p>This will automatically populate the tables in our database at 23:30 from Monday to Friday with the data from Quandl and Yahoo Finance. </p>
+<p>This will automatically populate the tables in our database at 23:30 from Monday to Friday with the data from Quandl and Yahoo Finance. In case that there was a problem running the code via the cronjobs, the error code will be written into the log files <code>EODQuandlCrontab.log</code> and <code>YahooFinanceNewsCrontab.log</code>.</p>
 
 <div align="right"><a href="#0">Back to top</a> </div>
 

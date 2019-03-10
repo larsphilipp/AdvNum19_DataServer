@@ -473,7 +473,7 @@ Which opens a crontab editor where we specify the times when we want to execute 
 GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab                       
 
 30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/EODQuandl.py >"/home/AdvNum19_DataServer/EODQuandlCrontab.log" 2>&1
-30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/YahooFinanceNews.py >"home/AdvNum19_DataServer/yahooFinanceNewsCrontab.log" 2>&1
+30 23 * * * /usr/bin/python3 /home/AdvNum19_DataServer/YahooFinanceNews.py >"home/AdvNum19_DataServer/yahooFinanceNewsCrontab.log" 2>&1
 
 
 # Edit this file to introduce tasks to be run by cron.
@@ -481,8 +481,8 @@ GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab
 ...
 ```
 
-This will automatically populate the tables in our database at 23:30 from Monday to Friday with the data from Quandl and Yahoo Finance. In case that there was a problem running the code via the cronjobs we will be notified via e-mail.
-
+This will automatically populate the tables in our database at 23:30 from Monday to Friday with the data from Quandl and Yahoo Finance. In case that there was a problem running the code via the cronjobs, the error code will be written into the log files `EODQuandlCrontab.log` and `YahooFinanceNewsCrontab.log`.
+ 
 <div align="right"><a href="#0">Back to top</a> </div>
 
 ## <div id="F2"><a href="#0">Concluding Remarks</a> </div>
