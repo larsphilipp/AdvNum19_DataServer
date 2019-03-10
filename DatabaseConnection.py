@@ -58,6 +58,10 @@ class DBConn():
         self.engine = db.create_engine('mysql+pymysql://{0}:{1}@localhost/dataserver'.format(self.dbUser, self.dbPassword))
         news_df.to_sql(name = "News", con = self.engine, if_exists='append', index = False)
 
+    def _getYesterdaysNews(self, yesterday):
+        self.engine = db.create_engine('mysql+pymysql://{0}:{1}@localhost/dataserver'.format(self.dbUser, self.dbPassword))
+        return read_sql("SELECT * FROM News WHERE Date = " + yesterday + ";", con = self.engine)
+
     def CloseConn(self):
         # Close the database connection
         self.connectionObject.close()

@@ -45,9 +45,9 @@ def get_news_of_company( ticker, current_time ):
     # Get all the news links on yahoo finance into a list
     links                = [ 'www.finance.yahoo.com/' + k.find_next('a').get('href') for k in soup.find_all('h3') ]
     # Get all the newspaper names that published the articles into a list
-    newspaper            = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if  ("ago" or "yesterday")  in k.text ]
+    newspaper            = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if k.find_next('h3').text in headers ]
     # Get relative time when articles were published
-    timestamp            = [ k.find_next('span').find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if  ("ago" or "yesterday")  in k.text ]
+    timestamp            = [ k.find_next('span').find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if k.find_next('h3').text in headers ]
     # Estimate time of day in decimals when the article was published
     for k in range(len(timestamp)):
         if "minutes" in timestamp[k]:
@@ -67,16 +67,20 @@ def get_news_of_company( ticker, current_time ):
             types.append("Article")
     # Generalise the newspaper names by removing "Videos"
     newspaper            = [ k.replace(" Videos","") for k in newspaper ]
-    # Create dictionary with the scraped data to write to DataFrame
-    data                 = { "Ticker": ticker, "Date": today, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp }
-    return pd.DataFrame(data)
+    # Create DataFrame with dictionary dictionary of the scraped data
+    output_df            = pd.DataFrame( { "Ticker": ticker, "Date": today, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp } )
+    # Check for news duplicates from yesterday's news and remove them
+    yesterday            = ( datetime.datetime.today() - datetime.timedelta(days = 1) ).strftime('%Y-%m-%d')
+    yesterdayNews        = db._getYesterdaysNews( ticker, yesterday )
+    yesterdayNews["Date"]= today
+    output_df            = output_df[ output_df.apply( lambda x: x.values.tolist() not in yesterdayNews.values.tolist(), axis=1 ) ]
+    return output_df
 
 #-----------------------------------------------------------------------------#
 # Body
 #-----------------------------------------------------------------------------#
 
-
-## DB Connection (includes loading of relevant data)
+# DB Connection (includes loading of relevant data)
 db = DBConn()
 
 # Create 'news_df' DataFrame
@@ -96,7 +100,3 @@ db._insertNews(news_df)
 
 # Close database connection
 db.CloseConn()
-
-
-
-# need to double check articles from yesterday
