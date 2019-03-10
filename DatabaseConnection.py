@@ -58,11 +58,11 @@ class DBConn():
 
     def _insertNews(self, news_df):
         self.engine = db.create_engine('mysql+pymysql://{0}:{1}@localhost:3306/dataserver'.format(self.dbUser, self.dbPassword))
-        news_df.to_sql(name = "TickerNews", con = self.engine, if_exists='append', index = False)
+        news_df.to_sql(name = "News", con = self.engine, if_exists='append', index = False)
 
     def _getYesterdaysNews(self, ticker, yesterday):
         self.engine = db.create_engine('mysql+pymysql://{0}:{1}@localhost/dataserver'.format(self.dbUser, self.dbPassword))
-        return pd.read_sql("SELECT * FROM TickerNews WHERE (Date = '" + yesterday + "') AND (Ticker = '" + ticker + "');", con = self.engine)
+        return pd.read_sql("SELECT * FROM News WHERE (Date = '" + yesterday + "') AND (Ticker = '" + ticker + "');", con = self.engine)
 
     def CloseConn(self):
         # Close the database connection
