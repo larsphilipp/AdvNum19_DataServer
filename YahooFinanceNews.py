@@ -81,7 +81,6 @@ def get_news_of_company( ticker, currentTime, todaysDate  ): # yesterdaysDate
 
     # Check for news duplicates from yesterday's news and remove them from the output dataframe
     yesterdayNews        = db._getYesterdaysNews( ticker, todaysDate )
-    print(yesterdayNews["Headline"])
     output               = output[ output[[ "Ticker", "Headline", "Newspaper" ]].apply( lambda x: x.values.tolist() not in yesterdayNews[[ "Ticker", "Headline", "Newspaper" ]].values.tolist(), axis=1 ) ]
 
     return output
