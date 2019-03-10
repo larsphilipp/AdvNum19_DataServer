@@ -7,7 +7,7 @@
 ## Place, Time:  St. Gallen, 07.03.19
 ## Description:  Gets all the news of the specified companies in the Underlyings
 ##               database from Yahoo Finance and adds it to the TickerNews database
-## Improvements: specify timezone
+## Improvements: specify timezone and check speed of adding one big dataframe to the database
 ## Last changes: Included a check for news duplicates
 
 #-----------------------------------------------------------------------------#
@@ -29,7 +29,7 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     '''
     Description:         Gets all the news from Yahoo Finance for the company with the specified ticker symbol
     Inputs:              Ticker symbol of company, current time when the script is running, today's date and yesterday's date
-    Outputs:             DataFrame with all the news headlines, descriptions, links, dates, and types (Videos or Articles)
+    Outputs:             DataFrame with all the news headlines, descriptions, links, dates, relative timestamps, types (Videos or Articles)
                          and newspapers of the given company from Yahoo Finance
     '''
     # Get the url with the ticker
@@ -47,15 +47,15 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     links                = [ 'www.finance.yahoo.com/' + k.find_next('a').get('href') for k in soup.find_all('h3') ]
 
     # Get all the names of the newspaper that published the articles into a list
-    newspaper            = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if k.find_next('h3').text in headers ]
+    newspaper            = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)' ) if k.find_next('h3').text in headers ]
 
     # Get relative time when articles were published
-    timestamp            = [ k.find_next('span').find_next('span').text for k in soup.find_all( class_ = 'C(#959595)') if k.find_next('h3').text in headers ]
+    timestamp            = [ k.find_next('span').find_next('span').text for k in soup.find_all( class_ = 'C(#959595)' ) if k.find_next('h3').text in headers ]
 
     # Estimate the time of day in decimals when the article was published, i.e. 10:30 => 10.5 or 17:45 => 17.75
     for k in range(len(timestamp)):
         if "minutes" in timestamp[k]:
-            timestamp[k] = round( currentTime - float( timestamp[k].replace( " minutes ago", "" ) ) / 60,2)
+            timestamp[k] = round( currentTime - float( timestamp[k].replace( " minutes ago", "" ) ) / 60, 2 )
         elif "hours" in timestamp[k]:
             timestamp[k] = round( currentTime - float( timestamp[k].replace( " hours ago", "" ) ) )
         elif "hour" in timestamp[k]:
