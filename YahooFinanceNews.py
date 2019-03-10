@@ -25,7 +25,7 @@ import  datetime
 # Functions
 #-----------------------------------------------------------------------------#
 
-def get_news_of_company( ticker, currentTime, todaysDate  ): # yesterdaysDate
+def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ): 
     '''
     Description:         Gets all the news from Yahoo Finance for the company with the specified ticker symbol
     Inputs:              Ticker symbol of company, current time when the script is running, today's date and yesterday's date
@@ -80,7 +80,7 @@ def get_news_of_company( ticker, currentTime, todaysDate  ): # yesterdaysDate
     output               = pd.DataFrame( { "Ticker": ticker, "Date": todaysDate, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp } )
 
     # Check for news duplicates from yesterday's news and remove them from the output dataframe
-    yesterdayNews        = db._getYesterdaysNews( ticker, todaysDate )
+    #yesterdayNews        = db._getYesterdaysNews( ticker, yesterdaysDate )
     output               = output[ output[[ "Ticker", "Headline", "Newspaper" ]].apply( lambda x: x.values.tolist() not in yesterdayNews[[ "Ticker", "Headline", "Newspaper" ]].values.tolist(), axis=1 ) ]
 
     return output
@@ -100,6 +100,7 @@ yesterday                = ( datetime.datetime.today() - datetime.timedelta(days
 # Loop through ticker list to get news data from Yahoo Finance and insert into database
 for ticker in db.tickerObject:
     db._insertNews( get_news_of_company( ticker['Ticker'], time, today ) ) # yesterday
+    print(ticker['Ticker'])
 
 # Close database connection
 db.CloseConn()
