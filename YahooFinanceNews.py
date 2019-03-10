@@ -77,9 +77,9 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     newspaper            = [ k.replace(" Videos","") for k in newspaper ]
 
     # Create Dictionary containing the data
-    data = { "Ticker": t, "Date": today, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp }
+    data = { "Ticker": ticker, "Date": today, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp }
 
-    # Delete duplicate news on yahoo finance
+    # Delete duplicate news on yahoo finance from dictionary lists
     for k in headers:
          if headers.count(k) > 1:
             index = headers.index(k)
