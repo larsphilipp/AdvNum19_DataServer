@@ -22,7 +22,7 @@ import sqlalchemy  as db
 class DBConn():
     def __init__(self):
 
-        with open('config.json') as json_file:
+        with open('/home/AdvNum19_DataServer/config.json') as json_file:
             credentials = json.load(json_file)
 
         dbServerName    = "localhost"
