@@ -33,7 +33,7 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
                          and newspapers of the given company from Yahoo Finance
     '''
     # Get the url with the ticker
-    url                  = "https://finance.yahoo.com/quote/" + ticker + "/news?p=" + ticker
+    url                  = "https://finance.yahoo.com/quote/" + ticker 
     response             = requests.get( url )
     soup                 = bs( response.content, "html.parser" )
 
