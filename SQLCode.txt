@@ -19,7 +19,12 @@ PRIMARY KEY (Ticker)
 );
 
 # For All 29 Companies
-INSERT INTO Underlyings VALUES ('AAPL', 'Apple'), ('AXP', 'American Express'), ('BA', 'Boeing'), ('CAT', 'Caterpillar'), ('CSCO', 'Cisco'), ('CVX', 'Chevron'), ('DIS', 'Walt Disney'), ('GE', 'General Electric'), ('GS', 'Goldman Sachs'), ('HD', 'Home Depot'), ('IBM', 'IBM'), ('INTC', 'Intel'),	('JNJ', 'Johnson & Johnson'), ('JPM', 'JP Morgan Chase'), ('KO', 'Coca-Cola'), ('MCD', 'McDonald's'), ('MMM', '3M'), ('MRK', 'Merck'), ('MSFT', 'Microsoft'), ('NKE', 'Nike'),	('PFE', 'Pfizer'), ('PG', 'Procter & Gamble'), ('TRV', 'The Travelers'), ('UNH', 'UnitedHealth Group'), ('UTX', 'United Technologies'), ('V', 'Visa'), ('VZ', 'Verizon'), ('WMT', 'Walmart'), ('XOM', 'Exxon Mobil');
+INSERT INTO Underlyings VALUES ('AAPL', 'Apple'), ('AXP', 'American Express'), ('BA', 'Boeing'), ('CAT', 'Caterpillar'), 
+('CSCO', 'Cisco'), ('CVX', 'Chevron'), ('DIS', 'Walt Disney'), ('GE', 'General Electric'), ('GS', 'Goldman Sachs'), 
+('HD', 'Home Depot'), ('IBM', 'IBM'), ('INTC', 'Intel'),	('JNJ', 'Johnson & Johnson'), ('JPM', 'JP Morgan Chase'), 
+('KO', 'Coca-Cola'), ('MCD', 'McDonald's'), ('MMM', '3M'), ('MRK', 'Merck'), ('MSFT', 'Microsoft'), ('NKE', 'Nike'),	
+('PFE', 'Pfizer'), ('PG', 'Procter & Gamble'), ('TRV', 'The Travelers'), ('UNH', 'UnitedHealth Group'), 
+('UTX', 'United Technologies'), ('V', 'Visa'), ('VZ', 'Verizon'), ('WMT', 'Walmart'), ('XOM', 'Exxon Mobil');
 
 -- Creating the table for the Quandl prices
 CREATE TABLE Prices (
