@@ -444,8 +444,7 @@ db.CloseConn()
 
 The screenshot below shows an excerpt from the `News` table. The *'Headline'* column for example shows all the news headlines shown on the Yahoo Finance summary website for [Apple](https://finance.yahoo.com/quote/AAPL/) on the 10th of March 2019. The *'Newspaper'* column shows the newspapers that published the article and the *'Type'* column specifies whether it is a video or an article.
 
-The *'Time'* column shows the approximated time of when the article was published. The negative values shown in the screenshot indicate that the articles were published on previous days from the scrape date. These negative numbers will disappear once the database populates.
-
+The *'Time'* column shows the approximated time of when the article was published. The negative values shown in the screenshot indicate that the articles were published on previous days from the scrape date. Once the database populates these numbers should generally range from 0.00 to 24.00.
 
 <img src="Screenshots/YahooFinanceNews.png"
      alt="Screenshot of TickerNews database"
