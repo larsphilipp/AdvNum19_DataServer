@@ -386,8 +386,6 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     output               = output[ output[[ "Ticker", "Headline", "Newspaper" ]].apply( lambda x: x.values.tolist() not in yesterdayNews[[ "Ticker", "Headline", "Newspaper" ]].values.tolist(), axis=1 ) ]
 
     return output
-
-    return output
 ```
 
 </details>
@@ -420,7 +418,7 @@ db.CloseConn()
 </details>
 </p>
 <br>
-* Description of scraped data ?
+## * Description of scraped data ? ##
 
 
 <img src="Screenshots/YahooFinanceNews.png"
