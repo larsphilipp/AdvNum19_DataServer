@@ -168,7 +168,7 @@ Below we drew an Entity-Relationship-Model for our data structure within the MyS
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-## <div id="X2"> <a href="#0">Database Connection to the Python Scripts</a> </div>
+## <div id="X2"> <a href="#0">Setting up the Database Connection to the Python Scripts</a> </div>
 
 To easily read data from the MySQL database into our Python scripts, we created an object class in a separate Python file called `DatabaseConnection.py`. This file allows us to organise and reuse data base communication logic in an efficient manner for both mining codes.
 <br> 
