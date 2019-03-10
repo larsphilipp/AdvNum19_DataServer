@@ -434,7 +434,7 @@ The *'Time'* column shows the approximated time of when the article was publishe
      alt="Screenshot of TickerNews database"
      style="float: left; margin-right: 10px;padding-bottom: 30px;" />
 
-Finally, the last column of the news data is the *'Description'* associated with the headlines on Yahoo Finance. Given the varying length of the article descriptions we only included a screenshot of the *'Description'* column of the first 2 headlines from Apple shown in the screenshot above: 
+Finally, the last column of the news data is the *'Description'* associated with the headlines on Yahoo Finance. Given the varying length of the article descriptions we only included a screenshot of the *'Description'* column of the first 3 headlines from Apple shown in the screenshot above: 
 
 <img src="Screenshots/YahooFinanceNewsDescriptions.png"
      alt="Screenshot of TickerNews database"
