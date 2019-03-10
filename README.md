@@ -472,6 +472,7 @@ Which opens a crontab editor where we specify the times when we want to execute 
 ```
 GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab                       
 
+MAILTO="elisa.fleissner@student.unisg.ch, lars.stauffenegger@student.unisg.ch, peter.lacour@student.unisg.ch“
 30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/EODQuandl.py
 30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/yahoo_finance_news.py
 
@@ -480,7 +481,7 @@ GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab
 ...
 ```
 
-This will automatically populate the tables in our database at 23:30 from Monday to Friday with the data from Quandl and Yahoo Finance. 
+This will automatically populate the tables in our database at 23:30 from Monday to Friday with the data from Quandl and Yahoo Finance. In the unlikely case that there was a problem running the code we will be notified via e-mail.
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
