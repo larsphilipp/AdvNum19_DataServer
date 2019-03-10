@@ -11,8 +11,8 @@ University of St. Gallen, 10.03.2019
 
 # Dataserver Project Description
 
-**Elisa Fleissner** &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; elisa.fleissner@student.unisg.ch <br>
-**Lars Stauffenegger** &nbsp; &nbsp; &nbsp;lars.stauffenegger@student.unisg.ch  <br>
+**Elisa Fleissner** &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  elisa.fleissner@student.unisg.ch <br>
+**Lars Stauffenegger** &nbsp; &nbsp; &nbsp; lars.stauffenegger@student.unisg.ch  <br>
 **Peter la Cour** &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; peter.lacour@student.unisg.ch
 
 ## Overview
@@ -175,7 +175,7 @@ import json
 import sqlalchemy  as db
 ```
 
-As the object `DBConn` is called, the following code will directly be executed. The `config.json` file does contain the credentials needed for navigating within the server. Also, at initiation, the ticker and API key will be directly loaded.
+As the object `DBConn` is called, the following code will directly be executed. The `config.json` file does contain the credentials needed to login to the database. Also, at initiation, the ticker and API key will be directly loaded.
 <details><summary>Click to see the code</summary>
 <p>
      
@@ -205,12 +205,12 @@ class DBConn():
 </p>
 <br>
 
-We then defined several functions to be performed for the object `DBConn`:
+We then defined several functions to be performed for the object `DBConn`. These functions execute predefined SQL statements, some of which with variable input:
 <details><summary>Click to see the code</summary>
 <p>
      
 ```python
-def _getTickers(self):
+    def _getTickers(self):
         self.cursorObject.execute("SELECT Ticker FROM Underlyings")
         return self.cursorObject.fetchall()
 
