@@ -168,7 +168,7 @@ Below we drew an Entity-Relationship-Model for our data structure within the MyS
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-## <div id="X2"> <a href="#0">etting up the Database Connection to the Python Scripts</a> </div>
+## <div id="X2"> <a href="#0">Setting up the Database Connection to the Python Scripts</a> </div>
 
 To easily read data from the MySQL database into our Python scripts, we created an object class in a separate Python file called `DatabaseConnection.py`. This file allows us to organise and reuse data base communication logic in an efficient manner for both mining codes.
 <br> 
@@ -293,7 +293,7 @@ db.CloseConn()
 
 The `YahooFinanceNews.py` script was written to get all the news data displayed on yahoo finance for a given company in our `Underlyings` table.
 
-### The Yahoo Finance News Scrape ###
+### Yahoo Finance News Scrape ###
 
 To get all the news headlines of the given companies the script uses the `Requests` and `Beautiful Soup` webscraping packages along with the common `Pandas` and `Numpy` packages to download all the news articles using the companies ticker symbols saved in our `Underlyings` table. To ensure we get the correct timestamp and to deal with potential duplicate values we also import the `datetime` package.
 
@@ -441,7 +441,7 @@ The screenshot below shows an excerpt from the `News` table. The *'Headline'* co
 To automatically run the script each day we set up a cronjob on the server using the commandline code:
 
 ```
-[user.name]@[server]:/home/advnum$ crontab -e
+[user.name]@[server]:/home/AdvNum19_DataServer$ crontab -e
 ```
 
 Which opens a crontab editor where we specify the times when we want to execute the two scripts to download the prices from Quandl and the news from Yahoo Finance:
@@ -449,18 +449,24 @@ Which opens a crontab editor where we specify the times when we want to execute 
 ```
 GNU nano 2.5.3        File: /tmp/crontab.SR97hv/crontab                       
 
-30 23 * * 1-5 /usr/bin/python3 /home/advnum/EODQuandl.py
-30 23 * * 1-5 /usr/bin/python3 /home/advnum/yahoo_finance_news.py
+30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/EODQuandl.py
+30 23 * * 1-5 /usr/bin/python3 /home/AdvNum19_DataServer/yahoo_finance_news.py
 
 # Edit this file to introduce tasks to be run by cron.
 ...
 ...
 ```
 
-This will automatically populate the tables in our database at 23:30 from Monday to Friday. In the future we could potentially use this data to analyse the impact of news on stock prices using a sentiment analysis of the news headlines.
+This will automatically populate the tables in our database at 23:30 from Monday to Friday with the data from Quandl and Yahoo Finance. 
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
 ## <div id="F2"><a href="#0">Concluding Remarks</a> </div>
+
+The purpose of our project was to create a data server that automatically updates a database consisting of price data from US Large Cap Equities and their associated news.
+
+In the future we could potentially use this data to analyse the impact of news on stock prices using a sentiment analysis of the news headlines. More specifically, we could for example anaylse the over or underreaction following important news over a given time frame or do a volume weigthed analysis based on a news sentiment indicator.
+
+
 
 <div align="right"><a href="#0">Back to top</a> </div>
