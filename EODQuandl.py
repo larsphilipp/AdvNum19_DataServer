@@ -1,3 +1,4 @@
+
 ## Title:        EOD Prices Quandl
 ## Author:       Elisa FLeissner, Lars Stauffenegger, Peter la Cour
 ## Email:        elisa.fleissner@student.unisg.ch,

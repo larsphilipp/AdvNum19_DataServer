@@ -1,3 +1,4 @@
+
 ## Title:        Database Connection
 ## Author:       Elisa FLeissner, Lars Stauffenegger, Peter la Cour
 ## Email:        elisa.fleissner@student.unisg.ch,
@@ -7,7 +8,7 @@
 ## Description:  Class that handles all data base communication.
 ##               Different Methods under one instance.
 ## Improvements: -
-## Last changes: -
+## Last changes: Included a function to get yesterdays news
 
 #-----------------------------------------------------------------------------#
 # Loading Packages

@@ -7,7 +7,7 @@
 ## Place, Time:  St. Gallen, 07.03.19
 ## Description:  Gets all the news of the specified companies in the Underlyings
 ##               database from Yahoo Finance and adds it to the TickerNews database
-## Improvements: Add today and yesterday as parameters instead of recalculating
+## Improvements: specify timezone
 ## Last changes: Included a check for news duplicates
 
 #-----------------------------------------------------------------------------#
@@ -25,10 +25,10 @@ import  datetime
 # Functions
 #-----------------------------------------------------------------------------#
 
-def get_news_of_company( ticker, current_time ):
+def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     '''
     Description:         Gets all the news from Yahoo Finance for the company with the specified ticker symbol
-    Inputs:              Ticker symbol of company and current time
+    Inputs:              Ticker symbol of company, current time when the script is running, today's date and yesterday's date
     Outputs:             DataFrame with all the news headlines, descriptions, links, dates, and types (Videos or Articles)
                          and newspapers of the given company from Yahoo Finance
     '''
@@ -36,9 +36,6 @@ def get_news_of_company( ticker, current_time ):
     url                  = "https://finance.yahoo.com/quote/AAPL/news?p=" + ticker
     response             = requests.get( url )
     soup                 = bs( response.content, "html.parser" )
-
-    # Get today's date
-    today                = datetime.datetime.today().strftime('%Y-%m-%d')
 
     # Get all the newspaper headlines into a list
     headers              = [ k.text for k in soup.find_all('h3') ]
@@ -58,13 +55,13 @@ def get_news_of_company( ticker, current_time ):
     # Estimate the time of day in decimals when the article was published, i.e. 10:30 => 10.5 or 17:45 => 17.75
     for k in range(len(timestamp)):
         if "minutes" in timestamp[k]:
-            timestamp[k] = round( current_time - float( timestamp[k].replace( " minutes ago", "" ) ) / 60,2)
+            timestamp[k] = round( currentTime - float( timestamp[k].replace( " minutes ago", "" ) ) / 60,2)
         elif "hours" in timestamp[k]:
-            timestamp[k] = round( current_time - float( timestamp[k].replace( " hours ago", "" ) ) )
+            timestamp[k] = round( currentTime - float( timestamp[k].replace( " hours ago", "" ) ) )
         elif "hour" in timestamp[k]:
-            timestamp[k] = round( current_time - float( timestamp[k].replace( " hour ago", "" ) ) )
+            timestamp[k] = round( currentTime - float( timestamp[k].replace( " hour ago", "" ) ) )
         elif "yesterday" in timestamp[k]:
-            timestamp[k] = round( current_time - 24.0 )
+            timestamp[k] = round( currentTime - 24.0 )
         else:
             timestamp[k] = np.nan
 
@@ -80,12 +77,11 @@ def get_news_of_company( ticker, current_time ):
     newspaper            = [ k.replace(" Videos","") for k in newspaper ]
 
     # Create output DataFrame with dictionary dictionary of the scraped data
-    output               = pd.DataFrame( { "Ticker": ticker, "Date": today, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp } )
+    output               = pd.DataFrame( { "Ticker": ticker, "Date": todaysDate, "Headline": headers, "Link": links, "Description": descriptions, "Newspaper": newspaper, "Type": types, "Time": timestamp } )
 
     # Check for news duplicates from yesterday's news and remove them
-    yesterday            = ( datetime.datetime.today() - datetime.timedelta(days = 1) ).strftime('%Y-%m-%d')
-    yesterdayNews        = db._getYesterdaysNews( ticker, yesterday )
-    yesterdayNews["Date"]= today
+    yesterdayNews        = db._getYesterdaysNews( ticker, yesterdaysDate )
+    yesterdayNews["Date"]= todaysDate
     output               = output[ output.apply( lambda x: x.values.tolist() not in yesterdayNews.values.tolist(), axis=1 ) ]
 
     return output
@@ -97,18 +93,14 @@ def get_news_of_company( ticker, current_time ):
 # DB Connection (includes loading of relevant data)
 db = DBConn()
 
-# Create 'news_df' DataFrame
-news_df                  = pd.DataFrame( columns = [ "Ticker", "Date", "Headline", "Link", "Description", "Newspaper", "Type" ] )
-
-# Get current time in decimal format, i.e. 10:30 => 10.5 or 17:45 => 17.75
+# Get current time in decimal format, i.e. 10:30 => 10.5 or 17:45 => 17.75 and today's and yesterday's date
 time                     = round( datetime.datetime.now().hour + datetime.datetime.now().minute / 60, 2 )
+today                    = datetime.datetime.today().strftime('%Y-%m-%d')
+yesterday                = ( datetime.datetime.today() - datetime.timedelta(days = 1) ).strftime('%Y-%m-%d')
 
-# Loop through ticker list to get news data from Yahoo Finance
+# Loop through ticker list to get news data from Yahoo Finance and insert into database
 for ticker in db.tickerObject:
-    news_df              = news_df.append( get_news_of_company( ticker['Ticker'], time ), ignore_index = True, sort = False )
-
-# Insert to database
-db._insertNews( news_df )
+    db._insertNews( get_news_of_company( ticker['Ticker'], time, today, yesterday ) )
 
 # Close database connection
 db.CloseConn()
