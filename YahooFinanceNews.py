@@ -25,7 +25,7 @@ import  datetime
 # Functions
 #-----------------------------------------------------------------------------#
 
-def get_news_of_company( ticker, currentTime, todaysDate, todaysDate ):
+def get_news_of_company( ticker, currentTime, todaysDate  ): # yesterdaysDate
     '''
     Description:         Gets all the news from Yahoo Finance for the company with the specified ticker symbol
     Inputs:              Ticker symbol of company, current time when the script is running, today's date and yesterday's date
@@ -99,7 +99,7 @@ yesterday                = ( datetime.datetime.today() - datetime.timedelta(days
 
 # Loop through ticker list to get news data from Yahoo Finance and insert into database
 for ticker in db.tickerObject:
-    db._insertNews( get_news_of_company( ticker['Ticker'], time, today, yesterday ) )
+    db._insertNews( get_news_of_company( ticker['Ticker'], time, today ) ) # yesterday
 
 # Close database connection
 db.CloseConn()
