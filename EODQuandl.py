@@ -1,3 +1,4 @@
+#!/bin/python3
 
 ## Title:        EOD Prices Quandl
 ## Author:       Elisa FLeissner, Lars Stauffenegger, Peter la Cour

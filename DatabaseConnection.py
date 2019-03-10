@@ -1,3 +1,4 @@
+#!/bin/python3
 
 ## Title:        Database Connection
 ## Author:       Elisa FLeissner, Lars Stauffenegger, Peter la Cour
