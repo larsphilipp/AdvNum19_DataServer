@@ -372,7 +372,9 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
         elif "hour" in timestamp[k]:
             timestamp[k] = round( currentTime - float( timestamp[k].replace( " hour ago", "" ) ) )
         elif "yesterday" in timestamp[k]:
-            timestamp[k] = round( currentTime - 24.0 )
+            timestamp[k] = round( currentTime - 24.0, 2 )
+        elif "days" in timestamp[k]:
+            timestamp[k] = round( currentTime - 24.0 * float(timestamp[k].replace(" days ago", "")) )
         else:
             timestamp[k] = np.nan
 
@@ -403,8 +405,6 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     # Check for news duplicates from yesterday's news and remove them from the output dataframe
     yesterdayNews        = db._getYesterdaysNews( ticker, yesterdaysDate )
     output               = output[ output[[ "Ticker", "Headline", "Newspaper" ]].apply( lambda x: x.values.tolist() not in yesterdayNews[[ "Ticker", "Headline", "Newspaper" ]].values.tolist(), axis=1 ) ]
-
-    return output
 
     return output
 ```
