@@ -73,7 +73,7 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
         else:
             types.append("Article")
 
-    # Generalise the newspaper names by removing "Videos"
+    # Generalise the newspaper names by removing " Videos"
     newspaper            = [ k.replace(" Videos","") for k in newspaper ]
 
     # Create output DataFrame with dictionary dictionary of the scraped data
@@ -81,7 +81,7 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
 
     # Check for news duplicates from yesterday's news and remove them from the output dataframe
     yesterdayNews        = db._getYesterdaysNews( ticker, yesterdaysDate )
-    output               = output[ output[["Ticker", "Headline", "Newspaper"]].apply( lambda x: x.values.tolist() not in yesterdayNews[["Ticker", "Headline", "Newspaper"]].values.tolist(), axis=1 ) ]
+    output               = output[ output[[ "Ticker", "Headline", "Newspaper" ]].apply( lambda x: x.values.tolist() not in yesterdayNews[[ "Ticker", "Headline", "Newspaper" ]].values.tolist(), axis=1 ) ]
 
     return output
 
