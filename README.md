@@ -168,7 +168,7 @@ Below we drew an Entity-Relationship-Model for our data structure within the MyS
 
 <div align="right"><a href="#0">Back to top</a> </div>
 
-## <div id="X2"> <a href="#0">Database Connection to the Python Scripts</a> </div>
+## <div id="X2"> <a href="#0">Setting up the Database Connection to the Python Scripts</a> </div>
 
 To easily read data from the MySQL database into our Python scripts, we created an object class in a separate Python file called `DatabaseConnection.py`. This file allows us to organise and reuse data base communication logic in an efficient manner for both mining codes.
 <br> 
@@ -386,8 +386,6 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     output               = output[ output[[ "Ticker", "Headline", "Newspaper" ]].apply( lambda x: x.values.tolist() not in yesterdayNews[[ "Ticker", "Headline", "Newspaper" ]].values.tolist(), axis=1 ) ]
 
     return output
-
-    return output
 ```
 
 </details>
@@ -420,7 +418,7 @@ db.CloseConn()
 </details>
 </p>
 <br>
-* Description of scraped data ?
+## * Description of scraped data ? ##
 
 
 <img src="Screenshots/YahooFinanceNews.png"
