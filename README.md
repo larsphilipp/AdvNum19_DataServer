@@ -425,7 +425,9 @@ db.CloseConn()
 
 ### Description of the Yahoo Finance News Data ###
 
-The screenshot below 
+The screenshot below shows an excerpt from the `News` table. The *'Headline'* column for example shows all the news headlines shown on the Yahoo Finance summary website for [Apple](https://finance.yahoo.com/quote/AAPL/) on the 10th of March 2019. The *'Newspaper'* column shows the newspapers that published the article and the *'Type'* column specifies whether it is a video or an article.
+
+
 
 <img src="Screenshots/YahooFinanceNews.png"
      alt="Screenshot of TickerNews database"

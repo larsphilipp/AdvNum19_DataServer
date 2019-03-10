@@ -62,6 +62,8 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
             timestamp[k] = round( currentTime - float( timestamp[k].replace( " hour ago", "" ) ) )
         elif "yesterday" in timestamp[k]:
             timestamp[k] = round( currentTime - 24.0, 2 )
+        elif "days" in timestamp[k]:
+            timestamp[k] = round( current_time - 24.0 * float(timestamp[k].replace(" days ago", "")) )
         else:
             timestamp[k] = np.nan
 
