@@ -633,7 +633,8 @@ import  datetime
 <p><details><summary>Click to see the code</summary>
 <p></p>
 
-<div><pre><code class="language-python">def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
+<div><pre><code class="language-python">
+def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     &#39;&#39;&#39;
     Description:         Gets all the news from Yahoo Finance for the company with the specified ticker symbol
     Inputs:              Ticker symbol of company, current time when the script is running, today&#39;s date and yesterday&#39;s date
@@ -641,7 +642,7 @@ import  datetime
                          and newspapers of the given company from Yahoo Finance
     &#39;&#39;&#39;
     # Get the url with the ticker
-    url                  = &quot;https://finance.yahoo.com/quote/&quot; + ticker + &quot;/news?p=&quot; + ticker
+    url                  = &quot;https://finance.yahoo.com/quote/&quot; + ticker
     response             = requests.get( url )
     soup                 = bs( response.content, &quot;html.parser&quot; )
 
@@ -655,10 +656,23 @@ import  datetime
     links                = [ &#39;www.finance.yahoo.com/&#39; + k.find_next(&#39;a&#39;).get(&#39;href&#39;) for k in soup.find_all(&#39;h3&#39;) ]
 
     # Get all the names of the newspaper that published the articles into a list
-    newspaper            = [ k.find_next(&#39;span&#39;).text for k in soup.find_all( class_ = &#39;C(#959595)&#39; ) if k.find_next(&#39;h3&#39;).text in headers ]
-
+    t = 0
+    newspaper = []
+    for k in soup.find_all( class_ = &#39;C(#959595)&#39;):
+        if k.find_next(&#39;h3&#39;).text in headers[t]:
+            newspaper.append(k.find_next(&#39;span&#39;).text)
+            t += 1
+        else:
+            pass
     # Get relative time when articles were published
-    timestamp            = [ k.find_next(&#39;span&#39;).find_next(&#39;span&#39;).text for k in soup.find_all( class_ = &#39;C(#959595)&#39; ) if k.find_next(&#39;h3&#39;).text in headers ]
+    timestamp = []
+    t = 0
+    for k in soup.find_all( class_ = &#39;C(#959595)&#39;):
+        if k.find_next(&#39;h3&#39;).text in headers[t]:
+            timestamp.append(k.find_next(&#39;span&#39;).find_next(&#39;span&#39;).text)
+            t += 1
+        else:
+            pass
 
     # Estimate the time of day in decimals when the article was published, i.e. 10:30 =&gt; 10.5 or 17:45 =&gt; 17.75
     for k in range(len(timestamp)):
@@ -780,6 +794,8 @@ db.CloseConn()
 <p>In the future we could potentially use this data to analyse the impact of news on stock prices using a sentiment analysis of the news headlines. More specifically, we could for example anaylse the over- or underreaction following news over a given time frame or do a volume weigthed analysis based on a news sentiment indicator.</p>
 
 <div align="right"><a href="#0">Back to top</a> </div>
+
+<p>3</p>
 
 
 

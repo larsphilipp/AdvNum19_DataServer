@@ -338,6 +338,7 @@ The code that gets the headlines, descriptions, links and the name of the newspa
 <p>
 
 ```python
+
 def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     '''
     Description:         Gets all the news from Yahoo Finance for the company with the specified ticker symbol
@@ -346,7 +347,7 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
                          and newspapers of the given company from Yahoo Finance
     '''
     # Get the url with the ticker
-    url                  = "https://finance.yahoo.com/quote/" + ticker + "/news?p=" + ticker
+    url                  = "https://finance.yahoo.com/quote/" + ticker
     response             = requests.get( url )
     soup                 = bs( response.content, "html.parser" )
 
@@ -360,10 +361,23 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     links                = [ 'www.finance.yahoo.com/' + k.find_next('a').get('href') for k in soup.find_all('h3') ]
 
     # Get all the names of the newspaper that published the articles into a list
-    newspaper            = [ k.find_next('span').text for k in soup.find_all( class_ = 'C(#959595)' ) if k.find_next('h3').text in headers ]
-
+    t = 0
+    newspaper = []
+    for k in soup.find_all( class_ = 'C(#959595)'):
+        if k.find_next('h3').text in headers[t]:
+            newspaper.append(k.find_next('span').text)
+            t += 1
+        else:
+            pass
     # Get relative time when articles were published
-    timestamp            = [ k.find_next('span').find_next('span').text for k in soup.find_all( class_ = 'C(#959595)' ) if k.find_next('h3').text in headers ]
+    timestamp = []
+    t = 0
+    for k in soup.find_all( class_ = 'C(#959595)'):
+        if k.find_next('h3').text in headers[t]:
+            timestamp.append(k.find_next('span').find_next('span').text)
+            t += 1
+        else:
+            pass
 
     # Estimate the time of day in decimals when the article was published, i.e. 10:30 => 10.5 or 17:45 => 17.75
     for k in range(len(timestamp)):
@@ -496,3 +510,4 @@ In the future we could potentially use this data to analyse the impact of news o
 
 
 <div align="right"><a href="#0">Back to top</a> </div>
+3
