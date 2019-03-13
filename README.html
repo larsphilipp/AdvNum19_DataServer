@@ -652,6 +652,11 @@ def get_news_of_company( ticker, currentTime, todaysDate, yesterdaysDate ):
     # Get all the newspaper descriptions into a list
     descriptions         = [ k.find_next(&#39;p&#39;).text for k in soup.find_all(&#39;h3&#39;) ]
 
+    # cutting character length of description to 500
+    for d in range(len(descriptions)):
+        if len(descriptions[d]) &gt; 500:
+            descriptions[d] = descriptions[d][:500]
+
     # Get all the news links on yahoo finance into a list
     links                = [ &#39;www.finance.yahoo.com/&#39; + k.find_next(&#39;a&#39;).get(&#39;href&#39;) for k in soup.find_all(&#39;h3&#39;) ]
 
